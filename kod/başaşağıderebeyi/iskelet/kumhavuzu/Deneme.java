@@ -5,124 +5,48 @@
  */
 package başaşağıderebeyi.iskelet.kumhavuzu;
 
+import static başaşağıderebeyi.kütüphane.matematik.MatematikAracı.*;
+import static java.lang.Math.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.system.MemoryStack.*;
-import static org.lwjgl.system.MemoryUtil.*;
 
 import başaşağıderebeyi.iskelet.*;
+import başaşağıderebeyi.kütüphane.girdi.*;
+import başaşağıderebeyi.kütüphane.matematik.*;
 import başaşağıderebeyi.kütüphane.olay.*;
 
-import java.nio.*;
-
-import org.lwjgl.glfw.*;
-import org.lwjgl.opengl.*;
-import org.lwjgl.system.*;
-
-/** LWJGL'nin denemesi. */
+/** İskeleti dener. */
 public class Deneme implements Uygulama {
-	public static void main(String[] args) {
-		new İskelet(20.0F, new Uygulama() {
-			
-			@Override
-			public void çiz() {
-				
-			}
-			
-			@Override
-			public void yokEt() {
-				
-			}
-			
-			@Override
-			public void oluştur() {
-				
-			}
-			
-			@Override
-			public void güncelle() {
-				
-			}
-		}).başla();
+	public static void main(final String[] args) {
+		new Deneme();
 	}
 	
 	private final İskelet çalıştıranİskelet;
+	private final Yöney4 temizlenmeRengi;
+	private final Yöney4 öncekiTemizlenmeRengi;
+	private final Yöney4 kullanılacakTemizlenmeRengi;
 	
-	private long window;
+	private int tekerleğinToplamDevri;
 	
 	Deneme() {
-		çalıştıranİskelet = new İskelet(20.0F, this);
+		temizlenmeRengi = new Yöney4();
+		öncekiTemizlenmeRengi = new Yöney4();
+		kullanılacakTemizlenmeRengi = new Yöney4();
+		Gösterici gösterici = new Gösterici(
+			1920,
+			1080,
+			"Baş Aşağı Derebeyi " + İskelet.SÜRÜM,
+			true,
+			0,
+			1,
+			temizlenmeRengi);
+		çalıştıranİskelet = new İskelet(10.0F, this, gösterici);
 		çalıştıranİskelet.başla();
 	}
 	
 	@Override
 	public void oluştur() {
 		çalıştıranİskelet.olayDağıtıcısınıEdin().dinleyicileriniEkle(this);
-		
-		// Setup an error callback. The default implementation
-		// will print the error message in System.err.
-		GLFWErrorCallback.createPrint(System.err).set();
-		
-		// Initialize GLFW. Most GLFW functions will not work before doing this.
-		if (!glfwInit())
-			throw new IllegalStateException("Unable to initialize GLFW");
-		
-		// Configure GLFW
-		glfwDefaultWindowHints(); // optional, the current window hints are
-									// already the default
-		glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden
-													// after creation
-		glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be
-													// resizable
-		
-		// Create the window
-		window = glfwCreateWindow(300, 300, "Hello World!", NULL, NULL);
-		if (window == NULL)
-			throw new RuntimeException("Failed to create the GLFW window");
-			
-		// Setup a key callback. It will be called every time a key is pressed,
-		// repeated or released.
-		glfwSetKeyCallback(window, (window, key, scancode, action, mods) -> {
-			if (key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE)
-				glfwSetWindowShouldClose(window, true); // We will detect this
-														// in the rendering loop
-		});
-		
-		// Get the thread stack and push a new frame
-		try (MemoryStack stack = stackPush()) {
-			IntBuffer pWidth = stack.mallocInt(1); // int*
-			IntBuffer pHeight = stack.mallocInt(1); // int*
-			
-			// Get the window size passed to glfwCreateWindow
-			glfwGetWindowSize(window, pWidth, pHeight);
-			
-			// Get the resolution of the primary monitor
-			GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-			
-			// Center the window
-			glfwSetWindowPos(
-				window,
-				(vidmode.width() - pWidth.get(0)) / 2,
-				(vidmode.height() - pHeight.get(0)) / 2);
-		} // the stack frame is popped automatically
-		
-		// Make the OpenGL context current
-		glfwMakeContextCurrent(window);
-		// Enable v-sync
-		glfwSwapInterval(2);
-		
-		// Make the window visible
-		glfwShowWindow(window);
-		
-		// This line is critical for LWJGL's interoperation with GLFW's
-		// OpenGL context, or any context that is managed externally.
-		// LWJGL detects the context that is current in the current thread,
-		// creates the GLCapabilities instance and makes the OpenGL
-		// bindings available for use.
-		GL.createCapabilities();
-		
-		// Set the clear color
-		glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
 	}
 	
 	@Override
@@ -131,26 +55,42 @@ public class Deneme implements Uygulama {
 	
 	@Override
 	public void güncelle() {
-		// Run the rendering loop until the user has attempted to close
-		// the window or has pressed the ESCAPE key.
-		if (glfwWindowShouldClose(window))
+		ÇiğGirdi girdi = çalıştıranİskelet.girdisiniEdin();
+		if (girdi.klavyesininTuşunuEdin(GLFW_KEY_ESCAPE).salınmasınıEdin())
 			çalıştıranİskelet.dur();
-			
-		// Poll for window events. The key callback above will only be
-		// invoked during this call.
-		glfwPollEvents();
+		
+		tekerleğinToplamDevri += girdi.tekerleğininDevriniEdin();
+		
+		öncekiTemizlenmeRengi.değiştir(temizlenmeRengi);
+		
+		temizlenmeRengi.birinciBileşeni =
+			sıkıştır((float)pow(1.2, tekerleğinToplamDevri), 0.0F, 1.0F);
+		temizlenmeRengi.ikinciBileşeni = sıkıştır(
+			girdi.imlecininKonumu.birinciBileşeni / 1920.0F,
+			0.0F,
+			1.0F);
+		temizlenmeRengi.üçüncüBileşeni = sıkıştır(
+			girdi.imlecininKonumu.ikinciBileşeni / 1080.0F,
+			0.0F,
+			1.0F);
 	}
 	
 	@Override
 	public void çiz() {
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the
-															// framebuffer
-		
-		glfwSwapBuffers(window); // swap the color buffers
+		kullanılacakTemizlenmeRengi
+			.aradeğerleriniBul(
+				öncekiTemizlenmeRengi,
+				temizlenmeRengi,
+				(float)çalıştıranİskelet.güncellenmemişTıklarınıEdin());
+		glClearColor(
+			kullanılacakTemizlenmeRengi.birinciBileşeni,
+			kullanılacakTemizlenmeRengi.ikinciBileşeni,
+			kullanılacakTemizlenmeRengi.üçüncüBileşeni,
+			kullanılacakTemizlenmeRengi.dördüncüBileşeni);
 	}
 	
 	@Dinleyici
-	public void sayaçOlayınıDinle(SayaçOlayı olay) {
+	public void sayaçOlayınıDinle(final SayaçOlayı olay) {
 		System.out
 			.println(
 				"Tık Oranı: " +

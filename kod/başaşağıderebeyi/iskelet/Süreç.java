@@ -21,7 +21,7 @@ public class Süreç {
 	private double toplamı;
 	
 	/** Verilen iskeletin zamanıyla tanımlar. */
-	public Süreç(İskelet çalıştıranİskelet) {
+	public Süreç(final İskelet çalıştıranİskelet) {
 		this.çalıştıranİskelet = çalıştıranİskelet;
 	}
 	

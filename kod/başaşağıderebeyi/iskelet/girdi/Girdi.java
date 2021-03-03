@@ -1,0 +1,91 @@
+/**
+ * başaşağıderebeyi.iskelet.girdi.Girdi.java
+ * 0.2 / 3 Mar 2021 / 20:49:04
+ * Cem GEÇGEL (BaşAşağıDerebeyi)
+ * 
+ * Waistax Engine'den biraz alındı.
+ * 4.0.0 / 7 Ara 2018 / ?
+ */
+package başaşağıderebeyi.iskelet.girdi;
+
+import static başaşağıderebeyi.kütüphane.matematik.MatematikAracı.*;
+import static org.lwjgl.glfw.GLFW.*;
+
+import başaşağıderebeyi.kütüphane.girdi.*;
+import başaşağıderebeyi.kütüphane.olay.*;
+
+/** Pencereye yapılan girdileri bildirir. */
+public class Girdi {
+	final OlayDağıtıcısı bildireceğiOlayDağıtıcısı;
+	final ÇiğGirdi bildireceğiÇiğGirdi;
+	
+	private final KlavyeGirdisiBildiricisi klavyeGirdisiBildiricisi;
+	private final FareGirdisiBildiricisi fareGirdisiBildiricisi;
+	private final İmleçGirdisiBildiricisi imleçGirdisiBildiricisi;
+	private final TekerlekGirdisiBildiricisi tekerlekGirdisiBildiricisi;
+	
+	/** Verilenler ile tanımlar. */
+	public Girdi(
+		final OlayDağıtıcısı bildireceğiOlayDağıtıcısı,
+		final ÇiğGirdi bildireceğiÇiğGirdi,
+		final long dinlediğiPencereninİşaretçisi) {
+		this.bildireceğiOlayDağıtıcısı = bildireceğiOlayDağıtıcısı;
+		this.bildireceğiÇiğGirdi = bildireceğiÇiğGirdi;
+		
+		bildireceğiOlayDağıtıcısı.dinleyicileriniEkle(this);
+		klavyeGirdisiBildiricisi = new KlavyeGirdisiBildiricisi(this);
+		fareGirdisiBildiricisi = new FareGirdisiBildiricisi(this);
+		imleçGirdisiBildiricisi = new İmleçGirdisiBildiricisi(this);
+		tekerlekGirdisiBildiricisi = new TekerlekGirdisiBildiricisi(this);
+		
+		bildiricileriPencereyeEkle(dinlediğiPencereninİşaretçisi);
+	}
+	
+	/** Bütün bildiricileri yok eder. */
+	public void bildiriceleriniSal() {
+		klavyeGirdisiBildiricisi.free();
+		fareGirdisiBildiricisi.free();
+		imleçGirdisiBildiricisi.free();
+		tekerlekGirdisiBildiricisi.free();
+	}
+	
+	@Dinleyici
+	public void klavyeGirdisiOlayınıDinle(final KlavyeGirdisiOlayı olay) {
+		olay.tuşu.basılıOlmasınıBildir(olay.basılıOlması);
+	}
+	
+	@Dinleyici
+	public void fareGirdisiOlayınıDinle(final FareGirdisiOlayı olay) {
+		olay.tuşu.basılıOlmasınıBildir(olay.basılıOlması);
+	}
+	
+	@Dinleyici
+	public void imleçGirdisiOlayınıDinle(final İmleçGirdisiOlayı olay) {
+		bildireceğiÇiğGirdi
+			.imlecininKonumunuBildir(
+				(float)olay.konumununYatayBileşeni,
+				(float)olay.konumununDikeyBileşeni);
+	}
+	
+	@Dinleyici
+	public void tekerlekGirdisiOlayınıDinle(final TekerlekGirdisiOlayı olay) {
+		bildireceğiÇiğGirdi
+			.tekerleğininDevriniBildir(yuvarla((float)olay.devri));
+	}
+	
+	private void bildiricileriPencereyeEkle(
+		final long dinlediğiPencereninİşaretçisi) {
+		glfwSetKeyCallback(
+			dinlediğiPencereninİşaretçisi,
+			klavyeGirdisiBildiricisi);
+		glfwSetMouseButtonCallback(
+			dinlediğiPencereninİşaretçisi,
+			fareGirdisiBildiricisi);
+		glfwSetCursorPosCallback(
+			dinlediğiPencereninİşaretçisi,
+			imleçGirdisiBildiricisi);
+		glfwSetScrollCallback(
+			dinlediğiPencereninİşaretçisi,
+			tekerlekGirdisiBildiricisi);
+	}
+}

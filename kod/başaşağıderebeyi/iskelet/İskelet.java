@@ -8,7 +8,7 @@
  */
 package başaşağıderebeyi.iskelet;
 
-import başaşağıderebeyi.kütüphane.matematik.*;
+import başaşağıderebeyi.kütüphane.girdi.*;
 import başaşağıderebeyi.kütüphane.olay.*;
 
 import java.util.*;
@@ -27,6 +27,8 @@ public class İskelet {
 	public final float istediğiTıkOranı;
 	/** İskeletin çalıştırdığı uygulama. */
 	public final Uygulama uygulaması;
+	/** İskeletin çizimleri göstermek kullandığı araç. */
+	public final Gösterici göstericisi;
 	
 	private volatile boolean çalışması;
 	
@@ -36,13 +38,16 @@ public class İskelet {
 	
 	private AnlıOlayDağıtıcısı olayDağıtıcısı;
 	private Map<String, Süreç> süreçleri;
-	
-	private Gösterici gösterici;
+	private ÇiğGirdi çiğGirdisi;
 	
 	/** Verilenler ile tanımlar. */
-	public İskelet(final float istediğiTıkOranı, Uygulama uygulaması) {
+	public İskelet(
+		final float istediğiTıkOranı,
+		final Uygulama uygulaması,
+		final Gösterici göstericisi) {
 		this.istediğiTıkOranı = istediğiTıkOranı;
 		this.uygulaması = uygulaması;
+		this.göstericisi = göstericisi;
 	}
 	
 	/** İstekeleti başlatır. */
@@ -54,7 +59,6 @@ public class İskelet {
 	
 	/** İskeleti durdurur. */
 	public void dur() {
-		assert çalışması;
 		çalışması = false;
 	}
 	
@@ -88,8 +92,13 @@ public class İskelet {
 		return olayDağıtıcısı;
 	}
 	
+	/** İskeletin çiğ girdisini döndürür. */
+	public ÇiğGirdi girdisiniEdin() {
+		return çiğGirdisi;
+	}
+	
 	@Dinleyici
-	public void sayaçOlayınıDinle(SayaçOlayı olay) {
+	public void sayaçOlayınıDinle(final SayaçOlayı olay) {
 		süreçleri.forEach((ad, süreç) -> {
 			süreç.güncelle();
 			System.out.println(ad + " Süreci: " + süreç.ortalamasınıEdin());
@@ -106,7 +115,7 @@ public class İskelet {
 			int karelerininSayısı = 0;
 			
 			while (çalışması) {
-				double geçenSüre = zamanıEdin() - öncekiZamanı;
+				final double geçenSüre = zamanıEdin() - öncekiZamanı;
 				öncekiZamanı += geçenSüre;
 				güncellenmemişTıkları += geçenSüre * istediğiTıkOranı;
 				
@@ -140,7 +149,7 @@ public class İskelet {
 	}
 	
 	private void oluştur() {
-		Süreç oluşturmaSüreci = new Süreç(this);
+		final Süreç oluşturmaSüreci = new Süreç(this);
 		oluşturmaSüreci.başla();
 		
 		olayDağıtıcısı = new AnlıOlayDağıtıcısı();
@@ -150,18 +159,9 @@ public class İskelet {
 		süreçleri.put("Tık", new Süreç(this));
 		süreçleri.put("Kare", new Süreç(this));
 		
-		gösterici = new Gösterici(
-			this,
-			1280,
-			720,
-			"Baş Aşağı Derebeyi " + SÜRÜM,
-			false,
-			true,
-			false,
-			0,
-			1,
-			new Yöney4(1.0F, 0.0F, 0.0F, 1.0F));
+		çiğGirdisi = new ÇiğGirdi();
 		
+		göstericisi.penceresiniOluştur(this);
 		uygulaması.oluştur();
 		
 		oluşturmaSüreci.dur();
@@ -174,16 +174,17 @@ public class İskelet {
 	
 	private void yokEt() {
 		uygulaması.yokEt();
-		gösterici.yokEt();
+		göstericisi.yokEt();
 	}
 	
 	private void güncelle() {
 		süreçleri.get("Tık").başla();
 		
-		if (gösterici.penceresininKapatılmasınıEdin())
+		if (göstericisi.penceresininKapatılmasınıEdin())
 			dur();
 		
 		olayDağıtıcısı.güncelle();
+		çiğGirdisi.güncelle();
 		uygulaması.güncelle();
 		
 		süreçleri.get("Tık").dur();
@@ -193,7 +194,7 @@ public class İskelet {
 		süreçleri.get("Kare").başla();
 		
 		uygulaması.çiz();
-		gösterici.göster();
+		göstericisi.göster();
 		
 		süreçleri.get("Kare").dur();
 	}
