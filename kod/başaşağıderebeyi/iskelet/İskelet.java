@@ -8,6 +8,7 @@
  */
 package başaşağıderebeyi.iskelet;
 
+import başaşağıderebeyi.kütüphane.matematik.*;
 import başaşağıderebeyi.kütüphane.olay.*;
 
 import java.util.*;
@@ -18,7 +19,7 @@ import org.lwjgl.glfw.*;
  * iskelet. */
 public class İskelet {
 	/** İskeletin sürümü. */
-	public static final String SÜRÜM = "0.1";
+	public static final String SÜRÜM = "0.2";
 	
 	private static final SayaçOlayı SAYAÇ_OLAYI = new SayaçOlayı();
 	
@@ -35,6 +36,8 @@ public class İskelet {
 	
 	private AnlıOlayDağıtıcısı olayDağıtıcısı;
 	private Map<String, Süreç> süreçleri;
+	
+	private Gösterici gösterici;
 	
 	/** Verilenler ile tanımlar. */
 	public İskelet(final float istediğiTıkOranı, Uygulama uygulaması) {
@@ -147,6 +150,18 @@ public class İskelet {
 		süreçleri.put("Tık", new Süreç(this));
 		süreçleri.put("Kare", new Süreç(this));
 		
+		gösterici = new Gösterici(
+			this,
+			1280,
+			720,
+			"Baş Aşağı Derebeyi " + SÜRÜM,
+			false,
+			true,
+			false,
+			0,
+			1,
+			new Yöney4(1.0F, 0.0F, 0.0F, 1.0F));
+		
 		uygulaması.oluştur();
 		
 		oluşturmaSüreci.dur();
@@ -159,10 +174,14 @@ public class İskelet {
 	
 	private void yokEt() {
 		uygulaması.yokEt();
+		gösterici.yokEt();
 	}
 	
 	private void güncelle() {
 		süreçleri.get("Tık").başla();
+		
+		if (gösterici.penceresininKapatılmasınıEdin())
+			dur();
 		
 		olayDağıtıcısı.güncelle();
 		uygulaması.güncelle();
@@ -174,6 +193,7 @@ public class İskelet {
 		süreçleri.get("Kare").başla();
 		
 		uygulaması.çiz();
+		gösterici.göster();
 		
 		süreçleri.get("Kare").dur();
 	}

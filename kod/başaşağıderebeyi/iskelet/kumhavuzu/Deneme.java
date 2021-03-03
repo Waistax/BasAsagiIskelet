@@ -22,7 +22,28 @@ import org.lwjgl.system.*;
 /** LWJGL'nin denemesi. */
 public class Deneme implements Uygulama {
 	public static void main(String[] args) {
-		new Deneme();
+		new İskelet(20.0F, new Uygulama() {
+			
+			@Override
+			public void çiz() {
+				
+			}
+			
+			@Override
+			public void yokEt() {
+				
+			}
+			
+			@Override
+			public void oluştur() {
+				
+			}
+			
+			@Override
+			public void güncelle() {
+				
+			}
+		}).başla();
 	}
 	
 	private final İskelet çalıştıranİskelet;
