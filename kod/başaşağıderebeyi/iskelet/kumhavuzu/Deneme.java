@@ -9,6 +9,8 @@ import static başaşağıderebeyi.kütüphane.matematik.MatematikAracı.*;
 import static java.lang.Math.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL20.*;
+import static org.lwjgl.opengl.GL30.*;
 
 import başaşağıderebeyi.iskelet.*;
 import başaşağıderebeyi.iskelet.görsel.*;
@@ -28,26 +30,48 @@ public class Deneme implements Uygulama {
 	private final Yöney4 kullanılacakTemizlenmeRengi;
 	
 	private int tekerleğinToplamDevri;
+	private Gölgelendirici gölgelendiricisi;
 	
 	Deneme() {
 		temizlenmeRengi = new Yöney4();
 		öncekiTemizlenmeRengi = new Yöney4();
 		kullanılacakTemizlenmeRengi = new Yöney4();
 		final Gösterici gösterici = new Gösterici(
-			1920,
-			1080,
+			1280,
+			720,
 			"Baş Aşağı Derebeyi " + İskelet.SÜRÜM,
-			true,
+			false,
 			0,
-			1,
+			0,
 			temizlenmeRengi);
-		çalıştıranİskelet = new İskelet(10.0F, this, gösterici);
+		çalıştıranİskelet =
+			new İskelet(10.0F, this, gösterici, new Yükleyici());
 		çalıştıranİskelet.başla();
 	}
 	
 	@Override
 	public void oluştur() {
 		çalıştıranİskelet.olayDağıtıcısınıEdin().dinleyicileriniEkle(this);
+		final int köşeDizisiNesnesiİşaretçisi =
+			çalıştıranİskelet.yükleyicisi.köşeDizisiNesnesiYükle();
+		glBindVertexArray(köşeDizisiNesnesiİşaretçisi);
+		çalıştıranİskelet.yükleyicisi
+			.köşeTamponuNesnesiYükle(
+				0,
+				2,
+				new float[] { -0.5F, -0.5F, +0.5F, -0.5F, -0.5F, +0.5F,
+		
+//					-0.5F,
+//					+0.5F,
+//					+0.5F,
+//					-0.5F,
+					+0.5F,
+					+0.5F });
+		
+		gölgelendiricisi =
+			new Gölgelendirici(çalıştıranİskelet.yükleyicisi, "deneme");
+		gölgelendiricisi.bağla();
+		gölgelendiricisi.değerinKonumunuBul("boyutu");
 	}
 	
 	@Override
@@ -65,15 +89,13 @@ public class Deneme implements Uygulama {
 		öncekiTemizlenmeRengi.değiştir(temizlenmeRengi);
 		
 		temizlenmeRengi.birinciBileşeni =
-			sıkıştır((float)pow(1.2, tekerleğinToplamDevri), 0.0F, 1.0F);
+			(float)pow(1.05, tekerleğinToplamDevri);
 		temizlenmeRengi.ikinciBileşeni = sıkıştır(
-			girdi.imlecininKonumu.birinciBileşeni / 1920.0F,
+			girdi.imlecininKonumu.birinciBileşeni / 1280.0F,
 			0.0F,
 			1.0F);
-		temizlenmeRengi.üçüncüBileşeni = sıkıştır(
-			girdi.imlecininKonumu.ikinciBileşeni / 1080.0F,
-			0.0F,
-			1.0F);
+		temizlenmeRengi.üçüncüBileşeni =
+			sıkıştır(girdi.imlecininKonumu.ikinciBileşeni / 720.0F, 0.0F, 1.0F);
 	}
 	
 	@Override
@@ -84,10 +106,17 @@ public class Deneme implements Uygulama {
 				temizlenmeRengi,
 				(float)çalıştıranİskelet.güncellenmemişTıklarınıEdin());
 		glClearColor(
-			kullanılacakTemizlenmeRengi.birinciBileşeni,
+			0.5F,
 			kullanılacakTemizlenmeRengi.ikinciBileşeni,
 			kullanılacakTemizlenmeRengi.üçüncüBileşeni,
 			kullanılacakTemizlenmeRengi.dördüncüBileşeni);
+		
+		gölgelendiricisi
+			.değeriDeğiştir(
+				"boyutu",
+				kullanılacakTemizlenmeRengi.birinciBileşeni);
+		glEnableVertexAttribArray(0);
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 6);
 	}
 	
 	@Dinleyici

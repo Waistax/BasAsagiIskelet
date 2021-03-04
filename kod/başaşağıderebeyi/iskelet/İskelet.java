@@ -30,6 +30,8 @@ public class İskelet {
 	public final Uygulama uygulaması;
 	/** İskeletin çizimleri göstermek kullandığı araç. */
 	public final Gösterici göstericisi;
+	/** İskeletin görselleri ve şekilleri yüklemek için kullandığı araç. */
+	public final Yükleyici yükleyicisi;
 	
 	private volatile boolean çalışması;
 	
@@ -45,10 +47,12 @@ public class İskelet {
 	public İskelet(
 		final float istediğiTıkOranı,
 		final Uygulama uygulaması,
-		final Gösterici göstericisi) {
+		final Gösterici göstericisi,
+		final Yükleyici yükleyicisi) {
 		this.istediğiTıkOranı = istediğiTıkOranı;
 		this.uygulaması = uygulaması;
 		this.göstericisi = göstericisi;
+		this.yükleyicisi = yükleyicisi;
 	}
 	
 	/** İstekeleti başlatır. */
@@ -176,6 +180,7 @@ public class İskelet {
 	private void yokEt() {
 		uygulaması.yokEt();
 		göstericisi.yokEt();
+		yükleyicisi.yokEt();
 	}
 	
 	private void güncelle() {

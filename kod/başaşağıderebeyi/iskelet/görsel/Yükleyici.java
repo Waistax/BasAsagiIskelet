@@ -109,15 +109,16 @@ public class Yükleyici {
 	}
 	
 	/** Ekran kartına yeni bir köşe dizisi nesnesi yükler ve işaretçisini
-	 * döndürür. */
+	 * döndürür. Oluşturulan dizinin işaretçisini döndürür. */
 	public int köşeDizisiNesnesiYükle() {
 		final int köşeDizisiNesnesininİşaretçisi = glGenVertexArrays();
-		köşeDizisiNesnelerininİşaretçileri.add(köşeDizisiNesnesiYükle());
+		köşeDizisiNesnelerininİşaretçileri.add(köşeDizisiNesnesininİşaretçisi);
 		return köşeDizisiNesnesininİşaretçisi;
 	}
 	
 	/** Ekran kartında boş bir köşe tamponu nesnesi oluşturur. Bu tampon her
-	 * kare yeniden doldurulmak için oluşturulur. */
+	 * kare yeniden doldurulmak için oluşturulur. Oluşturulan tamponun
+	 * işaretçisini döndürür. */
 	public int boşKöşeTamponuNesnesiOluştur(final int boyutu) {
 		final int köşeTamponuNesnesininİşaretçisi = tamponYükle();
 		glBindBuffer(GL_ARRAY_BUFFER, köşeTamponuNesnesininİşaretçisi);
@@ -174,5 +175,29 @@ public class Yükleyici {
 			sırası * yüklenecekVeri.capacity(),
 			yüklenecekVeri);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+	
+	/** Ekran kartında bir yazılım oluşturur. Oluşturulan yazılımın işaretçisini
+	 * döndürür. */
+	public int yazılımYükle() {
+		final int yazılımınİşaretçisi = glCreateProgram();
+		yazılımlarınınİşaretçileri.add(yazılımınİşaretçisi);
+		return yazılımınİşaretçisi;
+	}
+	
+	/** Verilen türden gölgelendiriciyi derler ve ekran kartına yükler.
+	 * Oluşturulan gölgelendiricinin işaretçisini döndürür. */
+	public int gölgelendiriciYükle(final String kaynağı, final int türü) {
+		final int gölgelendiricininİşaretçisi = glCreateShader(türü);
+		
+		glShaderSource(gölgelendiricininİşaretçisi, kaynağı);
+		glCompileShader(gölgelendiricininİşaretçisi);
+		
+		if (glGetShaderi(gölgelendiricininİşaretçisi, GL_COMPILE_STATUS) == 0)
+			throw new RuntimeException(
+				"Gölgelendirici derlenemedi! Hata: " +
+					glGetShaderInfoLog(gölgelendiricininİşaretçisi, 1024));
+		
+		return gölgelendiricininİşaretçisi;
 	}
 }
