@@ -11,6 +11,7 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
 import başaşağıderebeyi.iskelet.*;
+import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.kütüphane.girdi.*;
 import başaşağıderebeyi.kütüphane.matematik.*;
 import başaşağıderebeyi.kütüphane.olay.*;
@@ -32,7 +33,7 @@ public class Deneme implements Uygulama {
 		temizlenmeRengi = new Yöney4();
 		öncekiTemizlenmeRengi = new Yöney4();
 		kullanılacakTemizlenmeRengi = new Yöney4();
-		Gösterici gösterici = new Gösterici(
+		final Gösterici gösterici = new Gösterici(
 			1920,
 			1080,
 			"Baş Aşağı Derebeyi " + İskelet.SÜRÜM,
@@ -55,7 +56,7 @@ public class Deneme implements Uygulama {
 	
 	@Override
 	public void güncelle() {
-		ÇiğGirdi girdi = çalıştıranİskelet.girdisiniEdin();
+		final ÇiğGirdi girdi = çalıştıranİskelet.girdisiniEdin();
 		if (girdi.klavyesininTuşunuEdin(GLFW_KEY_ESCAPE).salınmasınıEdin())
 			çalıştıranİskelet.dur();
 		

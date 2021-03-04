@@ -1,17 +1,18 @@
 /**
- * başaşağıderebeyi.iskelet.Gösterici.java
+ * başaşağıderebeyi.iskelet.görsel.Gösterici.java
  * 0.2 / 3 Mar 2021 / 16:51:33
  * Cem GEÇGEL (BaşAşağıDerebeyi)
  * 
- * Waistax Engine'den alındı.
- * 4.0.0 / 2 Kas 2018 / ?
+ * Waistax Framework'den alındı.
+ * ? / ? / ?
  */
-package başaşağıderebeyi.iskelet;
+package başaşağıderebeyi.iskelet.görsel;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
+import başaşağıderebeyi.iskelet.*;
 import başaşağıderebeyi.iskelet.girdi.*;
 import başaşağıderebeyi.kütüphane.matematik.*;
 
@@ -35,13 +36,13 @@ public class Gösterici {
 	
 	/** Verilenler ile tanımlar. */
 	public Gösterici(
-		int genişliği,
-		int yüksekliği,
-		String başlığı,
-		boolean tamEkranOlması,
-		int örneklemelerininSayısı,
-		int değiştirilmeAralığı,
-		Yöney4 temizlenmeRengi) {
+		final int genişliği,
+		final int yüksekliği,
+		final String başlığı,
+		final boolean tamEkranOlması,
+		final int örneklemelerininSayısı,
+		final int değiştirilmeAralığı,
+		final Yöney4 temizlenmeRengi) {
 		this.genişliği = genişliği;
 		this.yüksekliği = yüksekliği;
 		this.başlığı = başlığı;
@@ -51,7 +52,8 @@ public class Gösterici {
 		this.temizlenmeRengi = temizlenmeRengi;
 	}
 	
-	void penceresiniOluştur(İskelet çalıştıranİskelet) {
+	/** Verilen iskelet için pencere oluşturur. */
+	public void penceresiniOluştur(final İskelet çalıştıranİskelet) {
 		GLFWErrorCallback.createPrint().set();
 		
 		if (!glfwInit())
@@ -78,13 +80,15 @@ public class Gösterici {
 		içeriğiniAyarla();
 	}
 	
-	void yokEt() {
+	/** Pencereyi kapatır ve girdileri salar. */
+	public void yokEt() {
 		girdisi.bildiriceleriniSal();
 		glfwDestroyWindow(penceresininİşaretçisi);
 		glfwTerminate();
 	}
 	
-	void göster() {
+	/** Çizilenleri pencereye gösterir. */
+	public void göster() {
 		glfwSwapBuffers(penceresininİşaretçisi);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
@@ -94,7 +98,9 @@ public class Gösterici {
 				"OpenGL hata verdi! Hata Kodu: " + hataKodu);
 	}
 	
-	boolean penceresininKapatılmasınıEdin() {
+	/** Pencerenin kapatılıp kapatılmadığını döndürür. Ayrıca pencerenin
+	 * girdilerini bildirir. */
+	public boolean penceresininKapatılmasınıEdin() {
 		glfwPollEvents();
 		return glfwWindowShouldClose(penceresininİşaretçisi);
 	}

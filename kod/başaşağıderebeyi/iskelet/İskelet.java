@@ -8,6 +8,7 @@
  */
 package başaşağıderebeyi.iskelet;
 
+import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.kütüphane.girdi.*;
 import başaşağıderebeyi.kütüphane.olay.*;
 
@@ -19,7 +20,7 @@ import org.lwjgl.glfw.*;
  * iskelet. */
 public class İskelet {
 	/** İskeletin sürümü. */
-	public static final String SÜRÜM = "0.2";
+	public static final String SÜRÜM = "0.3";
 	
 	private static final SayaçOlayı SAYAÇ_OLAYI = new SayaçOlayı();
 	
