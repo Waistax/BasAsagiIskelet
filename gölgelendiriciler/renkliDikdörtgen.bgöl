@@ -1,0 +1,13 @@
+#version 440
+
+in vec4 benekKonumu;
+
+out vec4 benekRengi;
+
+void main() {
+	benekRengi = vec4(
+		abs(benekKonumu.x),
+		abs(benekKonumu.y),
+		benekKonumu.x + benekKonumu.y - benekKonumu.x * benekKonumu.y,
+		abs(benekKonumu.x * benekKonumu.y*10));
+}

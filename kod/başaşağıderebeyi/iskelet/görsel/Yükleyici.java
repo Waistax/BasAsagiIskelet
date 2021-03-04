@@ -22,17 +22,17 @@ import org.lwjgl.opengl.*;
 
 /** Görselleri ve şekilleri ekran kartının belleğine yükler. */
 public class Yükleyici {
-	private final List<Integer> köşeDizisiNesnelerininİşaretçileri;
-	private final List<Integer> köşeTamponuNesnelerininİşaretçileri;
-	private final List<Integer> dokularınınİşaretçileri;
-	private final List<Integer> yazılımlarınınİşaretçileri;
+	private final List<Integer> köşeDizisiNesneleri;
+	private final List<Integer> köşeTamponuNesneleri;
+	private final List<Integer> dokuları;
+	private final List<Integer> yazılımları;
 	
 	/** Boş yükleyici tanımlar. */
 	public Yükleyici() {
-		köşeDizisiNesnelerininİşaretçileri = new ArrayList<>();
-		köşeTamponuNesnelerininİşaretçileri = new ArrayList<>();
-		dokularınınİşaretçileri = new ArrayList<>();
-		yazılımlarınınİşaretçileri = new ArrayList<>();
+		köşeDizisiNesneleri = new ArrayList<>();
+		köşeTamponuNesneleri = new ArrayList<>();
+		dokuları = new ArrayList<>();
+		yazılımları = new ArrayList<>();
 	}
 	
 	/** Ekran kartının belleğine yüklediklerini yok eder. */
@@ -42,15 +42,15 @@ public class Yükleyici {
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glUseProgram(0);
 		
-		köşeDizisiNesnelerininİşaretçileri.forEach(GL30::glDeleteVertexArrays);
-		köşeTamponuNesnelerininİşaretçileri.forEach(GL15::glDeleteBuffers);
-		dokularınınİşaretçileri.forEach(GL11::glDeleteTextures);
-		yazılımlarınınİşaretçileri.forEach(GL20::glDeleteProgram);
+		köşeDizisiNesneleri.forEach(GL30::glDeleteVertexArrays);
+		köşeTamponuNesneleri.forEach(GL15::glDeleteBuffers);
+		dokuları.forEach(GL11::glDeleteTextures);
+		yazılımları.forEach(GL20::glDeleteProgram);
 		
-		köşeDizisiNesnelerininİşaretçileri.clear();
-		köşeTamponuNesnelerininİşaretçileri.clear();
-		dokularınınİşaretçileri.clear();
-		yazılımlarınınİşaretçileri.clear();
+		köşeDizisiNesneleri.clear();
+		köşeTamponuNesneleri.clear();
+		dokuları.clear();
+		yazılımları.clear();
 	}
 	
 	/** Verilen float dizisini bir FloatBuffer nesnesine yerleştirip yeni bir
@@ -75,8 +75,8 @@ public class Yükleyici {
 		final int sırası,
 		final int boyutu,
 		final FloatBuffer yüklenecekVeri) {
-		final int köşeTamponuNesnesininİşaretçisi = tamponYükle();
-		glBindBuffer(GL_ARRAY_BUFFER, köşeTamponuNesnesininİşaretçisi);
+		final int köşeTamponuNesnesi = tamponYükle();
+		glBindBuffer(GL_ARRAY_BUFFER, köşeTamponuNesnesi);
 		glBufferData(GL_ARRAY_BUFFER, yüklenecekVeri, GL_STATIC_DRAW);
 		glVertexAttribPointer(sırası, boyutu, GL_FLOAT, false, 0, 0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -95,36 +95,35 @@ public class Yükleyici {
 	/** Köşelerin nasıl sıralanacağını belirten sıra tamponu nesnesini şu an
 	 * aktif olan köşe dizisi nesnesine yerleştirir. */
 	public void sıraTamponuNesnesiYükle(final IntBuffer yüklenecekVeri) {
-		final int sıraTamponuNesnesiİşaretçisi = tamponYükle();
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sıraTamponuNesnesiİşaretçisi);
+		final int sıraTamponuNesnesi = tamponYükle();
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sıraTamponuNesnesi);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, yüklenecekVeri, GL_STATIC_DRAW);
 	}
 	
 	/** Ekran kartına yeni bir tampon yükler ve işaretçisini döndürür. */
 	public int tamponYükle() {
-		final int köşeTamponuNesnesininİşaretçisi = glGenBuffers();
-		köşeTamponuNesnelerininİşaretçileri
-			.add(köşeTamponuNesnesininİşaretçisi);
-		return köşeTamponuNesnesininİşaretçisi;
+		final int köşeTamponuNesnesi = glGenBuffers();
+		köşeTamponuNesneleri.add(köşeTamponuNesnesi);
+		return köşeTamponuNesnesi;
 	}
 	
 	/** Ekran kartına yeni bir köşe dizisi nesnesi yükler ve işaretçisini
 	 * döndürür. Oluşturulan dizinin işaretçisini döndürür. */
 	public int köşeDizisiNesnesiYükle() {
-		final int köşeDizisiNesnesininİşaretçisi = glGenVertexArrays();
-		köşeDizisiNesnelerininİşaretçileri.add(köşeDizisiNesnesininİşaretçisi);
-		return köşeDizisiNesnesininİşaretçisi;
+		final int köşeDizisiNesnesi = glGenVertexArrays();
+		köşeDizisiNesneleri.add(köşeDizisiNesnesi);
+		return köşeDizisiNesnesi;
 	}
 	
 	/** Ekran kartında boş bir köşe tamponu nesnesi oluşturur. Bu tampon her
 	 * kare yeniden doldurulmak için oluşturulur. Oluşturulan tamponun
 	 * işaretçisini döndürür. */
 	public int boşKöşeTamponuNesnesiOluştur(final int boyutu) {
-		final int köşeTamponuNesnesininİşaretçisi = tamponYükle();
-		glBindBuffer(GL_ARRAY_BUFFER, köşeTamponuNesnesininİşaretçisi);
+		final int köşeTamponuNesnesi = tamponYükle();
+		glBindBuffer(GL_ARRAY_BUFFER, köşeTamponuNesnesi);
 		glBufferData(GL_ARRAY_BUFFER, boyutu * 4, GL_STREAM_DRAW);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		return köşeTamponuNesnesininİşaretçisi;
+		return köşeTamponuNesnesi;
 	}
 	
 	/** Oluşum başına değişen bir nitelik ekler. Bu nitelikler boş bir tampona
@@ -133,14 +132,14 @@ public class Yükleyici {
 	 * başına değişen float sayısıdır. Niteliğin kaçıklığı ise oluşum başına
 	 * düşen floatlardan hangisi olduğunu belli eden sırasıdır. */
 	public void oluşumBaşınaDeğişenNitelikEkle(
-		final int köşeDizisiNesnesininİşaretçisi,
-		final int köşeTamponuNesnesininİşaretçisi,
+		final int köşeDizisiNesnesi,
+		final int köşeTamponuNesnesi,
 		final int sırası,
 		final int boyutu,
 		final int oluşumunBoyutu,
 		final int kaçıklığı) {
-		glBindVertexArray(köşeDizisiNesnesininİşaretçisi);
-		glBindBuffer(GL_ARRAY_BUFFER, köşeTamponuNesnesininİşaretçisi);
+		glBindVertexArray(köşeDizisiNesnesi);
+		glBindBuffer(GL_ARRAY_BUFFER, köşeTamponuNesnesi);
 		glVertexAttribPointer(
 			sırası,
 			boyutu,
@@ -156,9 +155,9 @@ public class Yükleyici {
 	/** Verilen nitelikleri yükler ve bütün oluşumların niteliklerini
 	 * verilenlerle değiştirir. */
 	public void oluşumlarınNitelikleriniGüncelle(
-		final int köşeTamponuNesnesininİşaretçisi,
+		final int köşeTamponuNesnesi,
 		final FloatBuffer yüklenecekVeri) {
-		glBindBuffer(GL_ARRAY_BUFFER, köşeTamponuNesnesininİşaretçisi);
+		glBindBuffer(GL_ARRAY_BUFFER, köşeTamponuNesnesi);
 		glBufferSubData(GL_ARRAY_BUFFER, 0, yüklenecekVeri);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
@@ -166,10 +165,10 @@ public class Yükleyici {
 	/** Verilen nitelikleri yükler ve verilen sıradaki oluşumun niteliklerini
 	 * verilenlerle değiştirir. */
 	public void birOluşumunNitelikleriniGüncelle(
-		final int köşeTamponuNesnesininİşaretçisi,
+		final int köşeTamponuNesnesi,
 		final FloatBuffer yüklenecekVeri,
 		final int sırası) {
-		glBindBuffer(GL_ARRAY_BUFFER, köşeTamponuNesnesininİşaretçisi);
+		glBindBuffer(GL_ARRAY_BUFFER, köşeTamponuNesnesi);
 		glBufferSubData(
 			GL_ARRAY_BUFFER,
 			sırası * yüklenecekVeri.capacity(),
@@ -180,24 +179,24 @@ public class Yükleyici {
 	/** Ekran kartında bir yazılım oluşturur. Oluşturulan yazılımın işaretçisini
 	 * döndürür. */
 	public int yazılımYükle() {
-		final int yazılımınİşaretçisi = glCreateProgram();
-		yazılımlarınınİşaretçileri.add(yazılımınİşaretçisi);
-		return yazılımınİşaretçisi;
+		final int yazılım = glCreateProgram();
+		yazılımları.add(yazılım);
+		return yazılım;
 	}
 	
 	/** Verilen türden gölgelendiriciyi derler ve ekran kartına yükler.
 	 * Oluşturulan gölgelendiricinin işaretçisini döndürür. */
 	public int gölgelendiriciYükle(final String kaynağı, final int türü) {
-		final int gölgelendiricininİşaretçisi = glCreateShader(türü);
+		final int gölgelendirici = glCreateShader(türü);
 		
-		glShaderSource(gölgelendiricininİşaretçisi, kaynağı);
-		glCompileShader(gölgelendiricininİşaretçisi);
+		glShaderSource(gölgelendirici, kaynağı);
+		glCompileShader(gölgelendirici);
 		
-		if (glGetShaderi(gölgelendiricininİşaretçisi, GL_COMPILE_STATUS) == 0)
+		if (glGetShaderi(gölgelendirici, GL_COMPILE_STATUS) == 0)
 			throw new RuntimeException(
 				"Gölgelendirici derlenemedi! Hata: " +
-					glGetShaderInfoLog(gölgelendiricininİşaretçisi, 1024));
+					glGetShaderInfoLog(gölgelendirici, 1024));
 		
-		return gölgelendiricininİşaretçisi;
+		return gölgelendirici;
 	}
 }
