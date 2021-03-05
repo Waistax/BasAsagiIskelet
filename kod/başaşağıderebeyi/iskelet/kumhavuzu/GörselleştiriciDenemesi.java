@@ -33,7 +33,7 @@ public class GörselleştiriciDenemesi implements Uygulama {
 			720,
 			"Baş Aşağı Derebeyi " + İskelet.SÜRÜM,
 			false,
-			8,
+			1,
 			1,
 			new Yöney4());
 		çalıştıranİskelet =
@@ -51,7 +51,8 @@ public class GörselleştiriciDenemesi implements Uygulama {
 			1280.0F,
 			720.0F,
 			20.0F,
-			nesneSayısı);
+			nesneSayısı,
+			"denemeResmi");
 		
 		int sıraBüyüklüğü = (int)kökünüBul(nesneSayısı);
 		if (sıraBüyüklüğü % 2 == 0)
@@ -65,11 +66,17 @@ public class GörselleştiriciDenemesi implements Uygulama {
 				(i % sıraBüyüklüğü - sıraBüyüklüğü / 2) * 105.0F;
 			dönüşüm.konumu.ikinciBileşeni =
 				(i / sıraBüyüklüğü - sıraBüyüklüğü / 2) * 105.0F;
-			dönüşüm.biçimi.birinciBileşeni = 100.0F;
-			dönüşüm.biçimi.ikinciBileşeni = 100.0F;
 			dönüşümleri.add(dönüşüm);
 			görselleştirici.dönüşümüEkle(dönüşüm);
 		}
+		
+		çalıştıranİskelet.göstericisi
+			.imleciDeğiştir(
+				çalıştıranİskelet.göstericisi
+					.imleçOluştur(
+						çalıştıranİskelet.yükleyicisi.glfwResmiYükle("imleç"),
+						0,
+						0));
 	}
 	
 	@Override
@@ -83,9 +90,9 @@ public class GörselleştiriciDenemesi implements Uygulama {
 		if (girdi.klavyesininTuşunuEdin(GLFW_KEY_ESCAPE).salınmasınıEdin())
 			çalıştıranİskelet.dur();
 		
-		float yatayBoyut =
+		final float yatayBoyut =
 			girdi.imlecininKonumu.birinciBileşeni / 1280.0F * 100.0F;
-		float dikeyBoyut =
+		final float dikeyBoyut =
 			girdi.imlecininKonumu.ikinciBileşeni / 720.0F * 360.0F;
 		
 		dönüşümleri

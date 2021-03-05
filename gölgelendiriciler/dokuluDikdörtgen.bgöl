@@ -1,0 +1,11 @@
+#version 440
+
+in vec2 beneginDokuKonumu;
+
+out vec4 beneginRengi;
+
+uniform sampler2D bagliDoku;
+
+void main() {
+	beneginRengi = texture(bagliDoku, beneginDokuKonumu);
+}

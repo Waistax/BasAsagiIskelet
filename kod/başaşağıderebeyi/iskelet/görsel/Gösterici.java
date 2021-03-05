@@ -31,7 +31,7 @@ public class Gösterici {
 	private final int değiştirilmeAralığı;
 	private final Yöney4 temizlenmeRengi;
 	
-	private long penceresininİşaretçisi;
+	private long penceresi;
 	private Girdi girdisi;
 	
 	/** Verilenler ile tanımlar. */
@@ -60,36 +60,36 @@ public class Gösterici {
 			throw new IllegalStateException("GLFW başlatılamadı!");
 		
 		penceresiniAyarla();
-		final long ekranınınİşaretçisi = glfwGetPrimaryMonitor();
-		penceresininİşaretçisi = glfwCreateWindow(
+		final long ekranı = glfwGetPrimaryMonitor();
+		penceresi = glfwCreateWindow(
 			genişliği,
 			yüksekliği,
 			başlığı,
-			tamEkranOlması ? ekranınınİşaretçisi : NULL,
+			tamEkranOlması ? ekranı : NULL,
 			NULL);
 		
-		if (penceresininİşaretçisi == NULL)
+		if (penceresi == NULL)
 			throw new RuntimeException("Pencere oluşturulamadı!");
 		
 		girdisi = new Girdi(
 			çalıştıranİskelet.olayDağıtıcısınıEdin(),
 			çalıştıranİskelet.girdisiniEdin(),
-			penceresininİşaretçisi);
+			penceresi);
 		
-		penceresiniOturt(ekranınınİşaretçisi);
+		penceresiniOturt(ekranı);
 		içeriğiniAyarla();
 	}
 	
 	/** Pencereyi kapatır ve girdileri salar. */
 	public void yokEt() {
 		girdisi.bildiriceleriniSal();
-		glfwDestroyWindow(penceresininİşaretçisi);
+		glfwDestroyWindow(penceresi);
 		glfwTerminate();
 	}
 	
 	/** Çizilenleri pencereye gösterir. */
 	public void göster() {
-		glfwSwapBuffers(penceresininİşaretçisi);
+		glfwSwapBuffers(penceresi);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		
 		final int hataKodu = glGetError();
@@ -102,7 +102,23 @@ public class Gösterici {
 	 * girdilerini bildirir. */
 	public boolean penceresininKapatılmasınıEdin() {
 		glfwPollEvents();
-		return glfwWindowShouldClose(penceresininİşaretçisi);
+		return glfwWindowShouldClose(penceresi);
+	}
+	
+	/** Verilenlerden imleç oluşturur ve imlecin işaretçisini döndürür. */
+	public long imleçOluştur(
+		final GLFWImage resmi,
+		final int yataydaDokunduğuKonumu,
+		final int dikeydeDokunduğuKonumu) {
+		return glfwCreateCursor(
+			resmi,
+			yataydaDokunduğuKonumu,
+			dikeydeDokunduğuKonumu);
+	}
+	
+	/** Penceredeki imleci verilen ile değiştirir. */
+	public void imleciDeğiştir(final long imleç) {
+		glfwSetCursor(penceresi, imleç);
 	}
 	
 	private void penceresiniAyarla() {
@@ -117,20 +133,17 @@ public class Gösterici {
 		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 	}
 	
-	private void penceresiniOturt(final long ekranınınİşaretçisi) {
-		final GLFWVidMode görüntüKipi = glfwGetVideoMode(ekranınınİşaretçisi);
+	private void penceresiniOturt(final long ekranı) {
+		final GLFWVidMode görüntüKipi = glfwGetVideoMode(ekranı);
 		glfwSetWindowPos(
-			penceresininİşaretçisi,
+			penceresi,
 			(görüntüKipi.width() - genişliği) / 2,
 			(görüntüKipi.height() - yüksekliği) / 2);
-		glfwSetCursorPos(
-			penceresininİşaretçisi,
-			genişliği / 2.0D,
-			yüksekliği / 2.0D);
-		glfwShowWindow(penceresininİşaretçisi);
-		glfwMakeContextCurrent(penceresininİşaretçisi);
+		glfwSetCursorPos(penceresi, genişliği / 2.0D, yüksekliği / 2.0D);
+		glfwShowWindow(penceresi);
+		glfwMakeContextCurrent(penceresi);
 		glfwSwapInterval(değiştirilmeAralığı);
-		glfwShowWindow(penceresininİşaretçisi);
+		glfwShowWindow(penceresi);
 	}
 	
 	private void içeriğiniAyarla() {

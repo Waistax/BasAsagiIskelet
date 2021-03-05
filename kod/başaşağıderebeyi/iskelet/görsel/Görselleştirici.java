@@ -5,6 +5,8 @@
  */
 package başaşağıderebeyi.iskelet.görsel;
 
+import static org.lwjgl.opengl.GL11.*;
+
 import başaşağıderebeyi.kütüphane.matematik.*;
 
 import java.util.*;
@@ -17,6 +19,7 @@ public class Görselleştirici {
 	private final Dizey4 izdüşümDizeyi;
 	private final OluşumluKöşeDizisi köşeDizisi;
 	private final int sığası;
+	private final int dokusu;
 	
 	private final Set<Dönüşüm> çizilecekDönüşümleri;
 	private final HashMap<Dönüşüm, Dönüşüm> eskiDönüşümleri;
@@ -28,8 +31,9 @@ public class Görselleştirici {
 		final float uzayınGenişliği,
 		final float uzayınYüksekliği,
 		final float uzayınDerinliği,
-		final int sığası) {
-		gölgelendiricisi = new Gölgelendirici(yükleyici, "renkliDikdörtgen");
+		final int sığası,
+		final String dokusununAdı) {
+		gölgelendiricisi = new Gölgelendirici(yükleyici, "dokuluDikdörtgen");
 		gölgelendiricisi.değerinKonumunuBul("izdusumDizeyi");
 		
 		izdüşümDizeyi = new Dizey4()
@@ -42,10 +46,12 @@ public class Görselleştirici {
 		gölgelendiricisi.değeriDeğiştir("izdusumDizeyi", izdüşümDizeyi);
 		gölgelendiricisi.kopar();
 		
-		köşeDizisi = new OluşumluKöşeDizisi(yükleyici, 16, sığası);
+		köşeDizisi =
+			new OluşumluKöşeDizisi(yükleyici, GL_TRIANGLE_STRIP, 4, sığası, 16);
 		oluşumluKöşeDizisiniOluştur();
 		
 		this.sığası = sığası;
+		dokusu = yükleyici.dokuYükle(dokusununAdı);
 		çizilecekDönüşümleri = new HashSet<>();
 		eskiDönüşümleri = new HashMap<>();
 		kullanılacakDönüşümleri = new HashMap<>();
@@ -81,7 +87,9 @@ public class Görselleştirici {
 	public void çiz(final float uzaklık) {
 		oluşumluKöşeDizisiniGüncelle(uzaklık);
 		gölgelendiricisi.bağla();
-		köşeDizisi.çiz(çizilecekDönüşümleri.size());
+		glBindTexture(GL_TEXTURE_2D, dokusu);
+		köşeDizisi.çiz();
+		glBindTexture(GL_TEXTURE_2D, 0);
 		gölgelendiricisi.kopar();
 	}
 	
@@ -107,6 +115,21 @@ public class Görselleştirici {
 					.put(+0.5F)
 					.put(0.0F)
 					.put(1.0F)
+					.flip());
+		
+		köşeDizisi
+			.durağanKöşeTamponuNesnesiEkle(
+				2,
+				BufferUtils
+					.createFloatBuffer(4 * 4)
+					.put(0.0F)
+					.put(1.0F)
+					.put(1.0F)
+					.put(1.0F)
+					.put(0.0F)
+					.put(0.0F)
+					.put(1.0F)
+					.put(0.0F)
 					.flip());
 		
 		köşeDizisi.oluşumBaşınaDeğişenNitelikEkle(4);

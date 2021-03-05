@@ -28,7 +28,7 @@ public class Girdi {
 	public Girdi(
 		final OlayDağıtıcısı bildireceğiOlayDağıtıcısı,
 		final ÇiğGirdi bildireceğiÇiğGirdi,
-		final long dinlediğiPencereninİşaretçisi) {
+		final long dinlediğiPencere) {
 		this.bildireceğiOlayDağıtıcısı = bildireceğiOlayDağıtıcısı;
 		this.bildireceğiÇiğGirdi = bildireceğiÇiğGirdi;
 		
@@ -38,7 +38,7 @@ public class Girdi {
 		imleçGirdisiBildiricisi = new İmleçGirdisiBildiricisi(this);
 		tekerlekGirdisiBildiricisi = new TekerlekGirdisiBildiricisi(this);
 		
-		bildiricileriPencereyeEkle(dinlediğiPencereninİşaretçisi);
+		bildiricileriPencereyeEkle(dinlediğiPencere);
 	}
 	
 	/** Bütün bildiricileri yok eder. */
@@ -73,19 +73,10 @@ public class Girdi {
 			.tekerleğininDevriniBildir(yuvarla((float)olay.devri));
 	}
 	
-	private void bildiricileriPencereyeEkle(
-		final long dinlediğiPencereninİşaretçisi) {
-		glfwSetKeyCallback(
-			dinlediğiPencereninİşaretçisi,
-			klavyeGirdisiBildiricisi);
-		glfwSetMouseButtonCallback(
-			dinlediğiPencereninİşaretçisi,
-			fareGirdisiBildiricisi);
-		glfwSetCursorPosCallback(
-			dinlediğiPencereninİşaretçisi,
-			imleçGirdisiBildiricisi);
-		glfwSetScrollCallback(
-			dinlediğiPencereninİşaretçisi,
-			tekerlekGirdisiBildiricisi);
+	private void bildiricileriPencereyeEkle(final long dinlediğiPencere) {
+		glfwSetKeyCallback(dinlediğiPencere, klavyeGirdisiBildiricisi);
+		glfwSetMouseButtonCallback(dinlediğiPencere, fareGirdisiBildiricisi);
+		glfwSetCursorPosCallback(dinlediğiPencere, imleçGirdisiBildiricisi);
+		glfwSetScrollCallback(dinlediğiPencere, tekerlekGirdisiBildiricisi);
 	}
 }

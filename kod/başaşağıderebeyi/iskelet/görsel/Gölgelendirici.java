@@ -12,9 +12,7 @@ import static org.lwjgl.opengl.GL20.*;
 
 import başaşağıderebeyi.kütüphane.matematik.*;
 
-import java.io.*;
 import java.nio.*;
-import java.nio.file.*;
 import java.util.*;
 
 import org.lwjgl.*;
@@ -22,54 +20,47 @@ import org.lwjgl.*;
 /** Ekran kartına yüklenen köşe dizilerinin nasıl çizileceğini anlatan
  * yazılım. */
 public class Gölgelendirici {
+	public static final String KLASÖRÜ = "gölgelendiriciler";
+	public static final String KÖŞE_GÖLGELENDİRİCİSİNİN_DOSYA_UZANTISI =
+		".kgöl";
+	public static final String BENEK_GÖLGELENDİRİCİSİNİN_DOSYA_UZANTISI =
+		".bgöl";
+	
 	private static final FloatBuffer DİZEY_TAMPONU =
 		BufferUtils.createFloatBuffer(16);
 	
-	private final int işaretçisi;
+	private final int yazılımı;
 	private final Map<String, Integer> değerlerininKonumları;
 	
 	/** Gölgelendiriciler klasöründeki verilen addaki gölgelendirici çiftini
 	 * yükler. */
 	public Gölgelendirici(final Yükleyici yükleyici, final String adı) {
-		this(
-			yükleyici,
-			"gölgelendiriciler/" + adı + ".kgöl",
-			"gölgelendiriciler/" + adı + ".bgöl");
+		this(yükleyici, adı, adı);
 	}
 	
 	/** Gölgelendirici yükler ve yazılımı derler. */
 	public Gölgelendirici(
 		final Yükleyici yükleyici,
-		final String köşeGölgelendiricisininDosyaYolu,
-		final String benekGölgelendiricisininDosyaYolu) {
-		işaretçisi = yükleyici.yazılımYükle();
+		final String köşeGölgelendiricisininAdı,
+		final String benekGölgelendiricisininAdı) {
+		yazılımı = yükleyici.yazılımYükle();
 		
-		try {
-			gölgelendiricileriAyarla(
-				yükleyici
-					.gölgelendiriciYükle(
-						Files
-							.readString(
-								Paths.get(köşeGölgelendiricisininDosyaYolu)),
-						GL_VERTEX_SHADER),
-				yükleyici
-					.gölgelendiriciYükle(
-						Files
-							.readString(
-								Paths.get(benekGölgelendiricisininDosyaYolu)),
-						GL_FRAGMENT_SHADER));
-		} catch (final IOException hata) {
-			throw new RuntimeException(
-				"Gölgelendirici dosyaları okunamadı!",
-				hata);
-		}
+		gölgelendiricileriAyarla(
+			yükleyici
+				.gölgelendiriciYükle(
+					köşeGölgelendiricisininAdı,
+					GL_VERTEX_SHADER),
+			yükleyici
+				.gölgelendiriciYükle(
+					benekGölgelendiricisininAdı,
+					GL_FRAGMENT_SHADER));
 		
 		değerlerininKonumları = new HashMap<>();
 	}
 	
 	/** Yazılımı kullanmaya başlar. */
 	public void bağla() {
-		glUseProgram(işaretçisi);
+		glUseProgram(yazılımı);
 	}
 	
 	/** Yazılımı kullanmayı bırakır. */
@@ -80,7 +71,7 @@ public class Gölgelendirici {
 	/** Bir değerin konumunu bulur ve içerideki haritaya koyar. Bu yöntemin
 	 * kullanılabilinmesi için önce yazılımın bağlanmalıdır. */
 	public void değerinKonumunuBul(final String değerinAdı) {
-		final int değerinKonumu = glGetUniformLocation(işaretçisi, değerinAdı);
+		final int değerinKonumu = glGetUniformLocation(yazılımı, değerinAdı);
 		if (değerinKonumu == 0xFFFFFFFF)
 			throw new RuntimeException("Değer bulunamadı: " + değerinAdı);
 		değerlerininKonumları.put(değerinAdı, değerinKonumu);
@@ -140,30 +131,30 @@ public class Gölgelendirici {
 	}
 	
 	private void gölgelendiricileriAyarla(
-		final int köşeGölgelendiricisininİşaretçisi,
-		final int benekGölgelendiricisininİşaretçisi) {
-		glAttachShader(işaretçisi, köşeGölgelendiricisininİşaretçisi);
-		glAttachShader(işaretçisi, benekGölgelendiricisininİşaretçisi);
+		final int köşeGölgelendiricisi,
+		final int benekGölgelendiricisi) {
+		glAttachShader(yazılımı, köşeGölgelendiricisi);
+		glAttachShader(yazılımı, benekGölgelendiricisi);
 		
 		yazılımıDerle();
 		
-		glDetachShader(işaretçisi, köşeGölgelendiricisininİşaretçisi);
-		glDetachShader(işaretçisi, benekGölgelendiricisininİşaretçisi);
-		glDeleteShader(köşeGölgelendiricisininİşaretçisi);
-		glDeleteShader(benekGölgelendiricisininİşaretçisi);
+		glDetachShader(yazılımı, köşeGölgelendiricisi);
+		glDetachShader(yazılımı, benekGölgelendiricisi);
+		glDeleteShader(köşeGölgelendiricisi);
+		glDeleteShader(benekGölgelendiricisi);
 	}
 	
 	private void yazılımıDerle() {
-		glLinkProgram(işaretçisi);
-		if (glGetProgrami(işaretçisi, GL_LINK_STATUS) == 0)
+		glLinkProgram(yazılımı);
+		if (glGetProgrami(yazılımı, GL_LINK_STATUS) == 0)
 			throw new RuntimeException(
 				"Gölgelendirici bağdaştırılamadı! Hata: " +
-					glGetProgramInfoLog(işaretçisi, 1024));
+					glGetProgramInfoLog(yazılımı, 1024));
 		
-		glValidateProgram(işaretçisi);
-		if (glGetProgrami(işaretçisi, GL_VALIDATE_STATUS) == 0)
+		glValidateProgram(yazılımı);
+		if (glGetProgrami(yazılımı, GL_VALIDATE_STATUS) == 0)
 			throw new RuntimeException(
 				"Gölgelendirici doğrulanamadı! Hata: " +
-					glGetProgramInfoLog(işaretçisi, 1024));
+					glGetProgramInfoLog(yazılımı, 1024));
 	}
 }

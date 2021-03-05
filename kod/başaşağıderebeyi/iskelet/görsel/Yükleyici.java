@@ -14,14 +14,30 @@ import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.opengl.GL33.*;
 
+import java.awt.image.*;
+import java.io.*;
 import java.nio.*;
+import java.nio.file.*;
 import java.util.*;
+import java.util.stream.*;
+
+import javax.imageio.*;
 
 import org.lwjgl.*;
+import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 
 /** Görselleri ve şekilleri ekran kartının belleğine yükler. */
 public class Yükleyici {
+	public static final String RESİMLERİN_KLASÖRÜ = "resimler";
+	public static final String RESİMLERİN_DOSYA_UZANTISI = ".png";
+	public static final String GÖLGELENDİRİCİLERİN_KLASÖRÜ =
+		"gölgelendiriciler";
+	public static final String KÖŞE_GÖLGELENDİRİCİLERİNİN_DOSYA_UZANTISI =
+		".kgöl";
+	public static final String BENEK_GÖLGELENDİRİCİLERİNİN_DOSYA_UZANTISI =
+		".bgöl";
+	
 	private final List<Integer> köşeDizisiNesneleri;
 	private final List<Integer> köşeTamponuNesneleri;
 	private final List<Integer> dokuları;
@@ -186,10 +202,17 @@ public class Yükleyici {
 	
 	/** Verilen türden gölgelendiriciyi derler ve ekran kartına yükler.
 	 * Oluşturulan gölgelendiricinin işaretçisini döndürür. */
-	public int gölgelendiriciYükle(final String kaynağı, final int türü) {
+	public int gölgelendiriciYükle(final String adı, final int türü) {
 		final int gölgelendirici = glCreateShader(türü);
 		
-		glShaderSource(gölgelendirici, kaynağı);
+		glShaderSource(
+			gölgelendirici,
+			dosyayıYükle(
+				GÖLGELENDİRİCİLERİN_KLASÖRÜ,
+				adı,
+				türü == GL_VERTEX_SHADER ?
+					KÖŞE_GÖLGELENDİRİCİLERİNİN_DOSYA_UZANTISI :
+					BENEK_GÖLGELENDİRİCİLERİNİN_DOSYA_UZANTISI));
 		glCompileShader(gölgelendirici);
 		
 		if (glGetShaderi(gölgelendirici, GL_COMPILE_STATUS) == 0)
@@ -198,5 +221,137 @@ public class Yükleyici {
 					glGetShaderInfoLog(gölgelendirici, 1024));
 		
 		return gölgelendirici;
+	}
+	
+	/** Yolu verilen dosyayı yükler ve dize olarak döndürür. */
+	public String dosyayıYükle(
+		final String klasörü,
+		final String adı,
+		final String uzantısı) {
+		try {
+			return Files.readString(Paths.get(klasörü, adı + uzantısı));
+		} catch (final IOException hata) {
+			throw new RuntimeException(
+				"Dosya " + klasörü + "/" + adı + uzantısı + " yüklenemedi!",
+				hata);
+		}
+	}
+	
+	/** Resimler klasöründeki verilen addaki resmi GLFW resmi olarak yükler ve
+	 * döndürür. */
+	public GLFWImage glfwResmiYükle(final String resminAdı) {
+		return glfwResmiYükle(resimYükle(resminAdı));
+	}
+	
+	/** Verilen resmi GLFW resmi olarak yükler ve döndürür. */
+	public GLFWImage glfwResmiYükle(final BufferedImage resim) {
+		final int[] resminVerisi = resim
+			.getRGB(
+				0,
+				0,
+				resim.getWidth(),
+				resim.getHeight(),
+				new int[resim.getWidth() * resim.getHeight()],
+				0,
+				resim.getWidth());
+		
+		final byte[] renkBaytları = new byte[resminVerisi.length * 4];
+		
+		IntStream.range(0, resminVerisi.length).parallel().forEach(benek -> {
+			final int benekRengi = resminVerisi[benek];
+			renkBaytları[benek * 4 + 0] = (byte)(benekRengi >> 16 & 0xFF);
+			renkBaytları[benek * 4 + 1] = (byte)(benekRengi >> 8 & 0xFF);
+			renkBaytları[benek * 4 + 2] = (byte)(benekRengi >> 0 & 0xFF);
+			renkBaytları[benek * 4 + 3] = (byte)(benekRengi >> 24 & 0xFF);
+		});
+		
+		return GLFWImage
+			.malloc()
+			.set(
+				resim.getWidth(),
+				resim.getHeight(),
+				BufferUtils
+					.createByteBuffer(renkBaytları.length)
+					.put(renkBaytları)
+					.flip());
+	}
+	
+	/** Resimler klasöründeki verilen addaki resmi ekran kartına yükler ve
+	 * işaretçisini döndürür. */
+	public int dokuYükle(final String resiminAdı) {
+		return dokuYükle(resimYükle(resiminAdı));
+	}
+	
+	/** Verilen resmi ekran kartına yükler ve işaretçisini döndürür. */
+	public int dokuYükle(final BufferedImage resim) {
+		final int doku = glGenTextures();
+		dokuları.add(doku);
+		glBindTexture(GL_TEXTURE_2D, doku);
+		glTexImage2D(
+			GL_TEXTURE_2D,
+			0,
+			GL_RGBA,
+			resim.getWidth(),
+			resim.getHeight(),
+			0,
+			GL_RGBA,
+			GL_UNSIGNED_BYTE,
+			resminVerisiniYükle(resim));
+		glTexParameteri(
+			GL_TEXTURE_2D,
+			GL_TEXTURE_MIN_FILTER,
+			GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glGenerateMipmap(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		return doku;
+	}
+	
+	/** Verilen resmin verisini gerekli şekle sokup döndürür. */
+	public IntBuffer resminVerisiniYükle(final BufferedImage resim) {
+		final int[] resminVerisi = resim
+			.getRGB(
+				0,
+				0,
+				resim.getWidth(),
+				resim.getHeight(),
+				new int[resim.getWidth() * resim.getHeight()],
+				0,
+				resim.getWidth());
+		
+		IntStream.range(0, resminVerisi.length).parallel().forEach(benek -> {
+			final int benekRengi = resminVerisi[benek];
+			resminVerisi[benek] = benekRengi & 0xFF000000 |
+				(benekRengi & 0x000000FF) << 16 |
+				(benekRengi & 0x0000FF00) << 0 |
+				(benekRengi & 0x00FF0000) >> 16;
+		});
+		
+		return BufferUtils
+			.createIntBuffer(resminVerisi.length)
+			.put(resminVerisi)
+			.flip();
+	}
+	
+	/** Resimler klasöründeki verilen addaki resmi yükler ve döndürür. */
+	public BufferedImage resimYükle(final String resminAdı) {
+		try {
+			return ImageIO
+				.read(
+					Paths
+						.get(
+							RESİMLERİN_KLASÖRÜ,
+							resminAdı + RESİMLERİN_DOSYA_UZANTISI)
+						.toFile());
+		} catch (final IOException hata) {
+			throw new RuntimeException(
+				"Resim " +
+					RESİMLERİN_KLASÖRÜ +
+					"/" +
+					resminAdı +
+					RESİMLERİN_DOSYA_UZANTISI +
+					" yüklenemedi!",
+				hata);
+		}
 	}
 }
