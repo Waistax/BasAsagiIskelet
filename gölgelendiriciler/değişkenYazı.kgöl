@@ -16,12 +16,19 @@ uniform mat4 izdusumDizeyi;
 void main() {
     gl_Position = izdusumDizeyi * donusumu * konumu;
     
-    vec2[4] dokuKonumlari = {
-    	dokuKonumu0,
-    	dokuKonumu1,
-    	dokuKonumu2,
-    	dokuKonumu3 };
+//    vec2[4] dokuKonumlari = {
+//    	dokuKonumu0,
+//    	dokuKonumu1,
+//    	dokuKonumu2,
+//    	dokuKonumu3 };
+//    
+//    beneginDokuKonumu = dokuKonumlari[gl_VertexID];
     
-    beneginDokuKonumu = dokuKonumlari[gl_VertexID];
+    switch (gl_VertexID) {
+    	case 0: beneginDokuKonumu = dokuKonumu0; break;
+    	case 1: beneginDokuKonumu = dokuKonumu1; break;
+    	case 2: beneginDokuKonumu = dokuKonumu2; break;
+    	case 3: beneginDokuKonumu = dokuKonumu3; break;
+    };
     beneginRengi = rengi;
 }

@@ -58,11 +58,12 @@ class ŞekilOkuyucusu {
 	
 	private SesŞekli sesŞekliniOku(final String[] verileri) {
 		final SesŞekli sesŞekli = new SesŞekli(
-			new Yöney2(dokuKonumu).böl(dokusununBoyutu),
+			dokuKonumu,
 			new Yöney2(
 				Integer.parseInt(verileri[1]),
 				Integer.parseInt(verileri[2])),
-			Integer.parseInt(verileri[3]));
+			Integer.parseInt(verileri[3]),
+			dokusununBoyutu);
 		
 		okuduğuŞekil.seslerininŞekilleri.put(verileri[0].charAt(0), sesŞekli);
 		return sesŞekli;
