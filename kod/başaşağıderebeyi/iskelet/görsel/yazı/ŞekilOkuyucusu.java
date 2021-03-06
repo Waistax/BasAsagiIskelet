@@ -13,9 +13,10 @@ import java.util.*;
 class ŞekilOkuyucusu {
 	private final YazıŞekli okuduğuŞekil;
 	private final float dokusununBoyutu;
-	private final float boşluklarınınBoyutu;
 	private final Yöney2 dokuKonumu;
 	
+	private float satırınÇizgisi;
+	private float boşluklarınınBoyutu;
 	private float enBüyükYüksekliği;
 	private float satırdakiEnBüyükYüksekliği;
 	
@@ -23,8 +24,7 @@ class ŞekilOkuyucusu {
 		this.okuduğuŞekil = okuduğuŞekil;
 		
 		final String[] bilgileri = satırları.get(0).split(";");
-		dokusununBoyutu = Integer.parseInt(bilgileri[0]);
-		boşluklarınınBoyutu = Integer.parseInt(bilgileri[1]);
+		dokusununBoyutu = Integer.parseInt(bilgileri[2]);
 		dokuKonumu = new Yöney2();
 		
 		satırları.forEach(this::satırıOku);
@@ -38,14 +38,16 @@ class ŞekilOkuyucusu {
 		final String[] verileri = satır.split(";");
 		
 		if (verileri.length != 4)
-			satırDeğiştir();
+			satırDeğiştir(verileri);
 		else {
 			dokuKonumu.birinciBileşeni += boşluklarınınBoyutu;
-			sesŞekliniİşle(sesŞekliniOku(verileri));
+			sesŞekliniOku(verileri);
 		}
 	}
 	
-	private void satırDeğiştir() {
+	private void satırDeğiştir(final String[] verileri) {
+		satırınÇizgisi = Integer.parseInt(verileri[0]);
+		boşluklarınınBoyutu = Integer.parseInt(verileri[1]);
 		dokuKonumu.birinciBileşeni = 0.0F;
 		dokuKonumu.ikinciBileşeni +=
 			satırdakiEnBüyükYüksekliği + boşluklarınınBoyutu;
@@ -57,22 +59,29 @@ class ŞekilOkuyucusu {
 	}
 	
 	private SesŞekli sesŞekliniOku(final String[] verileri) {
+		float dikeyKaçıklığı = Integer.parseInt(verileri[3]);
 		final SesŞekli sesŞekli = new SesŞekli(
-			dokuKonumu,
+			new Yöney2()
+				.bileşenleriniDeğiştir(
+					dokuKonumu.birinciBileşeni,
+					dokuKonumu.ikinciBileşeni + dikeyKaçıklığı),
 			new Yöney2(
 				Integer.parseInt(verileri[1]),
 				Integer.parseInt(verileri[2])),
-			Integer.parseInt(verileri[3]),
+			satırınÇizgisi - dikeyKaçıklığı,
 			dokusununBoyutu);
+		
+		sesŞekliniİşle(
+			sesŞekli,
+			sesŞekli.boyutu.ikinciBileşeni + dikeyKaçıklığı);
 		
 		okuduğuŞekil.seslerininŞekilleri.put(verileri[0].charAt(0), sesŞekli);
 		return sesŞekli;
 	}
 	
-	private void sesŞekliniİşle(final SesŞekli sesŞekli) {
+	private void sesŞekliniİşle(final SesŞekli sesŞekli, float yüksekliği) {
 		dokuKonumu.birinciBileşeni += sesŞekli.boyutu.birinciBileşeni;
-		
-		if (sesŞekli.boyutu.ikinciBileşeni > satırdakiEnBüyükYüksekliği)
-			satırdakiEnBüyükYüksekliği = sesŞekli.boyutu.ikinciBileşeni;
+		if (yüksekliği > satırdakiEnBüyükYüksekliği)
+			satırdakiEnBüyükYüksekliği = yüksekliği;
 	}
 }

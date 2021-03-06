@@ -23,8 +23,6 @@ public class DeğişkenYazıDenemesi implements Uygulama {
 	private final İskelet çalıştıranİskelet;
 	
 	private DeğişkenYazıGörselleştirici görselleştirici;
-	private Dönüşüm dönüşüm;
-	private Yöney4 renk;
 	
 	DeğişkenYazıDenemesi() {
 		final Gösterici gösterici = new Gösterici(
@@ -46,13 +44,14 @@ public class DeğişkenYazıDenemesi implements Uygulama {
 		
 		görselleştirici = new DeğişkenYazıGörselleştirici(
 			çalıştıranİskelet.yükleyicisi,
-			1280.0F,
-			720.0F,
+			640.0F,
+			360.0F,
 			20.0F,
-			10,
-			new YazıŞekli(
-				çalıştıranİskelet.yükleyicisi,
-				"sabitGenişlikliBüyük"));
+			1000,
+			new YazıŞekli(çalıştıranİskelet.yükleyicisi, "kalınEğikVerdana"));
+		
+		görselleştirici.boyutunuDeğiştir(12.0F);
+		görselleştirici.renginiEdin().değiştir(Yöney4.BİR);
 		
 		çalıştıranİskelet.göstericisi
 			.imleciDeğiştir(
@@ -61,11 +60,6 @@ public class DeğişkenYazıDenemesi implements Uygulama {
 						çalıştıranİskelet.yükleyicisi.glfwResmiYükle("imleç"),
 						0,
 						0));
-		
-		dönüşüm = new Dönüşüm();
-		renk = new Yöney4(Yöney4.BİR);
-		
-		dönüşüm.biçimi.bileşenleriniDeğiştir(80.0F, 130.0F, 0.0F);
 	}
 	
 	@Override
@@ -78,38 +72,16 @@ public class DeğişkenYazıDenemesi implements Uygulama {
 		final ÇiğGirdi girdi = çalıştıranİskelet.girdisiniEdin();
 		if (girdi.klavyesininTuşunuEdin(GLFW_KEY_ESCAPE).salınmasınıEdin())
 			çalıştıranİskelet.dur();
-		renk
-			.bileşenleriniDeğiştir(
-				(float)Math.random(),
-				(float)Math.random(),
-				(float)Math.random(),
-				1.0F);
 	}
 	
 	@Override
 	public void çiz() {
-		
-		dönüşüm.konumu.birinciBileşeni = -200.0F;
-		dönüşüm.konumu.ikinciBileşeni = -200.0F;
-		dönüşüm.güncelle();
-		görselleştirici.sesEkle('A', renk, dönüşüm);
-		
-		dönüşüm.konumu.birinciBileşeni = -200.0F;
-		dönüşüm.konumu.ikinciBileşeni = +200.0F;
-		dönüşüm.güncelle();
-		görselleştirici.sesEkle('B', renk, dönüşüm);
-		
-		dönüşüm.konumu.birinciBileşeni = +200.0F;
-		dönüşüm.konumu.ikinciBileşeni = +200.0F;
-		dönüşüm.güncelle();
-		görselleştirici.sesEkle('C', renk, dönüşüm);
-		
-		dönüşüm.konumu.birinciBileşeni = +204.0F;
-		dönüşüm.konumu.ikinciBileşeni = +196.0F;
-		dönüşüm.güncelle();
 		görselleştirici
-			.sesEkle('C', new Yöney4(0.5F, 0.5F, 0.5F, 1.0F), dönüşüm);
-		
+			.yaz(
+				-300.0F,
+				0.0F,
+				"BAŞ AŞAĞI DEREBEYİ VURDU",
+				"KRAL ÖLDÜ BÜYÜK KURT");
 		görselleştirici.çiz();
 	}
 	
