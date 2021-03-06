@@ -1,0 +1,12 @@
+#version 440
+
+out vec2 beneginDokuKonumu;
+out vec4 beneginRengi;
+
+out vec4 beneginCizilecegiRenk;
+
+uniform sampler2D doku;
+
+void main() {
+	beneginCizilecegiRenk = vec4(beneginRengi.xyz, beneginRengi.a * texture(doku, beneginDokuKonumu).a);
+}

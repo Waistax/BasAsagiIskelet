@@ -30,13 +30,13 @@ import org.lwjgl.opengl.*;
 /** Görselleri ve şekilleri ekran kartının belleğine yükler. */
 public class Yükleyici {
 	public static final String RESİMLERİN_KLASÖRÜ = "resimler";
-	public static final String RESİMLERİN_DOSYA_UZANTISI = ".png";
+	public static final String RESİMLERİN_UZANTISI = ".png";
 	public static final String GÖLGELENDİRİCİLERİN_KLASÖRÜ =
 		"gölgelendiriciler";
-	public static final String KÖŞE_GÖLGELENDİRİCİLERİNİN_DOSYA_UZANTISI =
-		".kgöl";
-	public static final String BENEK_GÖLGELENDİRİCİLERİNİN_DOSYA_UZANTISI =
-		".bgöl";
+	public static final String KÖŞE_GÖLGELENDİRİCİLERİNİN_UZANTISI = ".kgöl";
+	public static final String BENEK_GÖLGELENDİRİCİLERİNİN_UZANTISI = ".bgöl";
+	public static final String YAZI_ŞEKİLLERİNİN_KLASÖRÜ = "yazıŞekilleri";
+	public static final String YAZI_ŞEKİLLERİNİN_UZANTISI = ".yşek";
 	
 	private final List<Integer> köşeDizisiNesneleri;
 	private final List<Integer> köşeTamponuNesneleri;
@@ -207,12 +207,12 @@ public class Yükleyici {
 		
 		glShaderSource(
 			gölgelendirici,
-			dosyayıYükle(
+			yazıyıYükle(
 				GÖLGELENDİRİCİLERİN_KLASÖRÜ,
 				adı,
 				türü == GL_VERTEX_SHADER ?
-					KÖŞE_GÖLGELENDİRİCİLERİNİN_DOSYA_UZANTISI :
-					BENEK_GÖLGELENDİRİCİLERİNİN_DOSYA_UZANTISI));
+					KÖŞE_GÖLGELENDİRİCİLERİNİN_UZANTISI :
+					BENEK_GÖLGELENDİRİCİLERİNİN_UZANTISI));
 		glCompileShader(gölgelendirici);
 		
 		if (glGetShaderi(gölgelendirici, GL_COMPILE_STATUS) == 0)
@@ -223,18 +223,48 @@ public class Yükleyici {
 		return gölgelendirici;
 	}
 	
+	/** Verilen addaki yazı şeklinin bilgilerini döndürür. */
+	public List<String> yazıŞekliBilgisiniYükle(final String adı) {
+		return satırlarınıYükle(
+			YAZI_ŞEKİLLERİNİN_KLASÖRÜ,
+			adı,
+			YAZI_ŞEKİLLERİNİN_UZANTISI);
+	}
+	
 	/** Yolu verilen dosyayı yükler ve dize olarak döndürür. */
-	public String dosyayıYükle(
+	public String yazıyıYükle(
 		final String klasörü,
 		final String adı,
 		final String uzantısı) {
 		try {
-			return Files.readString(Paths.get(klasörü, adı + uzantısı));
+			return Files.readString(dosyayıBul(klasörü, adı, uzantısı));
 		} catch (final IOException hata) {
 			throw new RuntimeException(
 				"Dosya " + klasörü + "/" + adı + uzantısı + " yüklenemedi!",
 				hata);
 		}
+	}
+	
+	/** Yolu verilen dosyayı yükler ve satırlarını döndürür. */
+	public List<String> satırlarınıYükle(
+		final String klasörü,
+		final String adı,
+		final String uzantısı) {
+		try {
+			return Files.readAllLines(dosyayıBul(klasörü, adı, uzantısı));
+		} catch (final IOException hata) {
+			throw new RuntimeException(
+				"Dosya " + klasörü + "/" + adı + uzantısı + " yüklenemedi!",
+				hata);
+		}
+	}
+	
+	/** Klasörü, adı ve uzantısı verilen dosyanın yolunu döndürür. */
+	public Path dosyayıBul(
+		final String klasörü,
+		final String adı,
+		final String uzantısı) {
+		return Paths.get(klasörü, adı + uzantısı);
 	}
 	
 	/** Resimler klasöründeki verilen addaki resmi GLFW resmi olarak yükler ve
@@ -341,7 +371,7 @@ public class Yükleyici {
 					Paths
 						.get(
 							RESİMLERİN_KLASÖRÜ,
-							resminAdı + RESİMLERİN_DOSYA_UZANTISI)
+							resminAdı + RESİMLERİN_UZANTISI)
 						.toFile());
 		} catch (final IOException hata) {
 			throw new RuntimeException(
@@ -349,7 +379,7 @@ public class Yükleyici {
 					RESİMLERİN_KLASÖRÜ +
 					"/" +
 					resminAdı +
-					RESİMLERİN_DOSYA_UZANTISI +
+					RESİMLERİN_UZANTISI +
 					" yüklenemedi!",
 				hata);
 		}

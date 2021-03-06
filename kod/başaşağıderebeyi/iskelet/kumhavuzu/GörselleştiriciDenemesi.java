@@ -29,11 +29,11 @@ public class GörselleştiriciDenemesi implements Uygulama {
 	
 	GörselleştiriciDenemesi() {
 		final Gösterici gösterici = new Gösterici(
-			1280,
-			720,
+			640,
+			360,
 			"Baş Aşağı Derebeyi " + İskelet.SÜRÜM,
 			false,
-			1,
+			16,
 			1,
 			new Yöney4());
 		çalıştıranİskelet =

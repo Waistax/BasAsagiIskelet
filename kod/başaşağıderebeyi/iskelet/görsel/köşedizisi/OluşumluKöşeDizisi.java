@@ -1,12 +1,14 @@
 /**
- * başaşağıderebeyi.iskelet.görsel.OluşumluKöşeDizisi.java
+ * başaşağıderebeyi.iskelet.görsel.köşedizisi.OluşumluKöşeDizisi.java
  * 0.4 / 4 Mar 2021 / 19:32:53
  * Cem GEÇGEL (BaşAşağıDerebeyi)
  */
-package başaşağıderebeyi.iskelet.görsel;
+package başaşağıderebeyi.iskelet.görsel.köşedizisi;
 
 import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.opengl.GL31.*;
+
+import başaşağıderebeyi.iskelet.görsel.*;
 
 import java.nio.*;
 
@@ -19,7 +21,9 @@ public class OluşumluKöşeDizisi extends KöşeDizisi {
 	/** Çizebileceği en fazla oluşum sayısı. */
 	public final int sığası;
 	
-	private final int oluşumBoyutu;
+	/** Her bir oluşumun float biriminden boyutu. */
+	protected final int oluşumBoyutu;
+	
 	private final int oluşumluKöşeTamponuNesnesi;
 	
 	private int niteliklerininBoyutu;
@@ -28,10 +32,9 @@ public class OluşumluKöşeDizisi extends KöşeDizisi {
 	public OluşumluKöşeDizisi(
 		final Yükleyici yükleyici,
 		final int çizimKipi,
-		final int köşeSayısı,
 		final int sığası,
 		final int oluşumBoyutu) {
-		super(yükleyici, çizimKipi, köşeSayısı);
+		super(yükleyici, çizimKipi);
 		yazılacakVerisi = BufferUtils.createFloatBuffer(oluşumBoyutu * sığası);
 		this.sığası = sığası;
 		this.oluşumBoyutu = oluşumBoyutu;
@@ -69,7 +72,7 @@ public class OluşumluKöşeDizisi extends KöşeDizisi {
 		glDrawArraysInstanced(
 			çizimKipi,
 			0,
-			köşeSayısı,
+			çizilecekKöşeSayısı,
 			yazılacakVerisi.limit() / oluşumBoyutu);
 	}
 }

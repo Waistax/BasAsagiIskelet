@@ -7,6 +7,7 @@ package başaşağıderebeyi.iskelet.görsel;
 
 import static org.lwjgl.opengl.GL11.*;
 
+import başaşağıderebeyi.iskelet.görsel.köşedizisi.*;
 import başaşağıderebeyi.kütüphane.matematik.*;
 
 import java.util.*;
@@ -17,7 +18,7 @@ import org.lwjgl.*;
 public class Görselleştirici {
 	private final Gölgelendirici gölgelendiricisi;
 	private final Dizey4 izdüşümDizeyi;
-	private final OluşumluKöşeDizisi köşeDizisi;
+	private final SıralıOluşumluKöşeDizisi köşeDizisi;
 	private final int sığası;
 	private final int dokusu;
 	
@@ -47,7 +48,7 @@ public class Görselleştirici {
 		gölgelendiricisi.kopar();
 		
 		köşeDizisi =
-			new OluşumluKöşeDizisi(yükleyici, GL_TRIANGLE_STRIP, 4, sığası, 16);
+			new SıralıOluşumluKöşeDizisi(yükleyici, GL_TRIANGLES, sığası, 16);
 		oluşumluKöşeDizisiniOluştur();
 		
 		this.sığası = sığası;
@@ -121,7 +122,7 @@ public class Görselleştirici {
 			.durağanKöşeTamponuNesnesiEkle(
 				2,
 				BufferUtils
-					.createFloatBuffer(4 * 4)
+					.createFloatBuffer(2 * 4)
 					.put(0.0F)
 					.put(1.0F)
 					.put(1.0F)
@@ -130,6 +131,18 @@ public class Görselleştirici {
 					.put(0.0F)
 					.put(1.0F)
 					.put(0.0F)
+					.flip());
+		
+		köşeDizisi
+			.sıraTamponuNesnesiYükle(
+				BufferUtils
+					.createIntBuffer(6)
+					.put(0)
+					.put(1)
+					.put(2)
+					.put(2)
+					.put(1)
+					.put(3)
 					.flip());
 		
 		köşeDizisi.oluşumBaşınaDeğişenNitelikEkle(4);

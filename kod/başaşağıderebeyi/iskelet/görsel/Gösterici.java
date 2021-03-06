@@ -126,8 +126,8 @@ public class Gösterici {
 		glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 		glfwWindowHint(GLFW_DECORATED, GL_TRUE);
 		glfwWindowHint(GLFW_SAMPLES, örneklemelerininSayısı);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 		glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
@@ -139,7 +139,6 @@ public class Gösterici {
 			penceresi,
 			(görüntüKipi.width() - genişliği) / 2,
 			(görüntüKipi.height() - yüksekliği) / 2);
-		glfwSetCursorPos(penceresi, genişliği / 2.0D, yüksekliği / 2.0D);
 		glfwShowWindow(penceresi);
 		glfwMakeContextCurrent(penceresi);
 		glfwSwapInterval(değiştirilmeAralığı);
@@ -148,6 +147,8 @@ public class Gösterici {
 	
 	private void içeriğiniAyarla() {
 		GL.createCapabilities();
+		
+		System.out.println("OpenGL Sürümü: " + glGetString(GL_VERSION));
 		
 		glFrontFace(GL_CCW);
 		glCullFace(GL_BACK);

@@ -1,13 +1,15 @@
 /**
- * başaşağıderebeyi.iskelet.görsel.KöşeDizisi.java
+ * başaşağıderebeyi.iskelet.görsel.köşedizisi.KöşeDizisi.java
  * 0.5 / 5 Mar 2021 / 13:36:30
  * Cem GEÇGEL (BaşAşağıDerebeyi)
  */
-package başaşağıderebeyi.iskelet.görsel;
+package başaşağıderebeyi.iskelet.görsel.köşedizisi;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
+
+import başaşağıderebeyi.iskelet.görsel.*;
 
 import java.nio.*;
 
@@ -17,23 +19,20 @@ public class KöşeDizisi {
 	protected final Yükleyici yükleyici;
 	/** Köşelerin verilerinin nasıl çizileceği. */
 	protected final int çizimKipi;
-	/** Toplam köşe sayısı. */
-	protected final int köşeSayısı;
 	/** Nesnenin ekran kartındaki konumu. */
 	protected final int işaretçisi;
+	
+	/** Çizilecek köşe sayısı. */
+	protected int çizilecekKöşeSayısı;
 	
 	/** Nesneye eklenmiş niteliklerin sayısı. Bunun sayesinde yeni eklenecek
 	 * niteliklerin sırası bilinir. */
 	protected int niteliklerininSayısı;
 	
 	/** Verilenler ile tanımlar. */
-	public KöşeDizisi(
-		final Yükleyici yükleyici,
-		final int çizimKipi,
-		final int köşeSayısı) {
+	public KöşeDizisi(final Yükleyici yükleyici, final int çizimKipi) {
 		this.yükleyici = yükleyici;
 		this.çizimKipi = çizimKipi;
-		this.köşeSayısı = köşeSayısı;
 		işaretçisi = yükleyici.köşeDizisiNesnesiYükle();
 	}
 	
@@ -46,6 +45,9 @@ public class KöşeDizisi {
 		yükleyici
 			.köşeTamponuNesnesiYükle(niteliklerininSayısı++, boyutu, verisi);
 		glBindVertexArray(0);
+		
+		if (çizilecekKöşeSayısı == 0)
+			çizilecekKöşeSayısı = verisi.limit() / boyutu;
 	}
 	
 	/** Köşe dizisini çizer. */
@@ -61,6 +63,6 @@ public class KöşeDizisi {
 	
 	/** Ekran kartına bu köşe dizisini çizmek için çağrı gönderir. */
 	protected void çizimÇağrısıYap() {
-		glDrawArrays(çizimKipi, 0, köşeSayısı);
+		glDrawArrays(çizimKipi, 0, çizilecekKöşeSayısı);
 	}
 }
