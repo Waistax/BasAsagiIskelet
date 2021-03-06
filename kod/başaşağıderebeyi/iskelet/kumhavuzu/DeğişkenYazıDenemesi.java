@@ -22,7 +22,8 @@ public class DeğişkenYazıDenemesi implements Uygulama {
 	
 	private final İskelet çalıştıranİskelet;
 	
-	private DeğişkenYazıGörselleştirici görselleştirici;
+	private DeğişkenYazıGörselleştirici büyükYazar;
+	private DeğişkenYazıGörselleştirici küçükYazar;
 	
 	DeğişkenYazıDenemesi() {
 		final Gösterici gösterici = new Gösterici(
@@ -42,16 +43,31 @@ public class DeğişkenYazıDenemesi implements Uygulama {
 	public void oluştur() {
 		çalıştıranİskelet.olayDağıtıcısınıEdin().dinleyicileriniEkle(this);
 		
-		görselleştirici = new DeğişkenYazıGörselleştirici(
+		büyükYazar = new DeğişkenYazıGörselleştirici(
 			çalıştıranİskelet.yükleyicisi,
 			640.0F,
 			360.0F,
 			20.0F,
 			1000,
-			new YazıŞekli(çalıştıranİskelet.yükleyicisi, "kalınEğikVerdana"));
+			new YazıŞekli(
+				çalıştıranİskelet.yükleyicisi,
+				"sabitGenişlikliBüyük"));
 		
-		görselleştirici.boyutunuDeğiştir(12.0F);
-		görselleştirici.renginiEdin().değiştir(Yöney4.BİR);
+		küçükYazar = new DeğişkenYazıGörselleştirici(
+			çalıştıranİskelet.yükleyicisi,
+			640.0F,
+			360.0F,
+			20.0F,
+			1000,
+			new YazıŞekli(
+				çalıştıranİskelet.yükleyicisi,
+				"sabitGenişlikliKüçük"));
+		
+		büyükYazar.boyutunuDeğiştir(16.0F);
+		büyükYazar.renginiEdin().değiştir(Yöney4.BİR);
+		
+		küçükYazar.boyutunuDeğiştir(16.0F);
+		küçükYazar.renginiEdin().değiştir(Yöney4.BİR);
 		
 		çalıştıranİskelet.göstericisi
 			.imleciDeğiştir(
@@ -76,13 +92,23 @@ public class DeğişkenYazıDenemesi implements Uygulama {
 	
 	@Override
 	public void çiz() {
-		görselleştirici
+		büyükYazar
 			.yaz(
 				-300.0F,
 				0.0F,
-				"BAŞ AŞAĞI DEREBEYİ VURDU",
-				"KRAL ÖLDÜ BÜYÜK KURT");
-		görselleştirici.çiz();
+				"BAŞ AŞAĞI DEREBEYİ vurdu!",
+				"+9001 -]-- HASAR; -300 <3 CAN",
+				"Kral öldü, büyük kurt!");
+		büyükYazar.çiz();
+		
+		küçükYazar
+			.yaz(
+				0.0F,
+				0.0F,
+				"BAŞ AŞAĞI DEREBEYİ vurdu!",
+				"+9001 -]-- HASAR; -300 <3 CAN",
+				"Kral öldü, büyük kurt!");
+		küçükYazar.çiz();
 	}
 	
 	@Dinleyici

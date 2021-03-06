@@ -11,6 +11,9 @@ import java.util.*;
 
 /** Bir yazı şeklinin bilgilerini okuyan araç. */
 class ŞekilOkuyucusu {
+	/** Yazı şekli dosyasındaki verileri ayıran ses. */
+	public static final String AYIRICI_SES = "\\$";
+	
 	private final YazıŞekli okuduğuŞekil;
 	private final float dokusununBoyutu;
 	private final Yöney2 dokuKonumu;
@@ -23,7 +26,7 @@ class ŞekilOkuyucusu {
 	ŞekilOkuyucusu(final YazıŞekli okuduğuŞekil, final List<String> satırları) {
 		this.okuduğuŞekil = okuduğuŞekil;
 		
-		final String[] bilgileri = satırları.get(0).split(";");
+		final String[] bilgileri = satırları.get(0).split(AYIRICI_SES);
 		dokusununBoyutu = Integer.parseInt(bilgileri[2]);
 		dokuKonumu = new Yöney2();
 		
@@ -35,7 +38,7 @@ class ŞekilOkuyucusu {
 	}
 	
 	private void satırıOku(final String satır) {
-		final String[] verileri = satır.split(";");
+		final String[] verileri = satır.split(AYIRICI_SES);
 		
 		if (verileri.length != 4)
 			satırDeğiştir(verileri);
