@@ -6,7 +6,12 @@ in vec4 beneginRengi;
 out vec4 beneginCizilecegiRenk;
 
 uniform sampler2D doku;
+uniform float saydamlikEsigi;
 
 void main() {
-	beneginCizilecegiRenk = vec4(beneginRengi.rgb, beneginRengi.a * texture(doku, beneginDokuKonumu).a);
+	float saydamligi = texture(doku, beneginDokuKonumu).a;
+	if (saydamligi > saydamlikEsigi)
+	beneginCizilecegiRenk = vec4(beneginRengi.rgb, beneginRengi.a * saydamligi);
+	else
+		discard;
 }

@@ -51,7 +51,9 @@ public class DeğişkenYazıDenemesi implements Uygulama {
 			1000,
 			new YazıŞekli(
 				çalıştıranİskelet.yükleyicisi,
-				"sabitGenişlikliBüyük"));
+				"sabitGenişlikliBüyük"),
+			30.0F,
+			0.90F);
 		
 		küçükYazar = new DeğişkenYazıGörselleştirici(
 			çalıştıranİskelet.yükleyicisi,
@@ -61,12 +63,14 @@ public class DeğişkenYazıDenemesi implements Uygulama {
 			1000,
 			new YazıŞekli(
 				çalıştıranİskelet.yükleyicisi,
-				"sabitGenişlikliKüçük"));
+				"sabitGenişlikliKüçük"),
+			30.0F,
+			0.5F);
 		
-		büyükYazar.boyutunuDeğiştir(16.0F);
+		büyükYazar.boyutunuDeğiştir(10.0F);
 		büyükYazar.renginiEdin().değiştir(Yöney4.BİR);
 		
-		küçükYazar.boyutunuDeğiştir(16.0F);
+		küçükYazar.boyutunuDeğiştir(10.0F);
 		küçükYazar.renginiEdin().değiştir(Yöney4.BİR);
 		
 		çalıştıranİskelet.göstericisi
@@ -92,22 +96,10 @@ public class DeğişkenYazıDenemesi implements Uygulama {
 	
 	@Override
 	public void çiz() {
-		büyükYazar
-			.yaz(
-				-300.0F,
-				0.0F,
-				"BAŞ AŞAĞI DEREBEYİ vurdu!",
-				"+9001 -]-- HASAR; -300 <3 CAN",
-				"Kral öldü, büyük kurt!");
+		büyükYazar.yaz(-300.0F, 100.0F, "Cem");
 		büyükYazar.çiz();
 		
-		küçükYazar
-			.yaz(
-				0.0F,
-				0.0F,
-				"BAŞ AŞAĞI DEREBEYİ vurdu!",
-				"+9001 -]-- HASAR; -300 <3 CAN",
-				"Kral öldü, büyük kurt!");
+		küçükYazar.yaz(-300.0F, 0.0F, "Cem");
 		küçükYazar.çiz();
 	}
 	
