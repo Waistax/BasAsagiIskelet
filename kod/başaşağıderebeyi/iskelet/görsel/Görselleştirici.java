@@ -6,13 +6,12 @@
 package başaşağıderebeyi.iskelet.görsel;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.system.MemoryUtil.*;
 
 import başaşağıderebeyi.iskelet.görsel.köşedizisi.*;
 import başaşağıderebeyi.kütüphane.matematik.*;
 
 import java.util.*;
-
-import org.lwjgl.*;
 
 /** Verilen dönüşümlerin belirlediği iki boyutlu nesneleri ekrana çizer. */
 public class Görselleştirici {
@@ -98,8 +97,7 @@ public class Görselleştirici {
 		köşeDizisi
 			.durağanKöşeTamponuNesnesiEkle(
 				4,
-				BufferUtils
-					.createFloatBuffer(4 * 4)
+				memAllocFloat(16)
 					.put(-0.5F)
 					.put(-0.5F)
 					.put(0.0F)
@@ -121,8 +119,7 @@ public class Görselleştirici {
 		köşeDizisi
 			.durağanKöşeTamponuNesnesiEkle(
 				2,
-				BufferUtils
-					.createFloatBuffer(2 * 4)
+				memAllocFloat(8)
 					.put(0.0F)
 					.put(1.0F)
 					.put(1.0F)
@@ -135,8 +132,7 @@ public class Görselleştirici {
 		
 		köşeDizisi
 			.sıraTamponuNesnesiYükle(
-				BufferUtils
-					.createIntBuffer(6)
+				memAllocInt(6)
 					.put(0)
 					.put(1)
 					.put(2)

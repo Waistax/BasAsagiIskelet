@@ -12,8 +12,6 @@ import başaşağıderebeyi.iskelet.görsel.*;
 
 import java.nio.*;
 
-import org.lwjgl.*;
-
 /** Birden fazla nesnenin niteliklerini bir arada tutan köşe dizisi nesnesi. */
 public class OluşumluKöşeDizisi extends KöşeDizisi {
 	/** Oluşumların verilerini içeren tampon. */
@@ -35,7 +33,7 @@ public class OluşumluKöşeDizisi extends KöşeDizisi {
 		final int sığası,
 		final int oluşumBoyutu) {
 		super(yükleyici, çizimKipi);
-		yazılacakVerisi = BufferUtils.createFloatBuffer(oluşumBoyutu * sığası);
+		yazılacakVerisi = yükleyici.tamponYükle(oluşumBoyutu * sığası);
 		this.sığası = sığası;
 		this.oluşumBoyutu = oluşumBoyutu;
 		oluşumluKöşeTamponuNesnesi =
@@ -43,7 +41,7 @@ public class OluşumluKöşeDizisi extends KöşeDizisi {
 	}
 	
 	/** Oluşum başına değişen ve her kare yenilenebilecek verileri bu köşe
-	 * dizisi nesnesine ekler. */
+	 * dizisi nesnesine ekler. Verilen tamponu kendiliğinden yok eder. */
 	public void oluşumBaşınaDeğişenNitelikEkle(final int boyutu) {
 		glBindVertexArray(işaretçisi);
 		yükleyici

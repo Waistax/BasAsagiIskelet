@@ -19,7 +19,8 @@ public class SıralıKöşeDizisi extends KöşeDizisi {
 		super(yükleyici, çizimKipi);
 	}
 	
-	/** Köşelerin çizim sırasını yükler. */
+	/** Köşelerin çizim sırasını yükler. Verilen tamponu kendiliğinden yok
+	 * eder. */
 	public void sıraTamponuNesnesiYükle(final IntBuffer yüklenecekVeri) {
 		glBindVertexArray(işaretçisi);
 		yükleyici.sıraTamponuNesnesiYükle(yüklenecekVeri);

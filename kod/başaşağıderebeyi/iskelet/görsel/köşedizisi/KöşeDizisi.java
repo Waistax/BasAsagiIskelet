@@ -37,7 +37,7 @@ public class KöşeDizisi {
 	}
 	
 	/** Köşe başına değişen ve bir kere yazıldıktan sonra değişmeyen verileri bu
-	 * köşe dizisi nesnesine ekler. */
+	 * köşe dizisi nesnesine ekler. Verilen tamponu kendiliğinden yok eder. */
 	public void durağanKöşeTamponuNesnesiEkle(
 		final int boyutu,
 		final FloatBuffer verisi) {

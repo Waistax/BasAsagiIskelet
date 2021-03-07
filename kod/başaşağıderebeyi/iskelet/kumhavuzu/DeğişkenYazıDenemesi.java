@@ -27,12 +27,12 @@ public class DeğişkenYazıDenemesi implements Uygulama {
 	
 	DeğişkenYazıDenemesi() {
 		final Gösterici gösterici = new Gösterici(
-			640,
-			360,
+			1920,
+			1080,
 			"Baş Aşağı Derebeyi " + İskelet.SÜRÜM,
-			false,
+			true,
 			16,
-			1,
+			0,
 			new Yöney4());
 		çalıştıranİskelet =
 			new İskelet(10.0F, this, gösterici, new Yükleyici());
@@ -67,10 +67,10 @@ public class DeğişkenYazıDenemesi implements Uygulama {
 			30.0F,
 			0.5F);
 		
-		büyükYazar.boyutunuDeğiştir(10.0F);
+		büyükYazar.boyutunuDeğiştir(35.0F);
 		büyükYazar.renginiEdin().değiştir(Yöney4.BİR);
 		
-		küçükYazar.boyutunuDeğiştir(10.0F);
+		küçükYazar.boyutunuDeğiştir(35.0F);
 		küçükYazar.renginiEdin().değiştir(Yöney4.BİR);
 		
 		çalıştıranİskelet.göstericisi
@@ -96,10 +96,22 @@ public class DeğişkenYazıDenemesi implements Uygulama {
 	
 	@Override
 	public void çiz() {
-		büyükYazar.yaz(-300.0F, 100.0F, "Cem");
+		büyükYazar
+			.yaz(
+				-300.0F,
+				100.0F,
+				"BufferUtils vs MemoryUtil",
+				"Tampon hızları karşılaştırması!",
+				"Daha fazla ses: 0123456789+-*/");
 		büyükYazar.çiz();
 		
-		küçükYazar.yaz(-300.0F, 0.0F, "Cem");
+		küçükYazar
+			.yaz(
+				-300.0F,
+				-50.0F,
+				"BufferUtils vs MemoryUtil",
+				"Tampon hızları karşılaştırması!",
+				"Daha fazla ses: 0123456789+-*/");
 		küçükYazar.çiz();
 	}
 	

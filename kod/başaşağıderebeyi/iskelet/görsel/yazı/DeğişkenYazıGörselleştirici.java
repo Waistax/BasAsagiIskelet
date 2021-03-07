@@ -7,12 +7,11 @@ package başaşağıderebeyi.iskelet.görsel.yazı;
 
 import static başaşağıderebeyi.kütüphane.matematik.MatematikAracı.*;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.system.MemoryUtil.*;
 
 import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.iskelet.görsel.köşedizisi.*;
 import başaşağıderebeyi.kütüphane.matematik.*;
-
-import org.lwjgl.*;
 
 /** Kısa aralıklarla değişmesi beklenen ve geçici yazıları çizmek için
  * kullanılan araç. Bu sınıfla sabit yazılar da çizilebilir ama sabit yazıları
@@ -151,8 +150,7 @@ public class DeğişkenYazıGörselleştirici {
 		köşeDizisi
 			.durağanKöşeTamponuNesnesiEkle(
 				4,
-				BufferUtils
-					.createFloatBuffer(4 * 4)
+				memAllocFloat(16)
 					.put(-ileriNokta)
 					.put(-0.5F)
 					.put(0.0F)
@@ -173,8 +171,7 @@ public class DeğişkenYazıGörselleştirici {
 		
 		köşeDizisi
 			.sıraTamponuNesnesiYükle(
-				BufferUtils
-					.createIntBuffer(6)
+				memAllocInt(6)
 					.put(0)
 					.put(1)
 					.put(2)

@@ -15,8 +15,6 @@ import başaşağıderebeyi.kütüphane.matematik.*;
 import java.nio.*;
 import java.util.*;
 
-import org.lwjgl.*;
-
 /** Ekran kartına yüklenen köşe dizilerinin nasıl çizileceğini anlatan
  * yazılım. */
 public class Gölgelendirici {
@@ -26,11 +24,9 @@ public class Gölgelendirici {
 	public static final String BENEK_GÖLGELENDİRİCİSİNİN_DOSYA_UZANTISI =
 		".bgöl";
 	
-	private static final FloatBuffer DİZEY_TAMPONU =
-		BufferUtils.createFloatBuffer(16);
-	
 	private final int yazılımı;
 	private final Map<String, Integer> değerlerininKonumları;
+	private final FloatBuffer dizeyTamponu;
 	
 	/** Gölgelendiriciler klasöründeki verilen addaki gölgelendirici çiftini
 	 * yükler. */
@@ -56,6 +52,7 @@ public class Gölgelendirici {
 					GL_FRAGMENT_SHADER));
 		
 		değerlerininKonumları = new HashMap<>();
+		dizeyTamponu = yükleyici.dizeyTamponu;
 	}
 	
 	/** Yazılımı kullanmaya başlar. */
@@ -127,7 +124,7 @@ public class Gölgelendirici {
 		glUniformMatrix4fv(
 			değerlerininKonumları.get(değerinAdı),
 			false,
-			DİZEY_TAMPONU.put(yeniDeğer.girdileri).flip());
+			dizeyTamponu.put(yeniDeğer.girdileri).flip());
 	}
 	
 	private void gölgelendiricileriAyarla(

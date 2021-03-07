@@ -13,6 +13,7 @@ import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.opengl.GL33.*;
+import static org.lwjgl.system.MemoryUtil.*;
 
 import java.awt.image.*;
 import java.io.*;
@@ -26,6 +27,7 @@ import javax.imageio.*;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
+import org.lwjgl.system.*;
 
 /** Görselleri ve şekilleri ekran kartının belleğine yükler. */
 public class Yükleyici {
@@ -38,10 +40,14 @@ public class Yükleyici {
 	public static final String YAZI_ŞEKİLLERİNİN_KLASÖRÜ = "yazıŞekilleri";
 	public static final String YAZI_ŞEKİLLERİNİN_UZANTISI = ".yşek";
 	
+	/** Dizeyleri ekran kartına yüklemek için kullanılacak tampon. */
+	public final FloatBuffer dizeyTamponu;
+	
 	private final List<Integer> köşeDizisiNesneleri;
 	private final List<Integer> köşeTamponuNesneleri;
 	private final List<Integer> dokuları;
 	private final List<Integer> yazılımları;
+	private final List<Buffer> tamponlar;
 	
 	/** Boş yükleyici tanımlar. */
 	public Yükleyici() {
@@ -49,6 +55,9 @@ public class Yükleyici {
 		köşeTamponuNesneleri = new ArrayList<>();
 		dokuları = new ArrayList<>();
 		yazılımları = new ArrayList<>();
+		tamponlar = new ArrayList<>();
+		
+		dizeyTamponu = tamponYükle(16);
 	}
 	
 	/** Ekran kartının belleğine yüklediklerini yok eder. */
@@ -62,11 +71,21 @@ public class Yükleyici {
 		köşeTamponuNesneleri.forEach(GL15::glDeleteBuffers);
 		dokuları.forEach(GL11::glDeleteTextures);
 		yazılımları.forEach(GL20::glDeleteProgram);
+		tamponlar.forEach(MemoryUtil::memFree);
 		
 		köşeDizisiNesneleri.clear();
 		köşeTamponuNesneleri.clear();
 		dokuları.clear();
 		yazılımları.clear();
+		tamponlar.clear();
+	}
+	
+	/** İskelet durana kadar hayatta kalacak bir tampon oluşturur. İskelet
+	 * durduğunda tamponu kendiliğinden yok eder. */
+	public FloatBuffer tamponYükle(int uzunluğu) {
+		FloatBuffer tampon = memAllocFloat(uzunluğu);
+		tamponlar.add(tampon);
+		return tampon;
 	}
 	
 	/** Verilen float dizisini bir FloatBuffer nesnesine yerleştirip yeni bir
@@ -78,15 +97,13 @@ public class Yükleyici {
 		köşeTamponuNesnesiYükle(
 			sırası,
 			boyutu,
-			BufferUtils
-				.createFloatBuffer(yüklenecekVeri.length)
-				.put(yüklenecekVeri)
-				.flip());
+			memAllocFloat(yüklenecekVeri.length).put(yüklenecekVeri).flip());
 	}
 	
 	/** Köşe başına verilen boyuttaki kadar float içeren bir float dizisini yeni
 	 * bir köşe tamponu nesnesine yükleyip şu an aktif olan köşe dizisi
-	 * nesnesinin verilen sırasına yerleştirir. */
+	 * nesnesinin verilen sırasına yerleştirir. Verilen tamponu kendiliğinden
+	 * yok eder. */
 	public void köşeTamponuNesnesiYükle(
 		final int sırası,
 		final int boyutu,
@@ -96,24 +113,24 @@ public class Yükleyici {
 		glBufferData(GL_ARRAY_BUFFER, yüklenecekVeri, GL_STATIC_DRAW);
 		glVertexAttribPointer(sırası, boyutu, GL_FLOAT, false, 0, 0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		memFree(yüklenecekVeri);
 	}
 	
 	/** Verilen int dizisini bir IntBuffer nesnesine yerleştirip yeni bir sıra
 	 * tamponu nesnesine yükler. */
 	public void sıraTamponuNesnesiYükle(final int[] yüklenecekVeri) {
 		sıraTamponuNesnesiYükle(
-			BufferUtils
-				.createIntBuffer(yüklenecekVeri.length)
-				.put(yüklenecekVeri)
-				.flip());
+			memAllocInt(yüklenecekVeri.length).put(yüklenecekVeri).flip());
 	}
 	
 	/** Köşelerin nasıl sıralanacağını belirten sıra tamponu nesnesini şu an
-	 * aktif olan köşe dizisi nesnesine yerleştirir. */
+	 * aktif olan köşe dizisi nesnesine yerleştirir. Verilen tamponu
+	 * kendiliğinden yok eder. */
 	public void sıraTamponuNesnesiYükle(final IntBuffer yüklenecekVeri) {
 		final int sıraTamponuNesnesi = tamponYükle();
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sıraTamponuNesnesi);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, yüklenecekVeri, GL_STATIC_DRAW);
+		memFree(yüklenecekVeri);
 	}
 	
 	/** Ekran kartına yeni bir tampon yükler ve işaretçisini döndürür. */
@@ -317,16 +334,7 @@ public class Yükleyici {
 		final int doku = glGenTextures();
 		dokuları.add(doku);
 		glBindTexture(GL_TEXTURE_2D, doku);
-		glTexImage2D(
-			GL_TEXTURE_2D,
-			0,
-			GL_RGBA,
-			resim.getWidth(),
-			resim.getHeight(),
-			0,
-			GL_RGBA,
-			GL_UNSIGNED_BYTE,
-			resminVerisiniYükle(resim));
+		resminVerisiniYükle(resim);
 		glTexParameteri(
 			GL_TEXTURE_2D,
 			GL_TEXTURE_MIN_FILTER,
@@ -337,8 +345,8 @@ public class Yükleyici {
 		return doku;
 	}
 	
-	/** Verilen resmin verisini gerekli şekle sokup döndürür. */
-	public IntBuffer resminVerisiniYükle(final BufferedImage resim) {
+	/** Verilen resmin verisini gerekli şekle sokup ekran kartına yükler. */
+	private void resminVerisiniYükle(final BufferedImage resim) {
 		final int[] resminVerisi = resim
 			.getRGB(
 				0,
@@ -357,10 +365,21 @@ public class Yükleyici {
 				(benekRengi & 0x00FF0000) >> 16;
 		});
 		
-		return BufferUtils
-			.createIntBuffer(resminVerisi.length)
-			.put(resminVerisi)
-			.flip();
+		IntBuffer tampon =
+			memAllocInt(resminVerisi.length).put(resminVerisi).flip();
+		
+		glTexImage2D(
+			GL_TEXTURE_2D,
+			0,
+			GL_RGBA,
+			resim.getWidth(),
+			resim.getHeight(),
+			0,
+			GL_RGBA,
+			GL_UNSIGNED_BYTE,
+			tampon);
+		
+		memFree(tampon);
 	}
 	
 	/** Resimler klasöründeki verilen addaki resmi yükler ve döndürür. */

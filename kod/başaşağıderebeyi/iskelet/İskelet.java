@@ -20,7 +20,7 @@ import org.lwjgl.glfw.*;
  * iskelet. */
 public class İskelet {
 	/** İskeletin sürümü. */
-	public static final String SÜRÜM = "0.6";
+	public static final String SÜRÜM = "0.7";
 	
 	private static final SayaçOlayı SAYAÇ_OLAYI = new SayaçOlayı();
 	
