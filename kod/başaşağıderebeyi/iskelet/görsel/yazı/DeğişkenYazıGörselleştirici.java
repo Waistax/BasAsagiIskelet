@@ -18,7 +18,6 @@ import başaşağıderebeyi.kütüphane.matematik.*;
  * çizmek için daha verimli yöntemler var. */
 public class DeğişkenYazıGörselleştirici {
 	private final Gölgelendirici gölgelendiricisi;
-	private final Dizey4 izdüşümDizeyi;
 	private final SıralıOluşumluKöşeDizisi köşeDizisi;
 	private final int sığası;
 	private final YazıŞekli şekli;
@@ -31,27 +30,13 @@ public class DeğişkenYazıGörselleştirici {
 	/** Verilenler ile tanımlar. */
 	public DeğişkenYazıGörselleştirici(
 		final Yükleyici yükleyici,
-		final float uzayınGenişliği,
-		final float uzayınYüksekliği,
-		final float uzayınDerinliği,
 		final int sığası,
 		final YazıŞekli şekli,
-		float açısı,
-		float saydamlıkEşiği) {
+		final float açısı,
+		final Dizey4 izdüşümDizeyi,
+		final float saydamlıkEşiği) {
 		gölgelendiricisi = new Gölgelendirici(yükleyici, "değişkenYazı");
-		gölgelendiricisi.değerinKonumunuBul("izdusumDizeyi");
-		gölgelendiricisi.değerinKonumunuBul("saydamlikEsigi");
-		
-		izdüşümDizeyi = new Dizey4()
-			.izdüşümDizeyineÇevir(
-				uzayınGenişliği,
-				uzayınYüksekliği,
-				uzayınDerinliği);
-		
-		gölgelendiricisi.bağla();
-		gölgelendiricisi.değeriDeğiştir("izdusumDizeyi", izdüşümDizeyi);
-		gölgelendiricisi.değeriDeğiştir("saydamlikEsigi", saydamlıkEşiği);
-		gölgelendiricisi.kopar();
+		gölgelendiricisiniOluştur(izdüşümDizeyi, saydamlıkEşiği);
 		
 		köşeDizisi =
 			new SıralıOluşumluKöşeDizisi(yükleyici, GL_TRIANGLES, sığası, 28);
@@ -80,33 +65,44 @@ public class DeğişkenYazıGörselleştirici {
 	
 	/** Boyutunu değiştirir. */
 	public void boyutunuDeğiştir(final float boyut) {
-		ölçüsü = boyut / şekli.enBüyükYükseklik;
+		ölçüsü = boyut / şekli.enBüyükYüksekliği;
 	}
 	
 	/** Verilen dizeleri satır satır yazar. */
-	public void yaz(
-		final float konumu,
-		float çizgisi,
-		final String... dizeler) {
-		for (final String dize : dizeler)
-			çizgisi = yaz(konumu, çizgisi, dize);
+	public void yaz(final int konumu, int çizgisi, final String... dizeler) {
+		for (final String dize : dizeler) {
+			yaz(konumu, çizgisi, dize);
+			çizgisi -= yuvarla(
+				şekli.enBüyükYüksekliği *
+					ölçüsü *
+					YazıŞekli.ÇİZGİLER_ARASI_BOŞLUĞUN_ORANI);
+		}
 	}
 	
-	private float yaz(float konumu, final float çizgisi, final String dize) {
-		for (int i = 0; i < dize.length(); i++)
-			konumu = sesEkle(dize.charAt(i), konumu, çizgisi);
-		return çizgisi - aşağıYuvarla(şekli.enBüyükYükseklik * ölçüsü * 1.1F);
+	private void yaz(int konumu, final int çizgisi, final String dize) {
+		for (int i = 0; i < dize.length(); i++) {
+			final SesŞekli sesŞekli = şekli.sesininŞekliniEdin(dize.charAt(i));
+			if (i > 0) {
+				final SesŞekli öncekiSesŞekli =
+					şekli.sesininŞekliniEdin(dize.charAt(i - 1));
+				konumu += yuvarla(
+					(öncekiSesŞekli.boyutu.birinciBileşeni +
+						(sesŞekli.boyutu.birinciBileşeni +
+							öncekiSesŞekli.boyutu.birinciBileşeni) *
+							YazıŞekli.SESLER_ARASI_BOŞLUĞUN_ORANI) *
+						ölçüsü);
+			}
+			sesEkle(sesŞekli, konumu, çizgisi);
+		}
 	}
 	
-	private float sesEkle(
-		final char ses,
-		final float konumu,
-		final float çizgisi) {
+	private void sesEkle(
+		final SesŞekli sesŞekli,
+		final int konumu,
+		final int çizgisi) {
 		if (sığası == çizilmişSesSayısı)
-			return 0.0F;
+			return;
 		çizilmişSesSayısı++;
-		
-		final SesŞekli sesŞekli = şekli.sesininŞekliniEdin(ses);
 		
 		dönüşümü.biçimi
 			.bileşenleriniDeğiştir(
@@ -122,6 +118,10 @@ public class DeğişkenYazıGörselleştirici {
 					dönüşümü.biçimi.ikinciBileşeni / 2.0F,
 				0.0F);
 		
+		sesiYükle(sesŞekli);
+	}
+	
+	private void sesiYükle(final SesŞekli sesŞekli) {
 		dönüşümü.güncelle();
 		
 		köşeDizisi.yazılacakVerisi
@@ -138,14 +138,24 @@ public class DeğişkenYazıGörselleştirici {
 			.put(rengi.üçüncüBileşeni)
 			.put(rengi.dördüncüBileşeni)
 			.put(dönüşümü.dizeyi.girdileri);
-		
-		return konumu + yuvarla(dönüşümü.biçimi.birinciBileşeni * 1.1F);
 	}
 	
-	private void oluşumluKöşeDizisiniOluştur(float açısı) {
-		float yarımDikmeliği = dikmeliğiniBul(radyanaÇevir(açısı)) / 2.0F;
-		float ileriNokta = 0.5F + yarımDikmeliği;
-		float geriNokta = 0.5F - yarımDikmeliği;
+	private void gölgelendiricisiniOluştur(
+		final Dizey4 izdüşümDizeyi,
+		final float saydamlıkEşiği) {
+		gölgelendiricisi.değerinKonumunuBul("izdusumDizeyi");
+		gölgelendiricisi.değerinKonumunuBul("saydamlikEsigi");
+		
+		gölgelendiricisi.bağla();
+		gölgelendiricisi.değeriDeğiştir("izdusumDizeyi", izdüşümDizeyi);
+		gölgelendiricisi.değeriDeğiştir("saydamlikEsigi", saydamlıkEşiği);
+		gölgelendiricisi.kopar();
+	}
+	
+	private void oluşumluKöşeDizisiniOluştur(final float açısı) {
+		final float yarımDikmeliği = dikmeliğiniBul(radyanaÇevir(açısı)) / 2.0F;
+		final float ileriNokta = 0.5F + yarımDikmeliği;
+		final float geriNokta = 0.5F - yarımDikmeliği;
 		
 		köşeDizisi
 			.durağanKöşeTamponuNesnesiEkle(
@@ -166,19 +176,11 @@ public class DeğişkenYazıGörselleştirici {
 					.put(ileriNokta)
 					.put(+0.5F)
 					.put(0.0F)
-					.put(1.0F)
-					.flip());
+					.put(1.0F));
 		
 		köşeDizisi
 			.sıraTamponuNesnesiYükle(
-				memAllocInt(6)
-					.put(0)
-					.put(1)
-					.put(2)
-					.put(2)
-					.put(1)
-					.put(3)
-					.flip());
+				memAllocInt(6).put(0).put(1).put(2).put(2).put(1).put(3));
 		
 		köşeDizisi.oluşumBaşınaDeğişenNitelikEkle(2);
 		köşeDizisi.oluşumBaşınaDeğişenNitelikEkle(2);

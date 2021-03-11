@@ -25,11 +25,11 @@ public class SıralıOluşumluKöşeDizisi extends OluşumluKöşeDizisi {
 		super(yükleyici, çizimKipi, sığası, oluşumBoyutu);
 	}
 	
-	/** Köşelerin çizim sırasını yükler. Verilen tamponu kendiliğinden yok
-	 * eder. */
+	/** Köşelerin çizim sırasını yükler. Verilen tamponu kendiliğinden çevirir
+	 * ve yok eder. */
 	public void sıraTamponuNesnesiYükle(final IntBuffer yüklenecekVeri) {
 		glBindVertexArray(işaretçisi);
-		yükleyici.sıraTamponuNesnesiYükle(yüklenecekVeri);
+		yükleyici.sıraTamponuNesnesiYükle(yüklenecekVeri.flip());
 		glBindVertexArray(0);
 		çizilecekKöşeSayısı = yüklenecekVeri.limit();
 	}
@@ -41,6 +41,6 @@ public class SıralıOluşumluKöşeDizisi extends OluşumluKöşeDizisi {
 			çizilecekKöşeSayısı,
 			GL_UNSIGNED_INT,
 			0,
-			yazılacakVerisi.limit() / oluşumBoyutu);
+			oluşumSayısı);
 	}
 }

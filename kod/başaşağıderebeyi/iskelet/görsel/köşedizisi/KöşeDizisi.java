@@ -24,7 +24,6 @@ public class KöşeDizisi {
 	
 	/** Çizilecek köşe sayısı. */
 	protected int çizilecekKöşeSayısı;
-	
 	/** Nesneye eklenmiş niteliklerin sayısı. Bunun sayesinde yeni eklenecek
 	 * niteliklerin sırası bilinir. */
 	protected int niteliklerininSayısı;
@@ -37,13 +36,17 @@ public class KöşeDizisi {
 	}
 	
 	/** Köşe başına değişen ve bir kere yazıldıktan sonra değişmeyen verileri bu
-	 * köşe dizisi nesnesine ekler. Verilen tamponu kendiliğinden yok eder. */
+	 * köşe dizisi nesnesine ekler. Verilen tamponu kendiliğinden çevirir ve yok
+	 * eder. */
 	public void durağanKöşeTamponuNesnesiEkle(
 		final int boyutu,
 		final FloatBuffer verisi) {
 		glBindVertexArray(işaretçisi);
 		yükleyici
-			.köşeTamponuNesnesiYükle(niteliklerininSayısı++, boyutu, verisi);
+			.köşeTamponuNesnesiYükle(
+				niteliklerininSayısı++,
+				boyutu,
+				verisi.flip());
 		glBindVertexArray(0);
 		
 		if (çizilecekKöşeSayısı == 0)

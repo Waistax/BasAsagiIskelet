@@ -62,7 +62,7 @@ class ŞekilOkuyucusu {
 	}
 	
 	private SesŞekli sesŞekliniOku(final String[] verileri) {
-		float dikeyKaçıklığı = Integer.parseInt(verileri[3]);
+		final float dikeyKaçıklığı = Integer.parseInt(verileri[3]);
 		final SesŞekli sesŞekli = new SesŞekli(
 			new Yöney2()
 				.bileşenleriniDeğiştir(
@@ -82,7 +82,9 @@ class ŞekilOkuyucusu {
 		return sesŞekli;
 	}
 	
-	private void sesŞekliniİşle(final SesŞekli sesŞekli, float yüksekliği) {
+	private void sesŞekliniİşle(
+		final SesŞekli sesŞekli,
+		final float yüksekliği) {
 		dokuKonumu.birinciBileşeni += sesŞekli.boyutu.birinciBileşeni;
 		if (yüksekliği > satırdakiEnBüyükYüksekliği)
 			satırdakiEnBüyükYüksekliği = yüksekliği;

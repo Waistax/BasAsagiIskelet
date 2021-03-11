@@ -78,6 +78,8 @@ public class Gösterici {
 		
 		penceresiniOturt(ekranı);
 		içeriğiniAyarla();
+		
+		System.out.println(başlığı + " oluşturuldu!");
 	}
 	
 	/** Pencereyi kapatır ve girdileri salar. */

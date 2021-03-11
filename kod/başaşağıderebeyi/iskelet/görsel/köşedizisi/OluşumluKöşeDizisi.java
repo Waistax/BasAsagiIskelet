@@ -21,9 +21,10 @@ public class OluşumluKöşeDizisi extends KöşeDizisi {
 	
 	/** Her bir oluşumun float biriminden boyutu. */
 	protected final int oluşumBoyutu;
+	/** Çizilecek oluşumların sayısı. */
+	protected int oluşumSayısı;
 	
 	private final int oluşumluKöşeTamponuNesnesi;
-	
 	private int niteliklerininBoyutu;
 	
 	/** Verilen boyutta ve sığada tanımlar. */
@@ -57,20 +58,17 @@ public class OluşumluKöşeDizisi extends KöşeDizisi {
 	}
 	
 	/** Tampona yazılmış verileri oluşum başına değişen köşe tamponu nesnesine
-	 * yükler. */
+	 * yükler. Yerleşik tamponu kendiliğinden çevirir. */
 	public void tamponunuGüncelle() {
 		yükleyici
 			.oluşumlarınNitelikleriniGüncelle(
 				oluşumluKöşeTamponuNesnesi,
 				yazılacakVerisi.flip());
+		oluşumSayısı = yazılacakVerisi.limit() / oluşumBoyutu;
 	}
 	
 	@Override
 	protected void çizimÇağrısıYap() {
-		glDrawArraysInstanced(
-			çizimKipi,
-			0,
-			çizilecekKöşeSayısı,
-			yazılacakVerisi.limit() / oluşumBoyutu);
+		glDrawArraysInstanced(çizimKipi, 0, çizilecekKöşeSayısı, oluşumSayısı);
 	}
 }

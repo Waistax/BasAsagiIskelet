@@ -10,6 +10,7 @@ package başaşağıderebeyi.iskelet;
 
 import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.kütüphane.girdi.*;
+import başaşağıderebeyi.kütüphane.kumhavuzu.*;
 import başaşağıderebeyi.kütüphane.olay.*;
 
 import java.util.*;
@@ -37,6 +38,8 @@ public class İskelet {
 	
 	private double tıklarınınOranı;
 	private double karelerininOranı;
+	private Ortalama tıklarınınOranınınOrtalaması;
+	private Ortalama karelerininOranınınOrtalaması;
 	private double güncellenmemişTıkları;
 	
 	private AnlıOlayDağıtıcısı olayDağıtıcısı;
@@ -84,6 +87,18 @@ public class İskelet {
 		return karelerininOranı;
 	}
 	
+	/** İskeletin çalıştığı her saniyedeki tık oranının ortalamasını
+	 * döndürür. */
+	public float tıklarınınOranınınOrtalamasınıEdin() {
+		return tıklarınınOranınınOrtalaması.değeriniEdin();
+	}
+	
+	/** İskeletin çalıştığı her saniyedeki kare oranının ortalamasını
+	 * döndürür. */
+	public float karelerininOranınınOrtalamasınıEdin() {
+		return karelerininOranınınOrtalaması.değeriniEdin();
+	}
+	
 	/** Anlık olarak güncellenmeyi bekleyen tıkların sayısını döndürür. Bu sayı
 	 * çizim yaparken aradeğerleri hesaplamada kullanılmalıdır. Ayrıca bu sayı
 	 * birden büyükse iskelet istenen hızda çalışamıyor demektir. */
@@ -104,6 +119,9 @@ public class İskelet {
 	
 	@Dinleyici
 	public void sayaçOlayınıDinle(final SayaçOlayı olay) {
+		tıklarınınOranınınOrtalaması.ekle((float)tıklarınınOranı);
+		karelerininOranınınOrtalaması.ekle((float)karelerininOranı);
+		
 		süreçleri.forEach((ad, süreç) -> {
 			süreç.güncelle();
 			System.out.println(ad + " Süreci: " + süreç.ortalamasınıEdin());
@@ -157,6 +175,9 @@ public class İskelet {
 		final Süreç oluşturmaSüreci = new Süreç(this);
 		oluşturmaSüreci.başla();
 		
+		tıklarınınOranınınOrtalaması = new Ortalama();
+		karelerininOranınınOrtalaması = new Ortalama();
+		
 		olayDağıtıcısı = new AnlıOlayDağıtıcısı();
 		olayDağıtıcısı.dinleyicileriniEkle(this);
 		
@@ -178,9 +199,19 @@ public class İskelet {
 	}
 	
 	private void yokEt() {
+		System.out.println("Yok ediliyor...");
+		
 		uygulaması.yokEt();
 		göstericisi.yokEt();
 		yükleyicisi.yokEt();
+		
+		System.out
+			.println(
+				"Ortalama Tık Oranı: " + tıklarınınOranınınOrtalamasınıEdin());
+		System.out
+			.println(
+				"Ortalama Kare Oranı: " +
+					karelerininOranınınOrtalamasınıEdin());
 	}
 	
 	private void güncelle() {

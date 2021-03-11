@@ -113,8 +113,7 @@ public class Görselleştirici {
 					.put(+0.5F)
 					.put(+0.5F)
 					.put(0.0F)
-					.put(1.0F)
-					.flip());
+					.put(1.0F));
 		
 		köşeDizisi
 			.durağanKöşeTamponuNesnesiEkle(
@@ -127,19 +126,11 @@ public class Görselleştirici {
 					.put(0.0F)
 					.put(0.0F)
 					.put(1.0F)
-					.put(0.0F)
-					.flip());
+					.put(0.0F));
 		
 		köşeDizisi
 			.sıraTamponuNesnesiYükle(
-				memAllocInt(6)
-					.put(0)
-					.put(1)
-					.put(2)
-					.put(2)
-					.put(1)
-					.put(3)
-					.flip());
+				memAllocInt(6).put(0).put(1).put(2).put(2).put(1).put(3));
 		
 		köşeDizisi.oluşumBaşınaDeğişenNitelikEkle(4);
 		köşeDizisi.oluşumBaşınaDeğişenNitelikEkle(4);

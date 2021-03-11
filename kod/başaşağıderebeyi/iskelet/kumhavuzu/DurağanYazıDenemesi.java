@@ -1,6 +1,6 @@
 /**
- * başaşağıderebeyi.iskelet.kumhavuzu.DeğişkenYazıDenemesi.java
- * 0.6 / 6 Mar 2021 / 11:52:46
+ * başaşağıderebeyi.iskelet.kumhavuzu.DurağanYazıDenemesi.java
+ * 0.7 / 11 Mar 2021 / 18:36:01
  * Cem GEÇGEL (BaşAşağıDerebeyi)
  */
 package başaşağıderebeyi.iskelet.kumhavuzu;
@@ -17,24 +17,21 @@ import başaşağıderebeyi.kütüphane.olay.*;
 
 import java.util.*;
 
-/** Değişken yazı görselleştiricisini dener. */
-public class DeğişkenYazıDenemesi implements Uygulama {
+/** Durağan yazı görselleştiricisini dener. */
+public class DurağanYazıDenemesi implements Uygulama {
 	public static void main(final String[] args) {
-		new DeğişkenYazıDenemesi();
+		new DurağanYazıDenemesi();
 	}
 	
 	private final İskelet çalıştıranİskelet;
 	
-	private DeğişkenYazıGörselleştirici yazar;
-	private int[] konumları;
-	private int[] çizgileri;
-	private int[] boyutları;
+	private List<DurağanYazıGörselleştirici> yazarlar;
 	
-	DeğişkenYazıDenemesi() {
+	DurağanYazıDenemesi() {
 		final Gösterici gösterici = new Gösterici(
 			1920,
 			1080,
-			"Değişken Yazı Denemesi Sürüm: " + İskelet.SÜRÜM,
+			"Baş Aşağı Derebeyi " + İskelet.SÜRÜM,
 			true,
 			16,
 			0,
@@ -50,27 +47,34 @@ public class DeğişkenYazıDenemesi implements Uygulama {
 		final Dizey4 izdüşümDizeyi =
 			new Dizey4().izdüşümDizeyineÇevir(1280.0F, 720.0F, 20.0F);
 		
-		konumları = new int[1000];
-		çizgileri = new int[konumları.length];
-		boyutları = new int[konumları.length];
+		yazarlar = new ArrayList<>(1000);
 		Random rastgele = new Random(1L);
 		
-		yazar = new DeğişkenYazıGörselleştirici(
-			çalıştıranİskelet.yükleyicisi,
-			100 * konumları.length,
-			new YazıŞekli(
+		for (int i = 0; i < 1000; i++) {
+			DurağanYazıGörselleştirici yazar = new DurağanYazıGörselleştirici(
 				çalıştıranİskelet.yükleyicisi,
-				"sabitGenişlikliBüyük"),
-			10.0F,
-			izdüşümDizeyi,
-			0.90F);
-		
-		yazar.renginiEdin().değiştir(Yöney4.BİR);
-		
-		for (int i = 0; i < konumları.length; i++) {
-			konumları[i] = yuvarla((rastgele.nextFloat() - 0.5F) * 1000.0F);
-			çizgileri[i] = yuvarla((rastgele.nextFloat() - 0.5F) * 500.0F);
-			boyutları[i] = yuvarla(rastgele.nextFloat() * 20.0F);
+				izdüşümDizeyi,
+				0.90F,
+				new BelirliYazıOluşturucu(
+					new YazıŞekli(
+						çalıştıranİskelet.yükleyicisi,
+						"sabitGenişlikliBüyük"),
+					10.0F,
+					0.0F,
+					"BufferUtils vs MemoryUtil",
+					"Tampon hızları karşılaştırması!",
+					"Daha fazla ses: 0123456789+-*/"));
+			
+			yazar
+				.konumunuDeğiştir(
+					yuvarla((rastgele.nextFloat() - 0.5F) * 1000.0F),
+					yuvarla((rastgele.nextFloat() - 0.5F) * 500.0F));
+			yazar.boyutunuDeğiştir(yuvarla(rastgele.nextFloat() * 20.0F));
+			yazar.dönüşümünüGüncelle();
+			yazar.renginiEdin().değiştir(Yöney4.BİR);
+			yazar.renginiGüncelle();
+			
+			yazarlar.add(yazar);
 		}
 		
 		çalıştıranİskelet.göstericisi
@@ -96,18 +100,7 @@ public class DeğişkenYazıDenemesi implements Uygulama {
 	
 	@Override
 	public void çiz() {
-		for (int i = 0; i < konumları.length; i++) {
-			yazar.boyutunuDeğiştir(boyutları[i]);
-			yazar
-				.yaz(
-					konumları[i],
-					çizgileri[i],
-					"BufferUtils vs MemoryUtil",
-					"Tampon hızları karşılaştırması!",
-					"Daha fazla ses: 0123456789+-*/");
-		}
-		
-		yazar.çiz();
+		yazarlar.forEach(DurağanYazıGörselleştirici::çiz);
 	}
 	
 	@Dinleyici

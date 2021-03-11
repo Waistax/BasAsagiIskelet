@@ -13,9 +13,16 @@ import java.util.*;
 
 /** Bir yazının nasıl görselleştirileceğini belirleyen nesne. */
 public class YazıŞekli {
+	/** Satır çizgileri arasında bırakılacak boşluğun en büyük yüksekliğe
+	 * oranı. */
+	public static final float ÇİZGİLER_ARASI_BOŞLUĞUN_ORANI = 1.1F;
+	/** Herhangi bitişik iki sesin arasında bırakılacak boşluğun bu iki sesin
+	 * toplam genişliğine oranı. */
+	public static final float SESLER_ARASI_BOŞLUĞUN_ORANI = 0.0F;
+	
 	/** Yazı şeklindeki en büyük yükseklik. Çizilecek yüksekliğin buna oranı
 	 * bütün yazının boyutudur. */
-	public final float enBüyükYükseklik;
+	public final float enBüyükYüksekliği;
 	
 	final Map<Character, SesŞekli> seslerininŞekilleri;
 	private final int dokusu;
@@ -25,7 +32,7 @@ public class YazıŞekli {
 		seslerininŞekilleri = new HashMap<>();
 		dokusu = yükleyici.dokuYükle(adı + "YazıŞekli");
 		
-		enBüyükYükseklik =
+		enBüyükYüksekliği =
 			new ŞekilOkuyucusu(this, yükleyici.yazıŞekliBilgisiniYükle(adı))
 				.enBüyükYüksekliğiniEdin();
 	}

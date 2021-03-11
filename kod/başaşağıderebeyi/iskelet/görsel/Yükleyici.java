@@ -82,8 +82,8 @@ public class Yükleyici {
 	
 	/** İskelet durana kadar hayatta kalacak bir tampon oluşturur. İskelet
 	 * durduğunda tamponu kendiliğinden yok eder. */
-	public FloatBuffer tamponYükle(int uzunluğu) {
-		FloatBuffer tampon = memAllocFloat(uzunluğu);
+	public FloatBuffer tamponYükle(final int uzunluğu) {
+		final FloatBuffer tampon = memAllocFloat(uzunluğu);
 		tamponlar.add(tampon);
 		return tampon;
 	}
@@ -365,7 +365,7 @@ public class Yükleyici {
 				(benekRengi & 0x00FF0000) >> 16;
 		});
 		
-		IntBuffer tampon =
+		final IntBuffer tampon =
 			memAllocInt(resminVerisi.length).put(resminVerisi).flip();
 		
 		glTexImage2D(
