@@ -31,7 +31,7 @@ public class DurağanYazıDenemesi implements Uygulama {
 		final Gösterici gösterici = new Gösterici(
 			1920,
 			1080,
-			"Baş Aşağı Derebeyi " + İskelet.SÜRÜM,
+			"Durağan Yazı Denemesi Sürüm: " + İskelet.SÜRÜM,
 			true,
 			16,
 			0,
@@ -48,22 +48,22 @@ public class DurağanYazıDenemesi implements Uygulama {
 			new Dizey4().izdüşümDizeyineÇevir(1280.0F, 720.0F, 20.0F);
 		
 		yazarlar = new ArrayList<>(1000);
-		Random rastgele = new Random(1L);
+		final Random rastgele = new Random(1L);
 		
 		for (int i = 0; i < 1000; i++) {
-			DurağanYazıGörselleştirici yazar = new DurağanYazıGörselleştirici(
-				çalıştıranİskelet.yükleyicisi,
-				izdüşümDizeyi,
-				0.90F,
-				new BelirliYazıOluşturucu(
-					new YazıŞekli(
-						çalıştıranİskelet.yükleyicisi,
-						"sabitGenişlikliBüyük"),
-					10.0F,
-					0.0F,
-					"BufferUtils vs MemoryUtil",
-					"Tampon hızları karşılaştırması!",
-					"Daha fazla ses: 0123456789+-*/"));
+			final DurağanYazıGörselleştirici yazar =
+				new DurağanYazıGörselleştirici(
+					çalıştıranİskelet.yükleyicisi,
+					izdüşümDizeyi,
+					0.90F,
+					new BelirliYazıOluşturucu(
+						new YazıŞekli(
+							çalıştıranİskelet.yükleyicisi,
+							"sabitGenişlikliBüyük"),
+						10.0F,
+						"BufferUtils vs MemoryUtil",
+						"Tampon hızları karşılaştırması!",
+						"Daha fazla ses: 0123456789+-*/"));
 			
 			yazar
 				.konumunuDeğiştir(

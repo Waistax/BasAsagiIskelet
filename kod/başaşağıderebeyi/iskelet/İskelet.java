@@ -10,7 +10,7 @@ package başaşağıderebeyi.iskelet;
 
 import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.kütüphane.girdi.*;
-import başaşağıderebeyi.kütüphane.kumhavuzu.*;
+import başaşağıderebeyi.kütüphane.matematik.*;
 import başaşağıderebeyi.kütüphane.olay.*;
 
 import java.util.*;
@@ -90,13 +90,13 @@ public class İskelet {
 	/** İskeletin çalıştığı her saniyedeki tık oranının ortalamasını
 	 * döndürür. */
 	public float tıklarınınOranınınOrtalamasınıEdin() {
-		return tıklarınınOranınınOrtalaması.değeriniEdin();
+		return tıklarınınOranınınOrtalaması.ortalamasınıEdin();
 	}
 	
 	/** İskeletin çalıştığı her saniyedeki kare oranının ortalamasını
 	 * döndürür. */
 	public float karelerininOranınınOrtalamasınıEdin() {
-		return karelerininOranınınOrtalaması.değeriniEdin();
+		return karelerininOranınınOrtalaması.ortalamasınıEdin();
 	}
 	
 	/** Anlık olarak güncellenmeyi bekleyen tıkların sayısını döndürür. Bu sayı
@@ -123,8 +123,10 @@ public class İskelet {
 		karelerininOranınınOrtalaması.ekle((float)karelerininOranı);
 		
 		süreçleri.forEach((ad, süreç) -> {
-			süreç.güncelle();
-			System.out.println(ad + " Süreci: " + süreç.ortalamasınıEdin());
+			if (ad != "Oluşturma") {
+				System.out.println(ad + " Süreci: " + süreç.ortalamasınıEdin());
+				süreç.sıfırla();
+			}
 		});
 	}
 	
@@ -172,8 +174,8 @@ public class İskelet {
 	}
 	
 	private void oluştur() {
-		final Süreç oluşturmaSüreci = new Süreç(this);
-		oluşturmaSüreci.başla();
+		final Süreç oluşturmaSüreci = new Süreç();
+		oluşturmaSüreci.başla(System.nanoTime() / 1000000000.0F);
 		
 		tıklarınınOranınınOrtalaması = new Ortalama();
 		karelerininOranınınOrtalaması = new Ortalama();
@@ -182,16 +184,16 @@ public class İskelet {
 		olayDağıtıcısı.dinleyicileriniEkle(this);
 		
 		süreçleri = new HashMap<>();
-		süreçleri.put("Tık", new Süreç(this));
-		süreçleri.put("Kare", new Süreç(this));
+		süreçleri.put("Oluşturma", oluşturmaSüreci);
+		süreçleri.put("Tık", new Süreç());
+		süreçleri.put("Kare", new Süreç());
 		
 		çiğGirdisi = new ÇiğGirdi();
 		
 		göstericisi.penceresiniOluştur(this);
 		uygulaması.oluştur();
 		
-		oluşturmaSüreci.dur();
-		oluşturmaSüreci.güncelle();
+		oluşturmaSüreci.dur(System.nanoTime() / 1000000000.0F);
 		System.out
 			.println(
 				"Oluşturma tamamlandı! Geçen süre: " +
@@ -215,7 +217,7 @@ public class İskelet {
 	}
 	
 	private void güncelle() {
-		süreçleri.get("Tık").başla();
+		süreçleri.get("Tık").başla((float)zamanıEdin());
 		
 		if (göstericisi.penceresininKapatılmasınıEdin())
 			dur();
@@ -224,15 +226,15 @@ public class İskelet {
 		çiğGirdisi.güncelle();
 		uygulaması.güncelle();
 		
-		süreçleri.get("Tık").dur();
+		süreçleri.get("Tık").dur((float)zamanıEdin());
 	}
 	
 	private void çiz() {
-		süreçleri.get("Kare").başla();
+		süreçleri.get("Kare").başla((float)zamanıEdin());
 		
 		uygulaması.çiz();
 		göstericisi.göster();
 		
-		süreçleri.get("Kare").dur();
+		süreçleri.get("Kare").dur((float)zamanıEdin());
 	}
 }

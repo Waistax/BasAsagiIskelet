@@ -31,10 +31,10 @@ public class GörselleştiriciDenemesi implements Uygulama {
 		final Gösterici gösterici = new Gösterici(
 			640,
 			360,
-			"Baş Aşağı Derebeyi " + İskelet.SÜRÜM,
+			"Görselleştirici Denemesi Sürüm: " + İskelet.SÜRÜM,
 			false,
 			16,
-			1,
+			0,
 			new Yöney4());
 		çalıştıranİskelet =
 			new İskelet(10.0F, this, gösterici, new Yükleyici());

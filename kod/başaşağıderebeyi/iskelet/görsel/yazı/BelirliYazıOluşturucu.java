@@ -9,16 +9,12 @@ import java.util.*;
 
 /** Verilen satırları olduğu gibi durağan yazıya dönüştüren araç. */
 public class BelirliYazıOluşturucu extends DurağanYazıOluşturucu {
-	private final float genişliği;
-	
 	/** Verilenlerle oluşturucuyu tanımlar. */
 	public BelirliYazıOluşturucu(
 		final YazıŞekli şekli,
 		final float açısı,
-		final float genişliği,
 		final String... satırlar) {
 		super(şekli, açısı, satırlar);
-		this.genişliği = genişliği;
 	}
 	
 	@Override

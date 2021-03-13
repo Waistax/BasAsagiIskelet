@@ -53,7 +53,7 @@ public class DeğişkenYazıDenemesi implements Uygulama {
 		konumları = new int[1000];
 		çizgileri = new int[konumları.length];
 		boyutları = new int[konumları.length];
-		Random rastgele = new Random(1L);
+		final Random rastgele = new Random(1L);
 		
 		yazar = new DeğişkenYazıGörselleştirici(
 			çalıştıranİskelet.yükleyicisi,
