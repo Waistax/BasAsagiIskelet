@@ -16,7 +16,6 @@ import java.util.*;
 /** Verilen dönüşümlerin belirlediği iki boyutlu nesneleri ekrana çizer. */
 public class Görselleştirici {
 	private final Gölgelendirici gölgelendiricisi;
-	private final Dizey4 izdüşümDizeyi;
 	private final SıralıOluşumluKöşeDizisi köşeDizisi;
 	private final int sığası;
 	private final int dokusu;
@@ -28,19 +27,11 @@ public class Görselleştirici {
 	/** Boş görselleştirici tanımlar. */
 	public Görselleştirici(
 		final Yükleyici yükleyici,
-		final float uzayınGenişliği,
-		final float uzayınYüksekliği,
-		final float uzayınDerinliği,
+		final Dizey4 izdüşümDizeyi,
 		final int sığası,
 		final String dokusununAdı) {
 		gölgelendiricisi = new Gölgelendirici(yükleyici, "dokuluDikdörtgen");
 		gölgelendiricisi.değerinKonumunuBul("izdusumDizeyi");
-		
-		izdüşümDizeyi = new Dizey4()
-			.izdüşümDizeyineÇevir(
-				uzayınGenişliği,
-				uzayınYüksekliği,
-				uzayınDerinliği);
 		
 		gölgelendiricisi.bağla();
 		gölgelendiricisi.değeriDeğiştir("izdusumDizeyi", izdüşümDizeyi);

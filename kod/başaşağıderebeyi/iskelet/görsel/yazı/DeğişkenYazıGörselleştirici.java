@@ -25,7 +25,7 @@ public class DeğişkenYazıGörselleştirici {
 	private final Dönüşüm dönüşümü;
 	
 	private float ölçüsü;
-	private int çizilmişSesSayısı;
+	private int eklenmişSesSayısı;
 	
 	/** Verilenler ile tanımlar. */
 	public DeğişkenYazıGörselleştirici(
@@ -55,7 +55,7 @@ public class DeğişkenYazıGörselleştirici {
 		köşeDizisi.çiz();
 		şekli.kopar();
 		gölgelendiricisi.kopar();
-		çizilmişSesSayısı = 0;
+		eklenmişSesSayısı = 0;
 	}
 	
 	/** Rengini döndürür. */
@@ -69,28 +69,29 @@ public class DeğişkenYazıGörselleştirici {
 	}
 	
 	/** Verilen dizeleri satır satır yazar. */
-	public void yaz(final int konumu, int çizgisi, final String... dizeler) {
+	public void yaz(
+		final float konumu,
+		float çizgisi,
+		final String... dizeler) {
 		for (final String dize : dizeler) {
 			yaz(konumu, çizgisi, dize);
-			çizgisi -= yuvarla(
-				şekli.enBüyükYüksekliği *
-					ölçüsü *
-					YazıŞekli.ÇİZGİLER_ARASI_BOŞLUĞUN_ORANI);
+			çizgisi -= şekli.enBüyükYüksekliği *
+				ölçüsü *
+				YazıŞekli.ÇİZGİLER_ARASI_BOŞLUĞUN_ORANI;
 		}
 	}
 	
-	private void yaz(int konumu, final int çizgisi, final String dize) {
+	private void yaz(float konumu, final float çizgisi, final String dize) {
 		for (int i = 0; i < dize.length(); i++) {
 			final SesŞekli sesŞekli = şekli.sesininŞekliniEdin(dize.charAt(i));
 			if (i > 0) {
 				final SesŞekli öncekiSesŞekli =
 					şekli.sesininŞekliniEdin(dize.charAt(i - 1));
-				konumu += yuvarla(
-					(öncekiSesŞekli.boyutu.birinciBileşeni +
-						(sesŞekli.boyutu.birinciBileşeni +
-							öncekiSesŞekli.boyutu.birinciBileşeni) *
-							YazıŞekli.SESLER_ARASI_BOŞLUĞUN_ORANI) *
-						ölçüsü);
+				konumu += (öncekiSesŞekli.boyutu.birinciBileşeni +
+					(sesŞekli.boyutu.birinciBileşeni +
+						öncekiSesŞekli.boyutu.birinciBileşeni) *
+						YazıŞekli.SESLER_ARASI_BOŞLUĞUN_ORANI) *
+					ölçüsü;
 			}
 			sesEkle(sesŞekli, konumu, çizgisi);
 		}
@@ -98,11 +99,10 @@ public class DeğişkenYazıGörselleştirici {
 	
 	private void sesEkle(
 		final SesŞekli sesŞekli,
-		final int konumu,
-		final int çizgisi) {
-		if (sığası == çizilmişSesSayısı)
+		final float konumu,
+		final float çizgisi) {
+		if (sığası < ++eklenmişSesSayısı)
 			return;
-		çizilmişSesSayısı++;
 		
 		dönüşümü.biçimi
 			.bileşenleriniDeğiştir(

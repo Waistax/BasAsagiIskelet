@@ -5,7 +5,6 @@
  */
 package başaşağıderebeyi.iskelet.kumhavuzu;
 
-import static başaşağıderebeyi.kütüphane.matematik.MatematikAracı.*;
 import static org.lwjgl.glfw.GLFW.*;
 
 import başaşağıderebeyi.iskelet.*;
@@ -26,11 +25,11 @@ public class DeğişkenYazıDenemesi implements Uygulama {
 	private final İskelet çalıştıranİskelet;
 	
 	private DeğişkenYazıGörselleştirici yazar;
-	private int[] konumları;
-	private int[] çizgileri;
-	private int[] boyutları;
+	private float[] konumları;
+	private float[] çizgileri;
+	private float[] boyutları;
 	
-	DeğişkenYazıDenemesi() {
+	private DeğişkenYazıDenemesi() {
 		final Gösterici gösterici = new Gösterici(
 			1920,
 			1080,
@@ -50,14 +49,14 @@ public class DeğişkenYazıDenemesi implements Uygulama {
 		final Dizey4 izdüşümDizeyi =
 			new Dizey4().izdüşümDizeyineÇevir(1280.0F, 720.0F, 20.0F);
 		
-		konumları = new int[1000];
-		çizgileri = new int[konumları.length];
-		boyutları = new int[konumları.length];
+		konumları = new float[1000];
+		çizgileri = new float[konumları.length];
+		boyutları = new float[konumları.length];
 		final Random rastgele = new Random(1L);
 		
 		yazar = new DeğişkenYazıGörselleştirici(
 			çalıştıranİskelet.yükleyicisi,
-			100 * konumları.length,
+			86 * konumları.length,
 			new YazıŞekli(
 				çalıştıranİskelet.yükleyicisi,
 				"sabitGenişlikliBüyük"),
@@ -68,9 +67,9 @@ public class DeğişkenYazıDenemesi implements Uygulama {
 		yazar.renginiEdin().değiştir(Yöney4.BİR);
 		
 		for (int i = 0; i < konumları.length; i++) {
-			konumları[i] = yuvarla((rastgele.nextFloat() - 0.5F) * 1000.0F);
-			çizgileri[i] = yuvarla((rastgele.nextFloat() - 0.5F) * 500.0F);
-			boyutları[i] = yuvarla(rastgele.nextFloat() * 20.0F);
+			konumları[i] = (rastgele.nextFloat() - 0.5F) * 1000.0F;
+			çizgileri[i] = (rastgele.nextFloat() - 0.5F) * 500.0F;
+			boyutları[i] = rastgele.nextFloat() * 20.0F;
 		}
 		
 		çalıştıranİskelet.göstericisi

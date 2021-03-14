@@ -65,6 +65,7 @@ public class OluşumluKöşeDizisi extends KöşeDizisi {
 				oluşumluKöşeTamponuNesnesi,
 				yazılacakVerisi.flip());
 		oluşumSayısı = yazılacakVerisi.limit() / oluşumBoyutu;
+		yazılacakVerisi.clear();
 	}
 	
 	@Override

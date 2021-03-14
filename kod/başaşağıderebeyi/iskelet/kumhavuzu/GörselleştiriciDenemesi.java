@@ -27,7 +27,7 @@ public class GörselleştiriciDenemesi implements Uygulama {
 	private Görselleştirici görselleştirici;
 	private Set<Dönüşüm> dönüşümleri;
 	
-	GörselleştiriciDenemesi() {
+	private GörselleştiriciDenemesi() {
 		final Gösterici gösterici = new Gösterici(
 			640,
 			360,
@@ -45,12 +45,13 @@ public class GörselleştiriciDenemesi implements Uygulama {
 	public void oluştur() {
 		çalıştıranİskelet.olayDağıtıcısınıEdin().dinleyicileriniEkle(this);
 		
+		final Dizey4 izdüşümDizeyi =
+			new Dizey4().izdüşümDizeyineÇevir(1280.0F, 720.0F, 20.0F);
+		
 		final int nesneSayısı = 72;
 		görselleştirici = new Görselleştirici(
 			çalıştıranİskelet.yükleyicisi,
-			1280.0F,
-			720.0F,
-			20.0F,
+			izdüşümDizeyi,
 			nesneSayısı,
 			"denemeResmi");
 		

@@ -27,7 +27,7 @@ public class DurağanYazıDenemesi implements Uygulama {
 	
 	private List<DurağanYazıGörselleştirici> yazarlar;
 	
-	DurağanYazıDenemesi() {
+	private DurağanYazıDenemesi() {
 		final Gösterici gösterici = new Gösterici(
 			1920,
 			1080,
