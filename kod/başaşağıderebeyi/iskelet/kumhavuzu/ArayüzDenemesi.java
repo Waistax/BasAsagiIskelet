@@ -29,6 +29,8 @@ public class ArayüzDenemesi implements Uygulama {
 	private DeğişkenYazıGörselleştirici yazar;
 	private Görselleştirici görselleştirici;
 	private Map<Öğe, Dönüşüm> dönüşümleri;
+	private Map<Dönüşüm, Dönüşüm> eskiDönüşümleri;
+	private Map<Dönüşüm, Dönüşüm> çizilecekDönüşümleri;
 	private Ekran ekranı;
 	
 	private ArayüzDenemesi() {
@@ -72,6 +74,8 @@ public class ArayüzDenemesi implements Uygulama {
 			"arkaplan");
 		
 		dönüşümleri = new HashMap<>();
+		eskiDönüşümleri = new HashMap<>();
+		çizilecekDönüşümleri = new HashMap<>();
 		
 		ekranı = new Ekran(
 			çalıştıranİskelet.girdisiniEdin(),
@@ -81,13 +85,13 @@ public class ArayüzDenemesi implements Uygulama {
 			1280.0F,
 			720.0F);
 		
-		final Pencere birinciPencere =
-			new Pencere(ekranı, "Birinci Pencere", 200.0F, 100.0F);
-		birinciPencere.yatayKonumununKuralı.değeri = 100;
-		birinciPencere.dikeyKonumununKuralı.değeri = 50;
+		new Pencere(ekranı, "Birinci Pencere", 500.0F, 300.0F);
 		
 		öğeninDönüşümünüOluştur(ekranı);
-		dönüşümleri.values().forEach(görselleştirici::dönüşümüEkle);
+		dönüşümleri.values().forEach(dönüşümü -> {
+			eskiDönüşümleri.put(dönüşümü, new Dönüşüm());
+			çizilecekDönüşümleri.put(dönüşümü, new Dönüşüm());
+		});
 		
 		çalıştıranİskelet.göstericisi
 			.imleciDeğiştir(
@@ -100,7 +104,6 @@ public class ArayüzDenemesi implements Uygulama {
 	
 	@Override
 	public void yokEt() {
-		
 	}
 	
 	@Override
@@ -109,13 +112,29 @@ public class ArayüzDenemesi implements Uygulama {
 		if (girdi.klavyesininTuşunuEdin(GLFW_KEY_ESCAPE).salınmasınıEdin())
 			çalıştıranİskelet.dur();
 		
+		dönüşümleri
+			.values()
+			.parallelStream()
+			.forEach(
+				dönüşümü -> eskiDönüşümleri.get(dönüşümü).değiştir(dönüşümü));
 		ekranı.güncelle();
 		öğeninDönüşümünüBul(ekranı, 0.0F);
-		görselleştirici.güncelle();
 	}
 	
 	@Override
 	public void çiz() {
+		dönüşümleri
+			.values()
+			.parallelStream()
+			.forEach(
+				dönüşümü -> çizilecekDönüşümleri
+					.get(dönüşümü)
+					.aradeğerleriniBul(
+						eskiDönüşümleri.get(dönüşümü),
+						dönüşümü,
+						(float)çalıştıranİskelet.güncellenmemişTıklarınıEdin())
+					.güncelle());
+		çizilecekDönüşümleri.values().forEach(görselleştirici::dönüşümüEkle);
 		görselleştirici
 			.çiz((float)çalıştıranİskelet.güncellenmemişTıklarınıEdin());
 		
