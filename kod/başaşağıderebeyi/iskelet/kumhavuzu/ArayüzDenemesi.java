@@ -20,7 +20,7 @@ import java.util.*;
 
 /** Arayüz bölümünü dener. */
 public class ArayüzDenemesi implements Uygulama {
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		new ArayüzDenemesi();
 	}
 	
@@ -36,7 +36,7 @@ public class ArayüzDenemesi implements Uygulama {
 			1280,
 			720,
 			"Arayüz Denemesi Sürüm: " + İskelet.SÜRÜM,
-			false,
+			true,
 			16,
 			0,
 			new Yöney4());
@@ -81,7 +81,10 @@ public class ArayüzDenemesi implements Uygulama {
 			1280.0F,
 			720.0F);
 		
-		new Pencere(ekranı, "Birinci Pencere", 200.0F, 100.0F);
+		final Pencere birinciPencere =
+			new Pencere(ekranı, "Birinci Pencere", 200.0F, 100.0F);
+		birinciPencere.yatayKonumununKuralı.değeri = 100;
+		birinciPencere.dikeyKonumununKuralı.değeri = 50;
 		
 		öğeninDönüşümünüOluştur(ekranı);
 		dönüşümleri.values().forEach(görselleştirici::dönüşümüEkle);
@@ -120,7 +123,14 @@ public class ArayüzDenemesi implements Uygulama {
 			.yaz(
 				4.0F - 1280.0F / 2.0F,
 				720.0F / 2.0F - 20.0F,
-				"İmleç: " + çalıştıranİskelet.girdisiniEdin().imlecininKonumu);
+				"İmleç: " + çalıştıranİskelet.girdisiniEdin().imlecininKonumu,
+				"Sürüklenmesi: " +
+					çalıştıranİskelet.girdisiniEdin().imlecininSürüklenmesi,
+				"İlgilendiği: " +
+					çalıştıranİskelet
+						.girdisiniEdin()
+						.faresininTuşunuEdin(
+							GLFW_MOUSE_BUTTON_LEFT).ilgilendiğiNesne);
 		yazar.çiz();
 	}
 	
@@ -135,21 +145,22 @@ public class ArayüzDenemesi implements Uygulama {
 	}
 	
 	@Dinleyici(önceliği = Öncelik.TEMEL)
-	public void imleçGirdisiOlayınıDinle(İmleçGirdisiOlayı olay) {
-		olay.konumununYatayBileşeni -= 1280.0 / 2.0;
+	public void imleçGirdisiOlayınıDinle(final İmleçGirdisiOlayı olay) {
+		olay.konumununYatayBileşeni =
+			olay.konumununYatayBileşeni - 1280.0 / 2.0;
 		olay.konumununDikeyBileşeni = 720.0 / 2.0 - olay.konumununDikeyBileşeni;
 	}
 	
-	private void öğeninDönüşümünüOluştur(Öğe öğe) {
+	private void öğeninDönüşümünüOluştur(final Öğe öğe) {
 		if (!(öğe instanceof Ekran))
 			dönüşümleri.put(öğe, new Dönüşüm());
 		if (öğe instanceof Levha)
 			((Levha)öğe).içeriği.forEach(this::öğeninDönüşümünüOluştur);
 	}
 	
-	private void öğeninDönüşümünüBul(Öğe öğe, float derinliği) {
+	private void öğeninDönüşümünüBul(final Öğe öğe, float derinliği) {
 		if (!(öğe instanceof Ekran)) {
-			Dönüşüm dönüşümü = dönüşümleri.get(öğe);
+			final Dönüşüm dönüşümü = dönüşümleri.get(öğe);
 			dönüşümü.konumu
 				.bileşenleriniDeğiştir(
 					öğe.alanı.ortaNoktası.birinciBileşeni,
@@ -163,7 +174,7 @@ public class ArayüzDenemesi implements Uygulama {
 		}
 		if (öğe instanceof Levha) {
 			derinliği++;
-			for (Öğe içeriği : ((Levha)öğe).içeriği)
+			for (final Öğe içeriği : ((Levha)öğe).içeriği)
 				öğeninDönüşümünüBul(içeriği, derinliği);
 		}
 	}

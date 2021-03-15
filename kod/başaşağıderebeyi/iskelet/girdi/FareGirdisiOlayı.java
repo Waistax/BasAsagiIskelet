@@ -5,19 +5,19 @@
  */
 package başaşağıderebeyi.iskelet.girdi;
 
+import başaşağıderebeyi.iskelet.*;
 import başaşağıderebeyi.kütüphane.girdi.*;
-import başaşağıderebeyi.kütüphane.olay.*;
 
 /** Fareyle girdi verilmesinin olayı. Bu girdi olayı tekrar tekrar kullanılır.
  * Böylece her olayda yeni bir nesne oluşturulmamış olur. */
-public class FareGirdisiOlayı extends Olay {
+public class FareGirdisiOlayı extends GirdiOlayı {
 	/** Bu olaya karışan tuş. */
 	public final Tuş tuşu;
 	/** Olayın tuşunun basılı olup olmaması. */
 	public boolean basılıOlması;
 	
-	/** Verilen tuş koduyla tanımlar. */
-	FareGirdisiOlayı(final Tuş tuşu) {
+	FareGirdisiOlayı(final İskelet çalıştıranİskelet, final Tuş tuşu) {
+		super(çalıştıranİskelet);
 		this.tuşu = tuşu;
 	}
 }

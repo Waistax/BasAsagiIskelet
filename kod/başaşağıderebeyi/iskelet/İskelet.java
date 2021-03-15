@@ -41,6 +41,7 @@ public class İskelet {
 	private Ortalama tıklarınınOranınınOrtalaması;
 	private Ortalama karelerininOranınınOrtalaması;
 	private double güncellenmemişTıkları;
+	private long anı;
 	
 	private AnlıOlayDağıtıcısı olayDağıtıcısı;
 	private Map<String, Süreç> süreçleri;
@@ -104,6 +105,11 @@ public class İskelet {
 	 * birden büyükse iskelet istenen hızda çalışamıyor demektir. */
 	public double güncellenmemişTıklarınıEdin() {
 		return güncellenmemişTıkları;
+	}
+	
+	/** Şu anın sırasını döndürür. */
+	public long anınıEdin() {
+		return anı;
 	}
 	
 	/** İskeletin olay dağıtıcısını döndürür. Bu anlık olarak çalışır;
@@ -225,6 +231,8 @@ public class İskelet {
 		olayDağıtıcısı.güncelle();
 		çiğGirdisi.güncelle();
 		uygulaması.güncelle();
+		
+		anı++;
 		
 		süreçleri.get("Tık").dur((float)zamanıEdin());
 	}

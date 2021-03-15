@@ -10,17 +10,19 @@ import static org.lwjgl.glfw.GLFW.*;
 import org.lwjgl.glfw.*;
 
 class FareGirdisiBildiricisi extends GLFWMouseButtonCallback {
-	private final Girdi içerenGirdi;
 	private final FareGirdisiOlayı[] olayları =
 		new FareGirdisiOlayı[GLFW_MOUSE_BUTTON_LAST + 1];
 	
 	FareGirdisiBildiricisi(final Girdi içerenGirdi) {
-		this.içerenGirdi = içerenGirdi;
-		
 		for (int i = 0; i < olayları.length; i++) {
-			içerenGirdi.bildireceğiÇiğGirdi.faresininTuşunuEkle(i);
+			içerenGirdi.bildireceğiİskelet
+				.girdisiniEdin()
+				.faresininTuşunuEkle(i);
 			olayları[i] = new FareGirdisiOlayı(
-				içerenGirdi.bildireceğiÇiğGirdi.faresininTuşunuEdin(i));
+				içerenGirdi.bildireceğiİskelet,
+				içerenGirdi.bildireceğiİskelet
+					.girdisiniEdin()
+					.faresininTuşunuEdin(i));
 		}
 	}
 	
@@ -32,7 +34,6 @@ class FareGirdisiBildiricisi extends GLFWMouseButtonCallback {
 		final int kipleri) {
 		final FareGirdisiOlayı olayı = olayları[tuşKodu];
 		olayı.basılıOlması = hareket != GLFW_RELEASE;
-		olayı.susturulması = false;
-		içerenGirdi.bildireceğiOlayDağıtıcısı.dağıt(olayı);
+		olayı.dağıtmayıDene();
 	}
 }

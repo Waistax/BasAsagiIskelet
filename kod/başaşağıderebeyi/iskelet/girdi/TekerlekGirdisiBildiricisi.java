@@ -8,12 +8,10 @@ package başaşağıderebeyi.iskelet.girdi;
 import org.lwjgl.glfw.*;
 
 class TekerlekGirdisiBildiricisi extends GLFWScrollCallback {
-	private final Girdi içerenGirdi;
 	private final TekerlekGirdisiOlayı olayı;
 	
 	TekerlekGirdisiBildiricisi(final Girdi içerenGirdi) {
-		this.içerenGirdi = içerenGirdi;
-		olayı = new TekerlekGirdisiOlayı();
+		olayı = new TekerlekGirdisiOlayı(içerenGirdi.bildireceğiİskelet);
 	}
 	
 	@Override
@@ -22,7 +20,6 @@ class TekerlekGirdisiBildiricisi extends GLFWScrollCallback {
 		final double yataydakiDevri,
 		final double dikeydekiDevri) {
 		olayı.devri = dikeydekiDevri;
-		olayı.susturulması = false;
-		içerenGirdi.bildireceğiOlayDağıtıcısı.dağıt(olayı);
+		olayı.dağıtmayıDene();
 	}
 }

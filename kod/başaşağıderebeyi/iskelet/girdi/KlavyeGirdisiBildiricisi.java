@@ -10,17 +10,19 @@ import static org.lwjgl.glfw.GLFW.*;
 import org.lwjgl.glfw.*;
 
 class KlavyeGirdisiBildiricisi extends GLFWKeyCallback {
-	private final Girdi içerenGirdi;
 	private final KlavyeGirdisiOlayı[] olayları =
 		new KlavyeGirdisiOlayı[GLFW_KEY_LAST + 1];
 	
 	KlavyeGirdisiBildiricisi(final Girdi içerenGirdi) {
-		this.içerenGirdi = içerenGirdi;
-		
 		for (int i = 0; i < olayları.length; i++) {
-			içerenGirdi.bildireceğiÇiğGirdi.klavyesininTuşunuEkle(i);
+			içerenGirdi.bildireceğiİskelet
+				.girdisiniEdin()
+				.klavyesininTuşunuEkle(i);
 			olayları[i] = new KlavyeGirdisiOlayı(
-				içerenGirdi.bildireceğiÇiğGirdi.klavyesininTuşunuEdin(i));
+				içerenGirdi.bildireceğiİskelet,
+				içerenGirdi.bildireceğiİskelet
+					.girdisiniEdin()
+					.klavyesininTuşunuEdin(i));
 		}
 	}
 	
@@ -33,7 +35,6 @@ class KlavyeGirdisiBildiricisi extends GLFWKeyCallback {
 		final int kipleri) {
 		final KlavyeGirdisiOlayı olayı = olayları[tuşKodu];
 		olayı.basılıOlması = hareket != GLFW_RELEASE;
-		olayı.susturulması = false;
-		içerenGirdi.bildireceğiOlayDağıtıcısı.dağıt(olayı);
+		olayı.dağıtmayıDene();
 	}
 }

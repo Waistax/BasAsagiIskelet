@@ -8,12 +8,10 @@ package başaşağıderebeyi.iskelet.girdi;
 import org.lwjgl.glfw.*;
 
 class İmleçGirdisiBildiricisi extends GLFWCursorPosCallback {
-	private final Girdi içerenGirdi;
 	private final İmleçGirdisiOlayı olayı;
 	
 	İmleçGirdisiBildiricisi(final Girdi içerenGirdi) {
-		this.içerenGirdi = içerenGirdi;
-		olayı = new İmleçGirdisiOlayı();
+		olayı = new İmleçGirdisiOlayı(içerenGirdi.bildireceğiİskelet);
 	}
 	
 	@Override
@@ -23,7 +21,6 @@ class İmleçGirdisiBildiricisi extends GLFWCursorPosCallback {
 		final double konumununDikeyBileşeni) {
 		olayı.konumununYatayBileşeni = konumununYatayBileşeni;
 		olayı.konumununDikeyBileşeni = konumununDikeyBileşeni;
-		olayı.susturulması = false;
-		içerenGirdi.bildireceğiOlayDağıtıcısı.dağıt(olayı);
+		olayı.dağıtmayıDene();
 	}
 }

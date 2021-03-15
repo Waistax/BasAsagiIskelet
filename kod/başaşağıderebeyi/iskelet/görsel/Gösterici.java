@@ -71,10 +71,7 @@ public class Gösterici {
 		if (penceresi == NULL)
 			throw new RuntimeException("Pencere oluşturulamadı!");
 		
-		girdisi = new Girdi(
-			çalıştıranİskelet.olayDağıtıcısınıEdin(),
-			çalıştıranİskelet.girdisiniEdin(),
-			penceresi);
+		girdisi = new Girdi(çalıştıranİskelet, penceresi);
 		
 		penceresiniOturt(ekranı);
 		içeriğiniAyarla();
