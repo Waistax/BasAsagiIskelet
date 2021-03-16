@@ -11,8 +11,6 @@ import static org.lwjgl.system.MemoryUtil.*;
 import başaşağıderebeyi.iskelet.görsel.köşedizisi.*;
 import başaşağıderebeyi.kütüphane.matematik.*;
 
-import java.util.*;
-
 /** Verilen dönüşümlerin belirlediği iki boyutlu nesneleri ekrana çizer. */
 public class Görselleştirici {
 	private final Gölgelendirici gölgelendiricisi;
@@ -20,9 +18,7 @@ public class Görselleştirici {
 	private final int sığası;
 	private final int dokusu;
 	
-	private final Set<Dönüşüm> çizilecekDönüşümleri;
-	private final HashMap<Dönüşüm, Dönüşüm> eskiDönüşümleri;
-	private final HashMap<Dönüşüm, Dönüşüm> kullanılacakDönüşümleri;
+	private int çiziceklerininSayısı;
 	
 	/** Boş görselleştirici tanımlar. */
 	public Görselleştirici(
@@ -43,45 +39,24 @@ public class Görselleştirici {
 		
 		this.sığası = sığası;
 		dokusu = yükleyici.dokuYükle(dokusununAdı);
-		çizilecekDönüşümleri = new HashSet<>();
-		eskiDönüşümleri = new HashMap<>();
-		kullanılacakDönüşümleri = new HashMap<>();
 	}
 	
 	/** Eğer yer varsa verilen dönüşümü çizilecekler kümesine ekler. */
 	public void dönüşümüEkle(final Dönüşüm dönüşüm) {
-		if (çizilecekDönüşümleri.size() >= sığası)
+		if (sığası < ++çiziceklerininSayısı)
 			return;
-		çizilecekDönüşümleri.add(dönüşüm);
-		eskiDönüşümleri.put(dönüşüm, new Dönüşüm());
-		kullanılacakDönüşümleri.put(dönüşüm, new Dönüşüm());
-	}
-	
-	/** Eğer verilen dönüşüm çizilecekler kümesindeyse çıkarır. */
-	public void dönüşümünüÇıkar(final Dönüşüm dönüşümü) {
-		çizilecekDönüşümleri.remove(dönüşümü);
-		eskiDönüşümleri.remove(dönüşümü);
-		kullanılacakDönüşümleri.remove(dönüşümü);
-	}
-	
-	/** Dönüşümlerin anlık verilerini saklar. Böylece çizim yaparken
-	 * aradeğerlerini bulup onu çizer. */
-	public void güncelle() {
-		çizilecekDönüşümleri
-			.stream()
-			.parallel()
-			.forEach(
-				dönüşümü -> eskiDönüşümleri.get(dönüşümü).değiştir(dönüşümü));
+		köşeDizisi.yazılacakVerisi.put(dönüşüm.dizeyi.girdileri);
 	}
 	
 	/** Dönüşümlerin verilen uzaklığa göre aradeğerlerini çizer. */
 	public void çiz(final float uzaklık) {
-		oluşumluKöşeDizisiniGüncelle(uzaklık);
+		köşeDizisi.tamponunuGüncelle();
 		gölgelendiricisi.bağla();
 		glBindTexture(GL_TEXTURE_2D, dokusu);
 		köşeDizisi.çiz();
 		glBindTexture(GL_TEXTURE_2D, 0);
 		gölgelendiricisi.kopar();
+		çiziceklerininSayısı = 0;
 	}
 	
 	private void oluşumluKöşeDizisiniOluştur() {
@@ -127,29 +102,5 @@ public class Görselleştirici {
 		köşeDizisi.oluşumBaşınaDeğişenNitelikEkle(4);
 		köşeDizisi.oluşumBaşınaDeğişenNitelikEkle(4);
 		köşeDizisi.oluşumBaşınaDeğişenNitelikEkle(4);
-	}
-	
-	private void oluşumluKöşeDizisiniGüncelle(final float uzaklık) {
-		çizilecekDönüşümleri
-			.stream()
-			.parallel()
-			.forEach(
-				dönüşümü -> kullanılacakDönüşümleri
-					.get(dönüşümü)
-					.aradeğerleriniBul(
-						dönüşümü,
-						eskiDönüşümleri.get(dönüşümü),
-						uzaklık));
-		kullanılacakDönüşümleri
-			.values()
-			.stream()
-			.parallel()
-			.forEach(Dönüşüm::güncelle);
-		kullanılacakDönüşümleri
-			.values()
-			.forEach(
-				yeniDönüşümü -> köşeDizisi.yazılacakVerisi
-					.put(yeniDönüşümü.dizeyi.girdileri));
-		köşeDizisi.tamponunuGüncelle();
 	}
 }
