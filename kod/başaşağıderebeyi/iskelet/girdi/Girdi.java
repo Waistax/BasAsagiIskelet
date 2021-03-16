@@ -29,12 +29,15 @@ public class Girdi {
 		final long dinlediğiPencere) {
 		this.bildireceğiİskelet = bildireceğiİskelet;
 		
-		bildireceğiİskelet.olayDağıtıcısınıEdin().dinleyicileriniEkle(this);
-		klavyeGirdisiBildiricisi = new KlavyeGirdisiBildiricisi(this);
-		fareGirdisiBildiricisi = new FareGirdisiBildiricisi(this);
-		imleçGirdisiBildiricisi = new İmleçGirdisiBildiricisi(this);
-		tekerlekGirdisiBildiricisi = new TekerlekGirdisiBildiricisi(this);
+		klavyeGirdisiBildiricisi =
+			new KlavyeGirdisiBildiricisi(bildireceğiİskelet);
+		fareGirdisiBildiricisi = new FareGirdisiBildiricisi(bildireceğiİskelet);
+		imleçGirdisiBildiricisi =
+			new İmleçGirdisiBildiricisi(bildireceğiİskelet);
+		tekerlekGirdisiBildiricisi =
+			new TekerlekGirdisiBildiricisi(bildireceğiİskelet);
 		
+		bildireceğiİskelet.olayDağıtıcısınıEdin().dinleyicileriniEkle(this);
 		bildiricileriPencereyeEkle(dinlediğiPencere);
 	}
 	

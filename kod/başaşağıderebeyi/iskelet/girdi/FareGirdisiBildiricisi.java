@@ -7,22 +7,20 @@ package başaşağıderebeyi.iskelet.girdi;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+import başaşağıderebeyi.iskelet.*;
+
 import org.lwjgl.glfw.*;
 
 class FareGirdisiBildiricisi extends GLFWMouseButtonCallback {
 	private final FareGirdisiOlayı[] olayları =
 		new FareGirdisiOlayı[GLFW_MOUSE_BUTTON_LAST + 1];
 	
-	FareGirdisiBildiricisi(final Girdi içerenGirdi) {
+	FareGirdisiBildiricisi(final İskelet bildireceğiİskelet) {
 		for (int i = 0; i < olayları.length; i++) {
-			içerenGirdi.bildireceğiİskelet
-				.girdisiniEdin()
-				.faresininTuşunuEkle(i);
+			bildireceğiİskelet.girdisiniEdin().faresininTuşunuEkle(i);
 			olayları[i] = new FareGirdisiOlayı(
-				içerenGirdi.bildireceğiİskelet,
-				içerenGirdi.bildireceğiİskelet
-					.girdisiniEdin()
-					.faresininTuşunuEdin(i));
+				bildireceğiİskelet,
+				bildireceğiİskelet.girdisiniEdin().faresininTuşunuEdin(i));
 		}
 	}
 	

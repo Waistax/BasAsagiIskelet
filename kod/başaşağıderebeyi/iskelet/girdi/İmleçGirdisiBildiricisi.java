@@ -5,13 +5,15 @@
  */
 package başaşağıderebeyi.iskelet.girdi;
 
+import başaşağıderebeyi.iskelet.*;
+
 import org.lwjgl.glfw.*;
 
 class İmleçGirdisiBildiricisi extends GLFWCursorPosCallback {
 	private final İmleçGirdisiOlayı olayı;
 	
-	İmleçGirdisiBildiricisi(final Girdi içerenGirdi) {
-		olayı = new İmleçGirdisiOlayı(içerenGirdi.bildireceğiİskelet);
+	İmleçGirdisiBildiricisi(final İskelet bildireceğiİskelet) {
+		olayı = new İmleçGirdisiOlayı(bildireceğiİskelet);
 	}
 	
 	@Override

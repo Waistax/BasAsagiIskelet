@@ -7,22 +7,20 @@ package başaşağıderebeyi.iskelet.girdi;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+import başaşağıderebeyi.iskelet.*;
+
 import org.lwjgl.glfw.*;
 
 class KlavyeGirdisiBildiricisi extends GLFWKeyCallback {
 	private final KlavyeGirdisiOlayı[] olayları =
 		new KlavyeGirdisiOlayı[GLFW_KEY_LAST + 1];
 	
-	KlavyeGirdisiBildiricisi(final Girdi içerenGirdi) {
+	KlavyeGirdisiBildiricisi(final İskelet bildireceğiİskelet) {
 		for (int i = 0; i < olayları.length; i++) {
-			içerenGirdi.bildireceğiİskelet
-				.girdisiniEdin()
-				.klavyesininTuşunuEkle(i);
+			bildireceğiİskelet.girdisiniEdin().klavyesininTuşunuEkle(i);
 			olayları[i] = new KlavyeGirdisiOlayı(
-				içerenGirdi.bildireceğiİskelet,
-				içerenGirdi.bildireceğiİskelet
-					.girdisiniEdin()
-					.klavyesininTuşunuEdin(i));
+				bildireceğiİskelet,
+				bildireceğiİskelet.girdisiniEdin().klavyesininTuşunuEdin(i));
 		}
 	}
 	

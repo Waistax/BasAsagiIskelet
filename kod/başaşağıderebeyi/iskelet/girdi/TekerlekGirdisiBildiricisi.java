@@ -5,13 +5,15 @@
  */
 package başaşağıderebeyi.iskelet.girdi;
 
+import başaşağıderebeyi.iskelet.*;
+
 import org.lwjgl.glfw.*;
 
 class TekerlekGirdisiBildiricisi extends GLFWScrollCallback {
 	private final TekerlekGirdisiOlayı olayı;
 	
-	TekerlekGirdisiBildiricisi(final Girdi içerenGirdi) {
-		olayı = new TekerlekGirdisiOlayı(içerenGirdi.bildireceğiİskelet);
+	TekerlekGirdisiBildiricisi(final İskelet bildireceğiİskelet) {
+		olayı = new TekerlekGirdisiOlayı(bildireceğiİskelet);
 	}
 	
 	@Override
