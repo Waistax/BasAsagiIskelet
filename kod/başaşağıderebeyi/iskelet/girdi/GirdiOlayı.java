@@ -16,7 +16,7 @@ public class GirdiOlayı extends Olay {
 	
 	GirdiOlayı(final İskelet çalıştıranİskelet) {
 		this.çalıştıranİskelet = çalıştıranİskelet;
-		enSonDağıtıldığıAn = -1;
+		enSonDağıtıldığıAn = -1L;
 	}
 	
 	void dağıtmayıDene() {

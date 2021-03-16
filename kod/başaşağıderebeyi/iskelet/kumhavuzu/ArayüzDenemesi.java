@@ -29,6 +29,7 @@ public class ArayüzDenemesi implements Uygulama {
 	private DeğişkenYazıGörselleştirici yazar;
 	private Görselleştirici görselleştirici;
 	private Map<Öğe, Dönüşüm> dönüşümleri;
+	private Map<Öğe, Long> enSonGüncellendikleriAnları;
 	private Map<Dönüşüm, Dönüşüm> eskiDönüşümleri;
 	private Map<Dönüşüm, Dönüşüm> çizilecekDönüşümleri;
 	private Ekran ekranı;
@@ -38,9 +39,9 @@ public class ArayüzDenemesi implements Uygulama {
 			1280,
 			720,
 			"Arayüz Denemesi Sürüm: " + İskelet.SÜRÜM,
-			true,
+			false,
 			16,
-			0,
+			4,
 			new Yöney4());
 		çalıştıranİskelet =
 			new İskelet(10.0F, this, gösterici, new Yükleyici());
@@ -74,6 +75,7 @@ public class ArayüzDenemesi implements Uygulama {
 			"arkaplan");
 		
 		dönüşümleri = new HashMap<>();
+		enSonGüncellendikleriAnları = new HashMap<>();
 		eskiDönüşümleri = new HashMap<>();
 		çizilecekDönüşümleri = new HashMap<>();
 		
@@ -119,6 +121,24 @@ public class ArayüzDenemesi implements Uygulama {
 				dönüşümü -> eskiDönüşümleri.get(dönüşümü).değiştir(dönüşümü));
 		ekranı.güncelle();
 		öğeninDönüşümünüBul(ekranı, 0.0F);
+		
+		Set<Öğe> çıkarılacakÖğeler = new HashSet<>();
+		
+		dönüşümleri
+			.keySet()
+			.parallelStream()
+			.filter(
+				öğe -> enSonGüncellendikleriAnları.get(öğe) != çalıştıranİskelet
+					.anınıEdin())
+			.sequential()
+			.forEach(çıkarılacakÖğeler::add);
+		
+		çıkarılacakÖğeler.forEach(öğe -> {
+			Dönüşüm dönüşüm = dönüşümleri.remove(öğe);
+			enSonGüncellendikleriAnları.remove(öğe);
+			eskiDönüşümleri.remove(dönüşüm);
+			çizilecekDönüşümleri.remove(dönüşüm);
+		});
 	}
 	
 	@Override
@@ -190,6 +210,7 @@ public class ArayüzDenemesi implements Uygulama {
 					öğe.alanı.uzunlukları.birinciBileşeni,
 					öğe.alanı.uzunlukları.ikinciBileşeni,
 					0.0F);
+			enSonGüncellendikleriAnları.put(öğe, çalıştıranİskelet.anınıEdin());
 		}
 		if (öğe instanceof Levha) {
 			derinliği++;
