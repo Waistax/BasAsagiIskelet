@@ -26,8 +26,6 @@ public class GörselleştiriciDenemesi implements Uygulama {
 	
 	private Görselleştirici görselleştirici;
 	private Set<Dönüşüm> dönüşümleri;
-	private Map<Dönüşüm, Dönüşüm> eskiDönüşümleri;
-	private Map<Dönüşüm, Dönüşüm> çizilecekDönüşümleri;
 	
 	private GörselleştiriciDenemesi() {
 		final Gösterici gösterici = new Gösterici(
@@ -62,8 +60,6 @@ public class GörselleştiriciDenemesi implements Uygulama {
 			sıraBüyüklüğü++;
 		
 		dönüşümleri = new HashSet<>();
-		eskiDönüşümleri = new HashMap<>();
-		çizilecekDönüşümleri = new HashMap<>();
 		
 		for (int i = 0; i < nesneSayısı; i++) {
 			final Dönüşüm dönüşüm = new Dönüşüm();
@@ -74,11 +70,6 @@ public class GörselleştiriciDenemesi implements Uygulama {
 			dönüşümleri.add(dönüşüm);
 			görselleştirici.dönüşümüEkle(dönüşüm);
 		}
-		
-		dönüşümleri.forEach(dönüşümü -> {
-			eskiDönüşümleri.put(dönüşümü, new Dönüşüm());
-			çizilecekDönüşümleri.put(dönüşümü, new Dönüşüm());
-		});
 		
 		çalıştıranİskelet.göstericisi
 			.imleciDeğiştir(
@@ -105,29 +96,21 @@ public class GörselleştiriciDenemesi implements Uygulama {
 		final float dikeyBoyut =
 			girdi.imlecininKonumu.ikinciBileşeni / 720.0F * 360.0F;
 		
-		dönüşümleri.parallelStream().forEach(dönüşümü -> {
-			eskiDönüşümleri.get(dönüşümü).değiştir(dönüşümü);
-			dönüşümü.biçimi
-				.bileşenleriniDeğiştir(
-					yatayBoyut,
-					yatayBoyut,
-					radyanaÇevir(dikeyBoyut));
-		});
+		dönüşümleri
+			.stream()
+			.parallel()
+			.forEach(
+				dönüşümü -> dönüşümü.biçimi
+					.bileşenleriniDeğiştir(
+						yatayBoyut,
+						yatayBoyut,
+						radyanaÇevir(dikeyBoyut)));
+		
+		görselleştirici.güncelle();
 	}
 	
 	@Override
 	public void çiz() {
-		dönüşümleri
-			.parallelStream()
-			.forEach(
-				dönüşümü -> çizilecekDönüşümleri
-					.get(dönüşümü)
-					.aradeğerleriniBul(
-						eskiDönüşümleri.get(dönüşümü),
-						dönüşümü,
-						(float)çalıştıranİskelet.güncellenmemişTıklarınıEdin())
-					.güncelle());
-		çizilecekDönüşümleri.values().forEach(görselleştirici::dönüşümüEkle);
 		görselleştirici
 			.çiz((float)çalıştıranİskelet.güncellenmemişTıklarınıEdin());
 	}
