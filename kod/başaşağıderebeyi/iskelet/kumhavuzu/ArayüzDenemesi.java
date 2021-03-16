@@ -5,6 +5,7 @@
  */
 package başaşağıderebeyi.iskelet.kumhavuzu;
 
+import static başaşağıderebeyi.kütüphane.matematik.DikdörtgenVerisi.*;
 import static org.lwjgl.glfw.GLFW.*;
 
 import başaşağıderebeyi.iskelet.*;
@@ -14,6 +15,7 @@ import başaşağıderebeyi.iskelet.görsel.yazı.*;
 import başaşağıderebeyi.kütüphane.arayüz.*;
 import başaşağıderebeyi.kütüphane.girdi.*;
 import başaşağıderebeyi.kütüphane.matematik.*;
+import başaşağıderebeyi.kütüphane.matematik.yerleşim.*;
 import başaşağıderebeyi.kütüphane.olay.*;
 
 import java.util.*;
@@ -30,8 +32,8 @@ public class ArayüzDenemesi implements Uygulama {
 	private Görselleştirici görselleştirici;
 	private Map<Öğe, Dönüşüm> dönüşümleri;
 	private Map<Öğe, Long> enSonGüncellendikleriAnları;
-	private Map<Dönüşüm, Dönüşüm> eskiDönüşümleri;
-	private Map<Dönüşüm, Dönüşüm> çizilecekDönüşümleri;
+	private Map<Öğe, Dönüşüm> eskiDönüşümleri;
+	private Map<Öğe, Dönüşüm> çizilecekDönüşümleri;
 	private Ekran ekranı;
 	
 	private ArayüzDenemesi() {
@@ -87,12 +89,22 @@ public class ArayüzDenemesi implements Uygulama {
 			1280.0F,
 			720.0F);
 		
-		new Pencere(ekranı, "Birinci Pencere", 500.0F, 300.0F);
+		final Pencere birinciPencere = new Pencere(ekranı, 1000.0F, 600.0F);
+		birinciPencere.başlığı = "Birinci Pencere";
+		
+		final KayanLevha kayanLevha =
+			new KayanLevha(birinciPencere, 1000.0F, 1000.0F);
+		kayanLevha.içerenLevha.içerenLevha.yerleşimi
+			.kurallarıDeğiştir(
+				new GöreliKural(KÜÇÜK_KÖŞESİ, 100.0F),
+				new OrtalıKural(),
+				new GöreliKural(KÜÇÜK_KÖŞESİ, 100.0F),
+				new TersGöreliKural(BÜYÜK_KÖŞESİ, 300.0F));
 		
 		öğeninDönüşümünüOluştur(ekranı);
-		dönüşümleri.values().forEach(dönüşümü -> {
-			eskiDönüşümleri.put(dönüşümü, new Dönüşüm());
-			çizilecekDönüşümleri.put(dönüşümü, new Dönüşüm());
+		dönüşümleri.keySet().forEach(öğesi -> {
+			eskiDönüşümleri.put(öğesi, new Dönüşüm());
+			çizilecekDönüşümleri.put(öğesi, new Dönüşüm());
 		});
 		
 		çalıştıranİskelet.göstericisi
@@ -115,14 +127,16 @@ public class ArayüzDenemesi implements Uygulama {
 			çalıştıranİskelet.dur();
 		
 		dönüşümleri
-			.values()
+			.keySet()
 			.parallelStream()
 			.forEach(
-				dönüşümü -> eskiDönüşümleri.get(dönüşümü).değiştir(dönüşümü));
+				öğesi -> eskiDönüşümleri
+					.get(öğesi)
+					.değiştir(dönüşümleri.get(öğesi)));
 		ekranı.güncelle();
 		öğeninDönüşümünüBul(ekranı, 0.0F);
 		
-		Set<Öğe> çıkarılacakÖğeler = new HashSet<>();
+		final Set<Öğe> çıkarılacakÖğeler = new HashSet<>();
 		
 		dönüşümleri
 			.keySet()
@@ -133,28 +147,33 @@ public class ArayüzDenemesi implements Uygulama {
 			.sequential()
 			.forEach(çıkarılacakÖğeler::add);
 		
-		çıkarılacakÖğeler.forEach(öğe -> {
-			Dönüşüm dönüşüm = dönüşümleri.remove(öğe);
-			enSonGüncellendikleriAnları.remove(öğe);
-			eskiDönüşümleri.remove(dönüşüm);
-			çizilecekDönüşümleri.remove(dönüşüm);
+		çıkarılacakÖğeler.forEach(öğesi -> {
+			dönüşümleri.remove(öğesi);
+			enSonGüncellendikleriAnları.remove(öğesi);
+			eskiDönüşümleri.remove(öğesi);
+			çizilecekDönüşümleri.remove(öğesi);
 		});
 	}
 	
 	@Override
 	public void çiz() {
 		dönüşümleri
-			.values()
+			.keySet()
 			.parallelStream()
 			.forEach(
-				dönüşümü -> çizilecekDönüşümleri
-					.get(dönüşümü)
+				öğesi -> çizilecekDönüşümleri
+					.get(öğesi)
 					.aradeğerleriniBul(
-						eskiDönüşümleri.get(dönüşümü),
-						dönüşümü,
+						eskiDönüşümleri.get(öğesi),
+						dönüşümleri.get(öğesi),
 						(float)çalıştıranİskelet.güncellenmemişTıklarınıEdin())
 					.güncelle());
-		çizilecekDönüşümleri.values().forEach(görselleştirici::dönüşümüEkle);
+		çizilecekDönüşümleri
+			.keySet()
+			.stream()
+			.filter(Öğe::açıkOlmasınıEdin)
+			.map(öğesi -> çizilecekDönüşümleri.get(öğesi))
+			.forEach(görselleştirici::dönüşümüEkle);
 		görselleştirici
 			.çiz((float)çalıştıranİskelet.güncellenmemişTıklarınıEdin());
 		
@@ -212,10 +231,8 @@ public class ArayüzDenemesi implements Uygulama {
 					0.0F);
 			enSonGüncellendikleriAnları.put(öğe, çalıştıranİskelet.anınıEdin());
 		}
-		if (öğe instanceof Levha) {
-			derinliği++;
+		if (öğe instanceof Levha)
 			for (final Öğe içeriği : ((Levha)öğe).içeriği)
-				öğeninDönüşümünüBul(içeriği, derinliği);
-		}
+				öğeninDönüşümünüBul(içeriği, derinliği++);
 	}
 }
