@@ -1,7 +1,6 @@
 /**
- * başaşağıderebeyi.iskelet.İskelet.java
- * 0.1 / 3 Mar 2021 / 08:35:27
  * Cem GEÇGEL (BaşAşağıDerebeyi)
+ * 0.1 / 3 Mar 2021 / 08:35:27
  * 
  * BaşAşağıMotor'dan alındı.
  * 0.1 / 28 Ağu 2020 / 23:22:45
@@ -10,7 +9,7 @@ package başaşağıderebeyi.iskelet;
 
 import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.kütüphane.girdi.*;
-import başaşağıderebeyi.kütüphane.matematik.*;
+import başaşağıderebeyi.kütüphane.matematik.ortalama.*;
 import başaşağıderebeyi.kütüphane.olay.*;
 
 import java.util.*;
@@ -25,7 +24,7 @@ public class İskelet {
 	/** Ara sürümü. */
 	public static final int ARA_SÜRÜMÜ = 8;
 	/** Yaması. */
-	public static final int YAMASI = 4;
+	public static final int YAMASI = 5;
 	/** Bütün sürümü. */
 	public static final String SÜRÜM =
 		ANA_SÜRÜMÜ + "." + ARA_SÜRÜMÜ + "." + YAMASI;

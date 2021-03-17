@@ -1,11 +1,10 @@
 /**
- * başaşağıderebeyi.iskelet.kumhavuzu.ArayüzDenemesi.java
- * 0.8 / 14 Mar 2021 / 20:30:18
  * Cem GEÇGEL (BaşAşağıDerebeyi)
+ * 0.8 / 14 Mar 2021 / 20:30:18
  */
 package başaşağıderebeyi.iskelet.kumhavuzu;
 
-import static başaşağıderebeyi.kütüphane.matematik.DikdörtgenVerisi.*;
+import static başaşağıderebeyi.kütüphane.matematik.dikdörtgen.DikdörtgenVerisi.*;
 import static org.lwjgl.glfw.GLFW.*;
 
 import başaşağıderebeyi.iskelet.*;
@@ -14,7 +13,7 @@ import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.iskelet.görsel.yazı.*;
 import başaşağıderebeyi.kütüphane.arayüz.*;
 import başaşağıderebeyi.kütüphane.girdi.*;
-import başaşağıderebeyi.kütüphane.matematik.*;
+import başaşağıderebeyi.kütüphane.matematik.sayısal.*;
 import başaşağıderebeyi.kütüphane.matematik.yerleşim.*;
 import başaşağıderebeyi.kütüphane.olay.*;
 

@@ -1,7 +1,6 @@
 /**
- * başaşağıderebeyi.iskelet.görsel.Yükleyici.java
- * 0.3 / 4 Mar 2021 / 09:07:10
  * Cem GEÇGEL (BaşAşağıDerebeyi)
+ * 0.3 / 4 Mar 2021 / 09:07:10
  * 
  * Waistax Framework'den alındı.
  * ? / ? / ?

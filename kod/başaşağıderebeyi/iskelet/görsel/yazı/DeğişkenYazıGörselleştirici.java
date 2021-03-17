@@ -1,7 +1,6 @@
 /**
- * başaşağıderebeyi.iskelet.görsel.yazı.DeğişkenYazıGörselleştirici.java
- * 0.6 / 5 Mar 2021 / 21:59:54
  * Cem GEÇGEL (BaşAşağıDerebeyi)
+ * 0.6 / 5 Mar 2021 / 21:59:54
  */
 package başaşağıderebeyi.iskelet.görsel.yazı;
 
@@ -11,7 +10,7 @@ import static org.lwjgl.system.MemoryUtil.*;
 
 import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.iskelet.görsel.köşedizisi.*;
-import başaşağıderebeyi.kütüphane.matematik.*;
+import başaşağıderebeyi.kütüphane.matematik.sayısal.*;
 
 /** Kısa aralıklarla değişmesi beklenen ve geçici yazıları çizmek için
  * kullanılan araç. Bu sınıfla sabit yazılar da çizilebilir ama sabit yazıları

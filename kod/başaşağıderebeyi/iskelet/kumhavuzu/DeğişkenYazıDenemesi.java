@@ -1,7 +1,6 @@
 /**
- * başaşağıderebeyi.iskelet.kumhavuzu.DeğişkenYazıDenemesi.java
- * 0.6 / 6 Mar 2021 / 11:52:46
  * Cem GEÇGEL (BaşAşağıDerebeyi)
+ * 0.6 / 6 Mar 2021 / 11:52:46
  */
 package başaşağıderebeyi.iskelet.kumhavuzu;
 
@@ -11,7 +10,7 @@ import başaşağıderebeyi.iskelet.*;
 import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.iskelet.görsel.yazı.*;
 import başaşağıderebeyi.kütüphane.girdi.*;
-import başaşağıderebeyi.kütüphane.matematik.*;
+import başaşağıderebeyi.kütüphane.matematik.sayısal.*;
 import başaşağıderebeyi.kütüphane.olay.*;
 
 import java.util.*;

@@ -1,7 +1,6 @@
 /**
- * başaşağıderebeyi.iskelet.görsel.yazı.YazıŞekli.java
- * 0.6 / 5 Mar 2021 / 20:06:21
  * Cem GEÇGEL (BaşAşağıDerebeyi)
+ * 0.6 / 5 Mar 2021 / 20:06:21
  */
 package başaşağıderebeyi.iskelet.görsel.yazı;
 

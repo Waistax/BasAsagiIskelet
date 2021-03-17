@@ -1,7 +1,6 @@
 /**
- * başaşağıderebeyi.iskelet.görsel.yazı.DurağanYazıGörselleştirici.java
- * 0.7 / 7 Mar 2021 / 15:29:21
  * Cem GEÇGEL (BaşAşağıDerebeyi)
+ * 0.7 / 7 Mar 2021 / 15:29:21
  */
 package başaşağıderebeyi.iskelet.görsel.yazı;
 
@@ -10,7 +9,7 @@ import static org.lwjgl.system.MemoryUtil.*;
 
 import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.iskelet.görsel.köşedizisi.*;
-import başaşağıderebeyi.kütüphane.matematik.*;
+import başaşağıderebeyi.kütüphane.matematik.sayısal.*;
 
 import java.nio.*;
 

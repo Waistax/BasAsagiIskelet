@@ -1,7 +1,6 @@
 /**
- * başaşağıderebeyi.iskelet.kumhavuzu.GörselleştiriciDenemesi.java
- * 0.4 / 4 Mar 2021 / 20:43:28
  * Cem GEÇGEL (BaşAşağıDerebeyi)
+ * 0.4 / 4 Mar 2021 / 20:43:28
  */
 package başaşağıderebeyi.iskelet.kumhavuzu;
 
@@ -11,7 +10,7 @@ import static org.lwjgl.glfw.GLFW.*;
 import başaşağıderebeyi.iskelet.*;
 import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.kütüphane.girdi.*;
-import başaşağıderebeyi.kütüphane.matematik.*;
+import başaşağıderebeyi.kütüphane.matematik.sayısal.*;
 import başaşağıderebeyi.kütüphane.olay.*;
 
 import java.util.*;

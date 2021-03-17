@@ -1,7 +1,6 @@
 /**
- * başaşağıderebeyi.iskelet.girdi.Girdi.java
- * 0.2 / 3 Mar 2021 / 20:49:04
  * Cem GEÇGEL (BaşAşağıDerebeyi)
+ * 0.2 / 3 Mar 2021 / 20:49:04
  * 
  * Waistax Engine'den biraz alındı.
  * 4.0.0 / 7 Ara 2018 / ?

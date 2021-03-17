@@ -1,7 +1,6 @@
 /**
- * başaşağıderebeyi.iskelet.görsel.Gösterici.java
- * 0.2 / 3 Mar 2021 / 16:51:33
  * Cem GEÇGEL (BaşAşağıDerebeyi)
+ * 0.2 / 3 Mar 2021 / 16:51:33
  * 
  * Waistax Framework'den alındı.
  * ? / ? / ?
@@ -14,7 +13,7 @@ import static org.lwjgl.system.MemoryUtil.*;
 
 import başaşağıderebeyi.iskelet.*;
 import başaşağıderebeyi.iskelet.girdi.*;
-import başaşağıderebeyi.kütüphane.matematik.*;
+import başaşağıderebeyi.kütüphane.matematik.sayısal.*;
 
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;

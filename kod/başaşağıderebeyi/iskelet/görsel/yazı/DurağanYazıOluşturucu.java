@@ -1,13 +1,13 @@
 /**
- * başaşağıderebeyi.iskelet.görsel.yazı.DurağanYazıOluşturucu.java
- * 0.7 / 9 Mar 2021 / 20:48:15
  * Cem GEÇGEL (BaşAşağıDerebeyi)
+ * 0.7 / 9 Mar 2021 / 20:48:15
  */
 package başaşağıderebeyi.iskelet.görsel.yazı;
 
 import static başaşağıderebeyi.kütüphane.matematik.MatematikAracı.*;
 
-import başaşağıderebeyi.kütüphane.matematik.*;
+import başaşağıderebeyi.kütüphane.matematik.dikdörtgen.*;
+import başaşağıderebeyi.kütüphane.matematik.sayısal.*;
 
 import java.util.*;
 

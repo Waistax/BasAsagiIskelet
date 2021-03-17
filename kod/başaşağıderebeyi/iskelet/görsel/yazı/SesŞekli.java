@@ -1,11 +1,10 @@
 /**
- * başaşağıderebeyi.iskelet.görsel.yazı.SesŞekli.java
- * 0.6 / 5 Mar 2021 / 20:07:03
  * Cem GEÇGEL (BaşAşağıDerebeyi)
+ * 0.6 / 5 Mar 2021 / 20:07:03
  */
 package başaşağıderebeyi.iskelet.görsel.yazı;
 
-import başaşağıderebeyi.kütüphane.matematik.*;
+import başaşağıderebeyi.kütüphane.matematik.sayısal.*;
 
 /** Belli bir yazı şeklindeki belli bir sesin şeklini saklayan nesne. */
 public class SesŞekli {

@@ -1,7 +1,6 @@
 /**
- * başaşağıderebeyi.iskelet.girdi.TekerlekGirdisiOlayı.java
- * 0.2 / 3 Mar 2021 / 21:46:14
  * Cem GEÇGEL (BaşAşağıDerebeyi)
+ * 0.2 / 3 Mar 2021 / 21:46:14
  */
 package başaşağıderebeyi.iskelet.girdi;
 

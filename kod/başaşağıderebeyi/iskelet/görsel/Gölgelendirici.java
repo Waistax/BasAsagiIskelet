@@ -1,7 +1,6 @@
 /**
- * başaşağıderebeyi.iskelet.görsel.Gölgelendirici.java
- * 0.3 / 4 Mar 2021 / 14:44:35
  * Cem GEÇGEL (BaşAşağıDerebeyi)
+ * 0.3 / 4 Mar 2021 / 14:44:35
  * 
  * Waistax Framework'den alındı.
  * ? / ? / ?
@@ -10,7 +9,7 @@ package başaşağıderebeyi.iskelet.görsel;
 
 import static org.lwjgl.opengl.GL20.*;
 
-import başaşağıderebeyi.kütüphane.matematik.*;
+import başaşağıderebeyi.kütüphane.matematik.sayısal.*;
 
 import java.nio.*;
 import java.util.*;

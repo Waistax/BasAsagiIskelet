@@ -1,7 +1,6 @@
 /**
- * başaşağıderebeyi.iskelet.görsel.köşedizisi.SıralıKöşeDizisi.java
- * 0.6 / 6 Mar 2021 / 10:46:40
  * Cem GEÇGEL (BaşAşağıDerebeyi)
+ * 0.6 / 6 Mar 2021 / 10:46:40
  */
 package başaşağıderebeyi.iskelet.görsel.köşedizisi;
 

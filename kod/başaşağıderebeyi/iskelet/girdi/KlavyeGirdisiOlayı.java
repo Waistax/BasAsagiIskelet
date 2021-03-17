@@ -1,7 +1,6 @@
 /**
- * başaşağıderebeyi.iskelet.girdi.KlavyeGirdisiOlayı.java
- * 0.2 / 3 Mar 2021 / 20:32:15
  * Cem GEÇGEL (BaşAşağıDerebeyi)
+ * 0.2 / 3 Mar 2021 / 20:32:15
  */
 package başaşağıderebeyi.iskelet.girdi;
 

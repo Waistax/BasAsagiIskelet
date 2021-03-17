@@ -1,7 +1,6 @@
 /**
- * başaşağıderebeyi.iskelet.görsel.Görselleştirici.java
- * 0.4 / 4 Mar 2021 / 17:47:03
  * Cem GEÇGEL (BaşAşağıDerebeyi)
+ * 0.4 / 4 Mar 2021 / 17:47:03
  */
 package başaşağıderebeyi.iskelet.görsel;
 
@@ -9,7 +8,7 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 import başaşağıderebeyi.iskelet.görsel.köşedizisi.*;
-import başaşağıderebeyi.kütüphane.matematik.*;
+import başaşağıderebeyi.kütüphane.matematik.sayısal.*;
 
 /** Verilen dönüşümlerin belirlediği iki boyutlu nesneleri ekrana çizer. */
 public class Görselleştirici {

@@ -1,11 +1,10 @@
 /**
- * başaşağıderebeyi.iskelet.görsel.yazı.ŞekilOkuyucusu.java
- * 0.6 / 5 Mar 2021 / 21:34:04
  * Cem GEÇGEL (BaşAşağıDerebeyi)
+ * 0.6 / 5 Mar 2021 / 21:34:04
  */
 package başaşağıderebeyi.iskelet.görsel.yazı;
 
-import başaşağıderebeyi.kütüphane.matematik.*;
+import başaşağıderebeyi.kütüphane.matematik.sayısal.*;
 
 import java.util.*;
 

@@ -1,7 +1,6 @@
 /**
- * başaşağıderebeyi.iskelet.kumhavuzu.Deneme.java
- * 0.1 / 3 Mar 2021 / 09:18:32
  * Cem GEÇGEL (BaşAşağıDerebeyi)
+ * 0.1 / 3 Mar 2021 / 09:18:32
  */
 package başaşağıderebeyi.iskelet.kumhavuzu;
 
@@ -15,7 +14,7 @@ import static org.lwjgl.opengl.GL30.*;
 import başaşağıderebeyi.iskelet.*;
 import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.kütüphane.girdi.*;
-import başaşağıderebeyi.kütüphane.matematik.*;
+import başaşağıderebeyi.kütüphane.matematik.sayısal.*;
 import başaşağıderebeyi.kütüphane.olay.*;
 
 /** İskeleti dener. */

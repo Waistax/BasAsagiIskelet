@@ -1,7 +1,6 @@
 /**
- * başaşağıderebeyi.iskelet.girdi.FareGirdisiOlayı.java
- * 0.2 / 3 Mar 2021 / 20:58:27
  * Cem GEÇGEL (BaşAşağıDerebeyi)
+ * 0.2 / 3 Mar 2021 / 20:58:27
  */
 package başaşağıderebeyi.iskelet.girdi;
 
