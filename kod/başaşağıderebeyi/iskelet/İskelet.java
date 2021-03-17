@@ -20,8 +20,15 @@ import org.lwjgl.glfw.*;
 /** Uygulamayı çalıştıran ve döngü içerisinde güncelleyen genel kodları sağlayan
  * iskelet. */
 public class İskelet {
-	/** İskeletin sürümü. */
-	public static final String SÜRÜM = "0.8.3";
+	/** Ana sürümü. */
+	public static final int ANA_SÜRÜMÜ = 0;
+	/** Ara sürümü. */
+	public static final int ARA_SÜRÜMÜ = 8;
+	/** Yaması. */
+	public static final int YAMASI = 4;
+	/** Bütün sürümü. */
+	public static final String SÜRÜM =
+		ANA_SÜRÜMÜ + "." + ARA_SÜRÜMÜ + "." + YAMASI;
 	
 	private static final SayaçOlayı SAYAÇ_OLAYI = new SayaçOlayı();
 	
