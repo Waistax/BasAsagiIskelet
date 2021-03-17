@@ -6,6 +6,7 @@ package başaşağıderebeyi.iskelet.kumhavuzu;
 
 import static başaşağıderebeyi.kütüphane.matematik.MatematikAracı.*;
 import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.opengl.GL11.*;
 
 import başaşağıderebeyi.iskelet.*;
 import başaşağıderebeyi.iskelet.görsel.*;
@@ -28,7 +29,14 @@ public class GörselleştiriciDenemesi implements Uygulama {
 	private Map<Dönüşüm, Dönüşüm> eskiDönüşümleri;
 	private Map<Dönüşüm, Dönüşüm> çizilecekDönüşümleri;
 	
+	private final Yöney4 temizlenmeRengi;
+	private final Yöney4 öncekiTemizlenmeRengi;
+	private final Yöney4 kullanılacakTemizlenmeRengi;
+	
 	private GörselleştiriciDenemesi() {
+		temizlenmeRengi = new Yöney4();
+		öncekiTemizlenmeRengi = new Yöney4();
+		kullanılacakTemizlenmeRengi = new Yöney4();
 		final Gösterici gösterici = new Gösterici(
 			640,
 			360,
@@ -36,9 +44,9 @@ public class GörselleştiriciDenemesi implements Uygulama {
 			false,
 			16,
 			1,
-			new Yöney4());
+			temizlenmeRengi);
 		çalıştıranİskelet =
-			new İskelet(10.0F, this, gösterici, new Yükleyici());
+			new İskelet(100.0F, this, gösterici, new Yükleyici());
 		çalıştıranİskelet.başla();
 	}
 	
@@ -100,7 +108,7 @@ public class GörselleştiriciDenemesi implements Uygulama {
 			çalıştıranİskelet.dur();
 		
 		final float yatayBoyut =
-			girdi.imlecininKonumu.birinciBileşeni / 1280.0F * 1000.0F;
+			girdi.imlecininKonumu.birinciBileşeni / 1280.0F * 100.0F;
 		final float dikeyBoyut =
 			girdi.imlecininKonumu.ikinciBileşeni / 720.0F * 360.0F;
 		
@@ -112,10 +120,27 @@ public class GörselleştiriciDenemesi implements Uygulama {
 					yatayBoyut,
 					radyanaÇevir(dikeyBoyut));
 		});
+		
+		öncekiTemizlenmeRengi.değiştir(temizlenmeRengi);
+		temizlenmeRengi.birinciBileşeni = dikeyBoyut;
+		temizlenmeRengi.ikinciBileşeni = yatayBoyut;
+		temizlenmeRengi.üçüncüBileşeni = 50.0F;
 	}
 	
 	@Override
 	public void çiz() {
+		kullanılacakTemizlenmeRengi
+			.aradeğerleriniBul(
+				öncekiTemizlenmeRengi,
+				temizlenmeRengi,
+				(float)çalıştıranİskelet.güncellenmemişTıklarınıEdin())
+			.hsluvdanRgbye();
+		glClearColor(
+			kullanılacakTemizlenmeRengi.birinciBileşeni,
+			kullanılacakTemizlenmeRengi.ikinciBileşeni,
+			kullanılacakTemizlenmeRengi.üçüncüBileşeni,
+			kullanılacakTemizlenmeRengi.dördüncüBileşeni);
+		
 		dönüşümleri
 			.parallelStream()
 			.forEach(

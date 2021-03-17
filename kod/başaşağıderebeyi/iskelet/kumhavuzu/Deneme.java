@@ -38,7 +38,7 @@ public class Deneme implements Uygulama {
 		final Gösterici gösterici = new Gösterici(
 			1280,
 			720,
-			"Baş Aşağı Derebeyi " + İskelet.SÜRÜM,
+			"Deneme Sürümü: " + İskelet.SÜRÜM,
 			false,
 			0,
 			0,
@@ -83,7 +83,7 @@ public class Deneme implements Uygulama {
 		if (girdi.klavyesininTuşunuEdin(GLFW_KEY_ESCAPE).salınmasınıEdin())
 			çalıştıranİskelet.dur();
 		
-		tekerleğinToplamDevri += girdi.tekerleğininDevriniEdin();
+		tekerleğinToplamDevri += girdi.tekerleğininDevri;
 		
 		öncekiTemizlenmeRengi.değiştir(temizlenmeRengi);
 		
