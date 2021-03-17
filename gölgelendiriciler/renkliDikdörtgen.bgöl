@@ -300,4 +300,6 @@ void main() {
 		benekRengi = hsluvToRgb(beneginRengi);
 	else
 		benekRengi = beneginRengi;
+		
+	benekRengi = round(benekRengi * 10) / 10;
 }

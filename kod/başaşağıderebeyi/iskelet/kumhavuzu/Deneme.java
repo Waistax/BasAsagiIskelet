@@ -25,7 +25,7 @@ public class Deneme implements Uygulama {
 	
 	private final İskelet çalıştıranİskelet;
 	
-	KöşeDizisi köşeDizisi;
+	private KöşeDizisi köşeDizisi;
 	private int tekerleğinToplamDevri;
 	private float boyutu;
 	private float öncekiBoyutu;
