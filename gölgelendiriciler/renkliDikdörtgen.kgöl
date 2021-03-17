@@ -1,13 +1,13 @@
 #version 440
 
-layout (location = 0) in vec4 konumu;
-layout (location = 1) in mat4 donusumu;
+layout (location = 0) in vec2 konumu;
+layout (location = 1) in vec4 rengi;
 
-out vec4 benekKonumu;
+out vec4 beneginRengi;
 
-uniform mat4 izdusumDizeyi;
+uniform float boyutu;
 
 void main() {
-    gl_Position = izdusumDizeyi * donusumu * konumu;
-    benekKonumu = gl_Position;
+    gl_Position = vec4(konumu * boyutu, 0.0, 1.0);
+    beneginRengi = rengi;
 }
