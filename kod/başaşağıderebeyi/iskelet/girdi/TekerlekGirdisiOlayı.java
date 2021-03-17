@@ -8,7 +8,7 @@ import başaşağıderebeyi.iskelet.*;
 
 /** Fare tekerleğiyle girdi verilmesinin olayı. Bu girdi olayı tekrar tekrar
  * kullanılır. Böylece her olayda yeni bir nesne oluşturulmamış olur. */
-public class TekerlekGirdisiOlayı extends GirdiOlayı {
+public class TekerlekGirdisiOlayı extends GeridönüşümlüOlay {
 	/** Fare tekerleğinin döndüğü devir. */
 	public double devri;
 	

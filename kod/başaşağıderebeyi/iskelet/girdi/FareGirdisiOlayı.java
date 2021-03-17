@@ -9,7 +9,7 @@ import başaşağıderebeyi.kütüphane.girdi.*;
 
 /** Fareyle girdi verilmesinin olayı. Bu girdi olayı tekrar tekrar kullanılır.
  * Böylece her olayda yeni bir nesne oluşturulmamış olur. */
-public class FareGirdisiOlayı extends GirdiOlayı {
+public class FareGirdisiOlayı extends GeridönüşümlüOlay {
 	/** Bu olaya karışan tuş. */
 	public final Tuş tuşu;
 	/** Olayın tuşunun basılı olup olmaması. */
