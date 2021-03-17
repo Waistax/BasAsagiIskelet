@@ -35,7 +35,7 @@ public class GörselleştiriciDenemesi implements Uygulama {
 			"Görselleştirici Denemesi Sürüm: " + İskelet.SÜRÜM,
 			false,
 			16,
-			0,
+			1,
 			new Yöney4());
 		çalıştıranİskelet =
 			new İskelet(10.0F, this, gösterici, new Yükleyici());
@@ -49,12 +49,12 @@ public class GörselleştiriciDenemesi implements Uygulama {
 		final Dizey4 izdüşümDizeyi =
 			new Dizey4().izdüşümDizeyineÇevir(1280.0F, 720.0F, 20.0F);
 		
-		final int nesneSayısı = 72;
+		final int nesneSayısı = 1;
 		görselleştirici = new Görselleştirici(
 			çalıştıranİskelet.yükleyicisi,
 			izdüşümDizeyi,
 			nesneSayısı,
-			"denemeResmi");
+			çalıştıranİskelet.yükleyicisi.hsluvDokuYükle("denemeResmi"));
 		
 		int sıraBüyüklüğü = (int)kökünüBul(nesneSayısı);
 		if (sıraBüyüklüğü % 2 == 0)
@@ -100,7 +100,7 @@ public class GörselleştiriciDenemesi implements Uygulama {
 			çalıştıranİskelet.dur();
 		
 		final float yatayBoyut =
-			girdi.imlecininKonumu.birinciBileşeni / 1280.0F * 100.0F;
+			girdi.imlecininKonumu.birinciBileşeni / 1280.0F * 1000.0F;
 		final float dikeyBoyut =
 			girdi.imlecininKonumu.ikinciBileşeni / 720.0F * 360.0F;
 		

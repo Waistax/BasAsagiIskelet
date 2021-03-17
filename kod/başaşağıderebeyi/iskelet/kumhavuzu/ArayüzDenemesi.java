@@ -73,7 +73,7 @@ public class ArayüzDenemesi implements Uygulama {
 			çalıştıranİskelet.yükleyicisi,
 			izdüşümDizeyi,
 			100,
-			"arkaplan");
+			çalıştıranİskelet.yükleyicisi.hsluvDokuYükle("arkaplan"));
 		
 		dönüşümleri = new HashMap<>();
 		enSonGüncellendikleriAnları = new HashMap<>();

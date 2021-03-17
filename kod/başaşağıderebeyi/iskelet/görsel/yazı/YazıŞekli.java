@@ -29,7 +29,7 @@ public class YazıŞekli {
 	/** Verilen addaki yazı şeklini tanımlar. */
 	public YazıŞekli(final Yükleyici yükleyici, final String adı) {
 		seslerininŞekilleri = new HashMap<>();
-		dokusu = yükleyici.dokuYükle(adı + "YazıŞekli");
+		dokusu = yükleyici.rgbDokuYükle(adı + "YazıŞekli");
 		
 		enBüyükYüksekliği =
 			new ŞekilOkuyucusu(this, yükleyici.yazıŞekliBilgisiniYükle(adı))

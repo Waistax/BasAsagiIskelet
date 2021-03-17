@@ -24,7 +24,7 @@ public class Görselleştirici {
 		final Yükleyici yükleyici,
 		final Dizey4 izdüşümDizeyi,
 		final int sığası,
-		final String dokusununAdı) {
+		final int dokusu) {
 		gölgelendiricisi = new Gölgelendirici(yükleyici, "dokuluDikdörtgen");
 		gölgelendiricisi.değerinKonumunuBul("izdusumDizeyi");
 		
@@ -37,7 +37,7 @@ public class Görselleştirici {
 		oluşumluKöşeDizisiniOluştur();
 		
 		this.sığası = sığası;
-		dokusu = yükleyici.dokuYükle(dokusununAdı);
+		this.dokusu = dokusu;
 	}
 	
 	/** Eğer yer varsa verilen dönüşümü çizilecekler kümesine ekler. */

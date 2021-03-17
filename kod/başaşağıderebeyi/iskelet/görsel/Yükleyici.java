@@ -7,6 +7,7 @@
  */
 package başaşağıderebeyi.iskelet.görsel;
 
+import static java.lang.Math.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.*;
@@ -19,10 +20,12 @@ import java.io.*;
 import java.nio.*;
 import java.nio.file.*;
 import java.util.*;
+import java.util.function.*;
 import java.util.stream.*;
 
 import javax.imageio.*;
 
+import org.hsluv.*;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
@@ -30,14 +33,50 @@ import org.lwjgl.system.*;
 
 /** Görselleri ve şekilleri ekran kartının belleğine yükler. */
 public class Yükleyici {
+	/** Resimlerin saklandığı klasörün yolu. Bu yol programın çalıştığı yere
+	 * göredir. */
 	public static final String RESİMLERİN_KLASÖRÜ = "resimler";
+	/** Resimlerin uzantısı. */
 	public static final String RESİMLERİN_UZANTISI = ".png";
+	
+	/** Gölgelendiricilerin saklandığı klasörün yolu. Bu yol programın çalıştığı
+	 * yere göredir. */
 	public static final String GÖLGELENDİRİCİLERİN_KLASÖRÜ =
 		"gölgelendiriciler";
+	/** Köşe gölgelendiricilerinin uzantısı. */
 	public static final String KÖŞE_GÖLGELENDİRİCİLERİNİN_UZANTISI = ".kgöl";
+	/** Benek gölgelendiricilerinin uzantısı. */
 	public static final String BENEK_GÖLGELENDİRİCİLERİNİN_UZANTISI = ".bgöl";
+	
+	/** Yazı şekillerinin saklandığı klasörün yolu. Bu yol programın çalıştığı
+	 * yere göredir. */
 	public static final String YAZI_ŞEKİLLERİNİN_KLASÖRÜ = "yazıŞekilleri";
+	/** Yazı şekillerinin uzantısı. */
 	public static final String YAZI_ŞEKİLLERİNİN_UZANTISI = ".yşek";
+	
+	/**  */
+	public static final IntUnaryOperator BENEĞİ_RGB_UZAYINA_ÇEVİRİCİ =
+		benekRengi -> benekRengi & 0xFF000000 |
+			(benekRengi & 0x000000FF) << 16 |
+			(benekRengi & 0x0000FF00) << 0 |
+			(benekRengi & 0x00FF0000) >> 16;
+	
+	public static final IntUnaryOperator BENEĞİ_HSLUV_UZAYINA_ÇEVİRİCİ =
+		benekRengi -> {
+			final int solukluğu = (benekRengi & 0xFF000000) >> 24;
+			
+			final double[] HSLuv = HUSLColorConverter
+				.rgbToHsluv(
+					new double[] {
+						((benekRengi & 0x00FF0000) >> 16) / 255.0,
+						((benekRengi & 0x0000FF00) >> 8) / 255.0,
+						((benekRengi & 0x000000FF) >> 0) / 255.0 });
+			
+			return solukluğu << 24 |
+				(int)round(HSLuv[2] / 100.0 * 255.0) << 16 |
+				(int)round(HSLuv[1] / 100.0 * 255.0) << 8 |
+				(int)round(HSLuv[0] / 360.0 * 255.0);
+		};
 	
 	/** Dizeyleri ekran kartına yüklemek için kullanılacak tampon. */
 	public final FloatBuffer dizeyTamponu;
@@ -305,10 +344,10 @@ public class Yükleyici {
 		
 		IntStream.range(0, resminVerisi.length).parallel().forEach(benek -> {
 			final int benekRengi = resminVerisi[benek];
-			renkBaytları[benek * 4 + 0] = (byte)(benekRengi >> 16 & 0xFF);
-			renkBaytları[benek * 4 + 1] = (byte)(benekRengi >> 8 & 0xFF);
-			renkBaytları[benek * 4 + 2] = (byte)(benekRengi >> 0 & 0xFF);
-			renkBaytları[benek * 4 + 3] = (byte)(benekRengi >> 24 & 0xFF);
+			renkBaytları[benek * 4 + 0] = (byte)(benekRengi >> 16);
+			renkBaytları[benek * 4 + 1] = (byte)(benekRengi >> 8);
+			renkBaytları[benek * 4 + 2] = (byte)benekRengi;
+			renkBaytları[benek * 4 + 3] = (byte)(benekRengi >> 24);
 		});
 		
 		return GLFWImage
@@ -322,18 +361,34 @@ public class Yükleyici {
 					.flip());
 	}
 	
+	/** Resimler klasöründeki verilen addaki resmi ekran kartına RGB renk
+	 * uzayında yükler ve işaretçisini döndürür. */
+	public int rgbDokuYükle(final String resminAdı) {
+		return dokuYükle(resminAdı, BENEĞİ_RGB_UZAYINA_ÇEVİRİCİ);
+	}
+	
+	/** Resimler klasöründeki verilen addaki resmi ekran kartına HSLuv renk
+	 * uzayında yükler ve işaretçisini döndürür. */
+	public int hsluvDokuYükle(final String resminAdı) {
+		return dokuYükle(resminAdı, BENEĞİ_HSLUV_UZAYINA_ÇEVİRİCİ);
+	}
+	
 	/** Resimler klasöründeki verilen addaki resmi ekran kartına yükler ve
 	 * işaretçisini döndürür. */
-	public int dokuYükle(final String resiminAdı) {
-		return dokuYükle(resimYükle(resiminAdı));
+	public int dokuYükle(
+		final String resiminAdı,
+		final IntUnaryOperator çevirici) {
+		return dokuYükle(resimYükle(resiminAdı), çevirici);
 	}
 	
 	/** Verilen resmi ekran kartına yükler ve işaretçisini döndürür. */
-	public int dokuYükle(final BufferedImage resim) {
+	public int dokuYükle(
+		final BufferedImage resim,
+		final IntUnaryOperator çevirici) {
 		final int doku = glGenTextures();
 		dokuları.add(doku);
 		glBindTexture(GL_TEXTURE_2D, doku);
-		resminVerisiniYükle(resim);
+		resminVerisiniYükle(resim, çevirici);
 		glTexParameteri(
 			GL_TEXTURE_2D,
 			GL_TEXTURE_MIN_FILTER,
@@ -345,7 +400,9 @@ public class Yükleyici {
 	}
 	
 	/** Verilen resmin verisini gerekli şekle sokup ekran kartına yükler. */
-	private void resminVerisiniYükle(final BufferedImage resim) {
+	private void resminVerisiniYükle(
+		final BufferedImage resim,
+		final IntUnaryOperator çevirici) {
 		final int[] resminVerisi = resim
 			.getRGB(
 				0,
@@ -356,13 +413,12 @@ public class Yükleyici {
 				0,
 				resim.getWidth());
 		
-		IntStream.range(0, resminVerisi.length).parallel().forEach(benek -> {
-			final int benekRengi = resminVerisi[benek];
-			resminVerisi[benek] = benekRengi & 0xFF000000 |
-				(benekRengi & 0x000000FF) << 16 |
-				(benekRengi & 0x0000FF00) << 0 |
-				(benekRengi & 0x00FF0000) >> 16;
-		});
+		IntStream
+			.range(0, resminVerisi.length)
+			.parallel()
+			.forEach(
+				benek -> resminVerisi[benek] =
+					çevirici.applyAsInt(resminVerisi[benek]));
 		
 		final IntBuffer tampon =
 			memAllocInt(resminVerisi.length).put(resminVerisi).flip();
