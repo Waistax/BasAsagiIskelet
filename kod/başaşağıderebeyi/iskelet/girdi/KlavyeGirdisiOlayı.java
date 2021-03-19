@@ -5,11 +5,12 @@
 package başaşağıderebeyi.iskelet.girdi;
 
 import başaşağıderebeyi.iskelet.*;
+import başaşağıderebeyi.iskelet.olaylar.*;
 import başaşağıderebeyi.kütüphane.girdi.*;
 
 /** Klavyeyle girdi verilmesinin olayı. Bu girdi olayı tekrar tekrar kullanılır.
  * Böylece her olayda yeni bir nesne oluşturulmamış olur. */
-public class KlavyeGirdisiOlayı extends GeridönüşümlüOlay {
+public class KlavyeGirdisiOlayı extends GeriDönüşümlüOlay {
 	/** Bu olaya karışan tuş. */
 	public final Tuş tuşu;
 	/** Olayın tuşunun basılı olup olmaması. */

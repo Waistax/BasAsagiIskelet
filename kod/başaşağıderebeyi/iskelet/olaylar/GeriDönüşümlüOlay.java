@@ -2,18 +2,22 @@
  * Cem GEÇGEL (BaşAşağıDerebeyi)
  * 0.8 / 15 Mar 2021 / 14:12:07
  */
-package başaşağıderebeyi.iskelet;
+package başaşağıderebeyi.iskelet.olaylar;
 
+import başaşağıderebeyi.iskelet.*;
 import başaşağıderebeyi.kütüphane.olay.*;
 
-/** Geridönüştürülebilir bir olay. Bu olay tekrar tekrar kullanıldığı için her
+/** Geri dönüştürülebilir bir olay. Bu olay tekrar tekrar kullanıldığı için her
  * an tek bir kere dağıtıldığından emin olmak gerekir. */
-public class GeridönüşümlüOlay extends Olay {
-	private final İskelet çalıştıranİskelet;
-	private long enSonDağıtıldığıAn;
+public abstract class GeriDönüşümlüOlay extends Olay {
+	/** Çalıştıran iskelet. */
+	public final İskelet çalıştıranİskelet;
+	/** Bu olayın en son dağıtıldığı an. Her dağıtımda bu an güncellenmelidir.
+	 * Yoksa tek bir anda aynı olay birden fazla kere dağıtılır. */
+	public long enSonDağıtıldığıAn;
 	
 	/** Verilen iskelette tanımlar. */
-	public GeridönüşümlüOlay(final İskelet çalıştıranİskelet) {
+	public GeriDönüşümlüOlay(final İskelet çalıştıranİskelet) {
 		this.çalıştıranİskelet = çalıştıranİskelet;
 		enSonDağıtıldığıAn = -1L;
 	}
@@ -23,7 +27,7 @@ public class GeridönüşümlüOlay extends Olay {
 	public void dağıtmayıDene() {
 		if (enSonDağıtıldığıAn != çalıştıranİskelet.anınıEdin()) {
 			susturulması = false;
-			çalıştıranİskelet.olayDağıtıcısınıEdin().dağıt(this);
+			çalıştıranİskelet.olaylarınınDağıtıcısınıEdin().dağıt(this);
 			enSonDağıtıldığıAn = çalıştıranİskelet.anınıEdin();
 		}
 	}

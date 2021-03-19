@@ -5,10 +5,11 @@
 package başaşağıderebeyi.iskelet.girdi;
 
 import başaşağıderebeyi.iskelet.*;
+import başaşağıderebeyi.iskelet.olaylar.*;
 
 /** Fare imleciyle girdi verilmesinin olayı. Bu girdi olayı tekrar tekrar
  * kullanılır. Böylece her olayda yeni bir nesne oluşturulmamış olur. */
-public class İmleçGirdisiOlayı extends GeridönüşümlüOlay {
+public class İmleçGirdisiOlayı extends GeriDönüşümlüOlay {
 	/** Fare imlecinin konumunun yatay bileşeni. */
 	public double konumununYatayBileşeni;
 	/** Fare imlecinin konumunun dikey bileşeni. */

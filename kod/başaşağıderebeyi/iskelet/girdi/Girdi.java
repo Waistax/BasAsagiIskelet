@@ -36,7 +36,9 @@ public class Girdi {
 		tekerlekGirdisiBildiricisi =
 			new TekerlekGirdisiBildiricisi(bildireceğiİskelet);
 		
-		bildireceğiİskelet.olayDağıtıcısınıEdin().dinleyicileriniEkle(this);
+		bildireceğiİskelet
+			.olaylarınınDağıtıcısınıEdin()
+			.dinleyicileriniEkle(this);
 		bildiricileriPencereyeEkle(dinlediğiPencere);
 	}
 	

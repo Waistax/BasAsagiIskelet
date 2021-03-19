@@ -10,10 +10,12 @@ import static org.lwjgl.opengl.GL11.*;
 
 import başaşağıderebeyi.iskelet.*;
 import başaşağıderebeyi.iskelet.görsel.*;
+import başaşağıderebeyi.iskelet.olaylar.*;
 import başaşağıderebeyi.kütüphane.girdi.*;
 import başaşağıderebeyi.kütüphane.matematik.sayısal.*;
 import başaşağıderebeyi.kütüphane.olay.*;
 
+import java.lang.annotation.*;
 import java.util.*;
 
 /** Görselleştiriciyi dener. */
@@ -52,7 +54,9 @@ public class GörselleştiriciDenemesi implements Uygulama {
 	
 	@Override
 	public void oluştur() {
-		çalıştıranİskelet.olayDağıtıcısınıEdin().dinleyicileriniEkle(this);
+		çalıştıranİskelet
+			.olaylarınınDağıtıcısınıEdin()
+			.dinleyicileriniEkle(this);
 		
 		final Dizey4 izdüşümDizeyi =
 			new Dizey4().izdüşümDizeyineÇevir(1280.0F, 720.0F, 20.0F);
@@ -164,5 +168,11 @@ public class GörselleştiriciDenemesi implements Uygulama {
 					çalıştıranİskelet.tıklarınınOranınıEdin() +
 					" Kare Oranı: " +
 					çalıştıranİskelet.karelerininOranınıEdin());
+	}
+	
+	@Override
+	public Class<? extends Annotation> annotationType() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

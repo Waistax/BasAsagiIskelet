@@ -8,6 +8,7 @@
 package başaşağıderebeyi.iskelet;
 
 import başaşağıderebeyi.iskelet.görsel.*;
+import başaşağıderebeyi.iskelet.olaylar.*;
 import başaşağıderebeyi.kütüphane.girdi.*;
 import başaşağıderebeyi.kütüphane.matematik.ortalama.*;
 import başaşağıderebeyi.kütüphane.olay.*;
@@ -24,7 +25,7 @@ public class İskelet {
 	/** Ara sürümü. */
 	public static final int ARA_SÜRÜMÜ = 10;
 	/** Yaması. */
-	public static final int YAMASI = 0;
+	public static final int YAMASI = 1;
 	/** Bütün sürümü. */
 	public static final String SÜRÜM =
 		ANA_SÜRÜMÜ + "." + ARA_SÜRÜMÜ + "." + YAMASI;
@@ -33,8 +34,6 @@ public class İskelet {
 	
 	/** İskeletin ulaşmaya çalıştığı saniye başına tık oranı. */
 	public final float istediğiTıkOranı;
-	/** İskeletin çalıştırdığı uygulama. */
-	public final Uygulama uygulaması;
 	/** İskeletin çizimleri göstermek kullandığı araç. */
 	public final Gösterici göstericisi;
 	/** İskeletin görselleri ve şekilleri yüklemek için kullandığı araç. */
@@ -44,23 +43,28 @@ public class İskelet {
 	
 	private double tıklarınınOranı;
 	private double karelerininOranı;
-	private Ortalama tıklarınınOranınınOrtalaması;
-	private Ortalama karelerininOranınınOrtalaması;
 	private double güncellenmemişTıkları;
 	private long anı;
 	
-	private AnlıOlayDağıtıcısı olayDağıtıcısı;
+	private Ortalama tıklarınınOranınınOrtalaması;
+	private Ortalama karelerininOranınınOrtalaması;
 	private Map<String, Süreç> süreçleri;
+	
 	private ÇiğGirdi çiğGirdisi;
+	private AnlıOlayDağıtıcısı olaylarınınDağıtıcısı;
+	private GüncellemeOlayı güncellemeOlayı;
+	
+	private OlayDağıtıcısı çizimOlaylarınınDağıtıcısı;
+	private ÇizimOlayı çizimOlayı;
+	
+	private UygulamaYükleyicisi uygulamaYükleyicisi;
 	
 	/** Verilenler ile tanımlar. */
 	public İskelet(
 		final float istediğiTıkOranı,
-		final Uygulama uygulaması,
 		final Gösterici göstericisi,
 		final Yükleyici yükleyicisi) {
 		this.istediğiTıkOranı = istediğiTıkOranı;
-		this.uygulaması = uygulaması;
 		this.göstericisi = göstericisi;
 		this.yükleyicisi = yükleyicisi;
 	}
@@ -120,13 +124,24 @@ public class İskelet {
 	
 	/** İskeletin olay dağıtıcısını döndürür. Bu anlık olarak çalışır;
 	 * dağıtacağı olayları biriktirip hepsini güncellemeden önce dağıtır. */
-	public OlayDağıtıcısı olayDağıtıcısınıEdin() {
-		return olayDağıtıcısı;
+	public OlayDağıtıcısı olaylarınınDağıtıcısınıEdin() {
+		return olaylarınınDağıtıcısı;
+	}
+	
+	/** İskeletin çizim olaylarının dağıtıcısını döndürür. Bu dağıtıcı kendi
+	 * haline bırakılmalıdır. */
+	public OlayDağıtıcısı çizimOlaylarınınDağıtıcısınıEdin() {
+		return çizimOlaylarınınDağıtıcısı;
 	}
 	
 	/** İskeletin çiğ girdisini döndürür. */
 	public ÇiğGirdi girdisiniEdin() {
 		return çiğGirdisi;
+	}
+	
+	/** İskeletin uygulama yükleyicisini döndürür. */
+	public UygulamaYükleyicisi uygulamaYükleyicisiniEdin() {
+		return uygulamaYükleyicisi;
 	}
 	
 	@Dinleyici
@@ -140,6 +155,14 @@ public class İskelet {
 				süreç.sıfırla();
 			}
 		});
+	}
+	
+	@Dinleyici(önceliği = Öncelik.ÖNCE)
+	public void güncellemeOlayınıDinle(final GüncellemeOlayı olay) {
+		if (göstericisi.penceresininKapatılmasınıEdin())
+			dur();
+		
+		çiğGirdisi.güncelle();
 	}
 	
 	private void çalış() {
@@ -171,7 +194,7 @@ public class İskelet {
 					karelerininOranı =
 						karelerininSayısı / saniyelikGüncellemeSayacı;
 					
-					olayDağıtıcısı.dağıt(SAYAÇ_OLAYI);
+					olaylarınınDağıtıcısı.dağıt(SAYAÇ_OLAYI);
 					
 					saniyelikGüncellemeSayacı = 0.0;
 					tıklarınınSayısı = 0;
@@ -192,18 +215,27 @@ public class İskelet {
 		tıklarınınOranınınOrtalaması = new Ortalama();
 		karelerininOranınınOrtalaması = new Ortalama();
 		
-		olayDağıtıcısı = new AnlıOlayDağıtıcısı();
-		olayDağıtıcısı.dinleyicileriniEkle(this);
-		
 		süreçleri = new HashMap<>();
 		süreçleri.put("Oluşturma", oluşturmaSüreci);
 		süreçleri.put("Tık", new Süreç());
 		süreçleri.put("Kare", new Süreç());
 		
 		çiğGirdisi = new ÇiğGirdi();
+		olaylarınınDağıtıcısı = new AnlıOlayDağıtıcısı();
+		olaylarınınDağıtıcısı.dinleyicileriniEkle(this);
 		
 		göstericisi.penceresiniOluştur(this);
-		uygulaması.oluştur();
+		çizimOlaylarınınDağıtıcısı = new OlayDağıtıcısı();
+		çizimOlayı = new ÇizimOlayı(this);
+		
+		uygulamaYükleyicisi = new UygulamaYükleyicisi();
+		uygulamaYükleyicisi.yükle();
+		uygulamaYükleyicisi.uygulamaları
+			.values()
+			.forEach(nesne -> olaylarınınDağıtıcısı.dinleyicileriniEkle(nesne));
+		
+		new OluşturmaOlayı(this);
+		olaylarınınDağıtıcısı.güncelle();
 		
 		oluşturmaSüreci.dur(System.nanoTime() / 1000000000.0F);
 		System.out
@@ -215,7 +247,8 @@ public class İskelet {
 	private void yokEt() {
 		System.out.println("Yok ediliyor...");
 		
-		uygulaması.yokEt();
+		new YokEtmeOlayı(this);
+		olaylarınınDağıtıcısı.güncelle();
 		göstericisi.yokEt();
 		yükleyicisi.yokEt();
 		
@@ -231,12 +264,8 @@ public class İskelet {
 	private void güncelle() {
 		süreçleri.get("Tık").başla((float)zamanıEdin());
 		
-		if (göstericisi.penceresininKapatılmasınıEdin())
-			dur();
-		
-		olayDağıtıcısı.güncelle();
-		çiğGirdisi.güncelle();
-		uygulaması.güncelle();
+		güncellemeOlayı.dağıtmayıDene();
+		olaylarınınDağıtıcısı.güncelle();
 		
 		anı++;
 		
@@ -246,7 +275,7 @@ public class İskelet {
 	private void çiz() {
 		süreçleri.get("Kare").başla((float)zamanıEdin());
 		
-		uygulaması.çiz();
+		çizimOlayı.dağıtmayıDene();
 		göstericisi.göster();
 		
 		süreçleri.get("Kare").dur((float)zamanıEdin());

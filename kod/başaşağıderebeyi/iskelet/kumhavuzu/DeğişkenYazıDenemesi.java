@@ -9,10 +9,12 @@ import static org.lwjgl.glfw.GLFW.*;
 import başaşağıderebeyi.iskelet.*;
 import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.iskelet.görsel.yazı.*;
+import başaşağıderebeyi.iskelet.olaylar.*;
 import başaşağıderebeyi.kütüphane.girdi.*;
 import başaşağıderebeyi.kütüphane.matematik.sayısal.*;
 import başaşağıderebeyi.kütüphane.olay.*;
 
+import java.lang.annotation.*;
 import java.util.*;
 
 /** Değişken yazı görselleştiricisini dener. */
@@ -44,7 +46,9 @@ public class DeğişkenYazıDenemesi implements Uygulama {
 	
 	@Override
 	public void oluştur() {
-		çalıştıranİskelet.olayDağıtıcısınıEdin().dinleyicileriniEkle(this);
+		çalıştıranİskelet
+			.olaylarınınDağıtıcısınıEdin()
+			.dinleyicileriniEkle(this);
 		final Dizey4 izdüşümDizeyi =
 			new Dizey4().izdüşümDizeyineÇevir(1280.0F, 720.0F, 20.0F);
 		
@@ -116,5 +120,11 @@ public class DeğişkenYazıDenemesi implements Uygulama {
 					çalıştıranİskelet.tıklarınınOranınıEdin() +
 					" Kare Oranı: " +
 					çalıştıranİskelet.karelerininOranınıEdin());
+	}
+	
+	@Override
+	public Class<? extends Annotation> annotationType() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

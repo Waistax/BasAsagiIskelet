@@ -13,9 +13,12 @@ import static org.lwjgl.system.MemoryUtil.*;
 import başaşağıderebeyi.iskelet.*;
 import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.iskelet.görsel.köşedizisi.*;
+import başaşağıderebeyi.iskelet.olaylar.*;
 import başaşağıderebeyi.kütüphane.girdi.*;
 import başaşağıderebeyi.kütüphane.matematik.sayısal.*;
 import başaşağıderebeyi.kütüphane.olay.*;
+
+import java.lang.annotation.*;
 
 /** İskeleti dener. */
 public class Deneme implements Uygulama {
@@ -48,7 +51,9 @@ public class Deneme implements Uygulama {
 	
 	@Override
 	public void oluştur() {
-		çalıştıranİskelet.olayDağıtıcısınıEdin().dinleyicileriniEkle(this);
+		çalıştıranİskelet
+			.olaylarınınDağıtıcısınıEdin()
+			.dinleyicileriniEkle(this);
 		
 		köşeDizisi =
 			new KöşeDizisi(çalıştıranİskelet.yükleyicisi, GL_TRIANGLE_STRIP);
@@ -140,5 +145,11 @@ public class Deneme implements Uygulama {
 					çalıştıranİskelet.tıklarınınOranınıEdin() +
 					" Kare Oranı: " +
 					çalıştıranİskelet.karelerininOranınıEdin());
+	}
+	
+	@Override
+	public Class<? extends Annotation> annotationType() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

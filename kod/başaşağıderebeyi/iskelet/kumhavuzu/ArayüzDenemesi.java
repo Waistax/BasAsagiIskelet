@@ -11,12 +11,14 @@ import başaşağıderebeyi.iskelet.*;
 import başaşağıderebeyi.iskelet.girdi.*;
 import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.iskelet.görsel.yazı.*;
+import başaşağıderebeyi.iskelet.olaylar.*;
 import başaşağıderebeyi.kütüphane.arayüz.*;
 import başaşağıderebeyi.kütüphane.girdi.*;
 import başaşağıderebeyi.kütüphane.matematik.sayısal.*;
 import başaşağıderebeyi.kütüphane.matematik.yerleşim.*;
 import başaşağıderebeyi.kütüphane.olay.*;
 
+import java.lang.annotation.*;
 import java.util.*;
 
 /** Arayüz bölümünü dener. */
@@ -51,7 +53,9 @@ public class ArayüzDenemesi implements Uygulama {
 	
 	@Override
 	public void oluştur() {
-		çalıştıranİskelet.olayDağıtıcısınıEdin().dinleyicileriniEkle(this);
+		çalıştıranİskelet
+			.olaylarınınDağıtıcısınıEdin()
+			.dinleyicileriniEkle(this);
 		
 		final Dizey4 izdüşümDizeyi =
 			new Dizey4().izdüşümDizeyineÇevir(1280.0F, 720.0F, 1000.0F);
@@ -201,7 +205,7 @@ public class ArayüzDenemesi implements Uygulama {
 					çalıştıranİskelet.karelerininOranınıEdin());
 	}
 	
-	@Dinleyici(önceliği = Öncelik.TEMEL)
+	@Dinleyici(önceliği = Öncelik.ÇOK_ÖNCE)
 	public void imleçGirdisiOlayınıDinle(final İmleçGirdisiOlayı olay) {
 		olay.konumununYatayBileşeni =
 			olay.konumununYatayBileşeni - 1280.0 / 2.0;
@@ -233,5 +237,11 @@ public class ArayüzDenemesi implements Uygulama {
 		if (öğe instanceof Levha)
 			for (final Öğe içeriği : ((Levha)öğe).içeriği)
 				öğeninDönüşümünüBul(içeriği, derinliği++);
+	}
+	
+	@Override
+	public Class<? extends Annotation> annotationType() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
