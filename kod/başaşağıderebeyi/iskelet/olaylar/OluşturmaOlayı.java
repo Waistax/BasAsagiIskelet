@@ -12,7 +12,7 @@ import başaşağıderebeyi.kütüphane.olay.*;
 public class OluşturmaOlayı extends GeriDönüşümlüOlay {
 	@Override
 	public void dağıtmayıDene(final OlayDağıtıcısı olayDağıtıcısı) {
-		assert İskelet.NESNESİ.anınıEdin() == 0L;
+		assert İskelet.NESNESİ.anınıEdin() == -1L;
 		super.dağıtmayıDene(olayDağıtıcısı);
 	}
 }

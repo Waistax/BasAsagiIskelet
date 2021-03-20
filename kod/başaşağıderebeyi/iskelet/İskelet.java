@@ -26,7 +26,7 @@ public class İskelet {
 	/** Ara sürümü. */
 	public static final int ARA_SÜRÜMÜ = 10;
 	/** Yaması. */
-	public static final int YAMASI = 2;
+	public static final int YAMASI = 3;
 	/** Bütün sürümü. */
 	public static final String SÜRÜM =
 		ANA_SÜRÜMÜ + "." + ARA_SÜRÜMÜ + "." + YAMASI;
@@ -39,40 +39,38 @@ public class İskelet {
 	public static void main(final String[] argümanlar) {
 		Gösterici
 			.sağla(new Gösterici(1000, 800, SÜRÜM, false, 0, 1, new Yöney4()));
-		NESNESİ.başla();
+		NESNESİ.istenenTıkOranınıDeğiştir(10.0);
+		NESNESİ.başlat();
 	}
 	
-	/** İskeletin ulaşmaya çalıştığı saniye başına tık oranı. */
-	private final float istediğiTıkOranı = 10;
-	
-	private volatile boolean çalışması;
-	
-	private double tıklarınınOranı;
-	private double karelerininOranı;
-	private double güncellenmemişTıkları;
-	private long anı;
+	private AnaDöngü anaDöngü;
 	
 	private Ortalama tıklarınınOranınınOrtalaması;
 	private Ortalama karelerininOranınınOrtalaması;
 	private Map<String, Süreç> süreçleri;
 	
-	private ÇiğGirdi çiğGirdisi;
 	private OlaySağlayıcısı olaySağlayıcısı;
+	private ÇiğGirdi çiğGirdisi;
 	
 	/** İskeletin dışarıdan tanımlanmasını engeller. */
 	private İskelet() {
+		anaDöngü = new AnaDöngü(
+			this::oluştur,
+			this::zamanıEdin,
+			this::güncelle,
+			this::saniyeSay,
+			this::çiz,
+			this::yokEt);
 	}
 	
-	/** İstekeleti başlatır. */
-	public void başla() {
-		assert !çalışması;
-		çalışması = true;
-		çalış();
+	/** Ana döngüyü başlatır. */
+	public void başlat() {
+		anaDöngü.başla();
 	}
 	
-	/** İskeleti durdurur. */
-	public void dur() {
-		çalışması = false;
+	/** Ana döngüyü durdurur. */
+	public void durdur() {
+		anaDöngü.dur();
 	}
 	
 	/** Şu anki zamanı GLFW saatinden saniye biriminde döndürür. Bu zamanın
@@ -89,14 +87,31 @@ public class İskelet {
 		return System.nanoTime() / 1000000000.0F;
 	}
 	
+	/** Ana döngünün ulaşmaya çalıştığı saniye başına tık oranını değiştirir. */
+	public void istenenTıkOranınıDeğiştir(double istenenTıkOranı) {
+		anaDöngü.istenenTıkOranı = istenenTıkOranı;
+	}
+	
 	/** Saniye başına tık oranını döndürür. Tık oranı güncelleme sayısıdır. */
 	public double tıklarınınOranınıEdin() {
-		return tıklarınınOranı;
+		return anaDöngü.tıklarınınOranınıEdin();
 	}
 	
 	/** Saniye başına kare oranını döndürür. Kare oranı çizme sayısıdır. */
 	public double karelerininOranınıEdin() {
-		return karelerininOranı;
+		return anaDöngü.karelerininOranınıEdin();
+	}
+	
+	/** Anlık olarak güncellenmeyi bekleyen tıkların sayısını döndürür. Bu sayı
+	 * çizim yaparken aradeğerleri hesaplamada kullanılmalıdır. Ayrıca bu sayı
+	 * birden büyükse iskelet istenen hızda çalışamıyor demektir. */
+	public double güncellenmemişTıklarınıEdin() {
+		return anaDöngü.güncellenmemişTıklarınıEdin();
+	}
+	
+	/** Şu anın sırasını döndürür. */
+	public long anınıEdin() {
+		return anaDöngü.anınıEdin();
 	}
 	
 	/** İskeletin çalıştığı her saniyedeki tık oranının ortalamasını
@@ -109,18 +124,6 @@ public class İskelet {
 	 * döndürür. */
 	public float karelerininOranınınOrtalamasınıEdin() {
 		return karelerininOranınınOrtalaması.ortalamasınıEdin();
-	}
-	
-	/** Anlık olarak güncellenmeyi bekleyen tıkların sayısını döndürür. Bu sayı
-	 * çizim yaparken aradeğerleri hesaplamada kullanılmalıdır. Ayrıca bu sayı
-	 * birden büyükse iskelet istenen hızda çalışamıyor demektir. */
-	public double güncellenmemişTıklarınıEdin() {
-		return güncellenmemişTıkları;
-	}
-	
-	/** Şu anın sırasını döndürür. */
-	public long anınıEdin() {
-		return anı;
 	}
 	
 	/** İskeletin olay dağıtıcısını döndürür. Bu anlık olarak çalışır;
@@ -140,9 +143,9 @@ public class İskelet {
 		return çiğGirdisi;
 	}
 	
-	public void sayaçOlayınıDinle(final SayaçOlayı olay) {
-		tıklarınınOranınınOrtalaması.ekle((float)tıklarınınOranı);
-		karelerininOranınınOrtalaması.ekle((float)karelerininOranı);
+	private void sayaçOlayınıDinle(final SayaçOlayı olay) {
+		tıklarınınOranınınOrtalaması.ekle((float)tıklarınınOranınıEdin());
+		karelerininOranınınOrtalaması.ekle((float)karelerininOranınıEdin());
 		
 		süreçleri.forEach((ad, süreç) -> {
 			if (ad != "Oluşturma") {
@@ -152,54 +155,11 @@ public class İskelet {
 		});
 	}
 	
-	public void güncellemeOlayınıDinle(final GüncellemeOlayı olay) {
+	private void güncellemeOlayınıDinle(final GüncellemeOlayı olay) {
 		if (Gösterici.edin().penceresininKapatılmasınıEdin())
-			dur();
+			durdur();
 		
 		çiğGirdisi.güncelle();
-	}
-	
-	private void çalış() {
-		try {
-			oluştur();
-			
-			double öncekiZamanı = zamanıEdin();
-			double saniyelikGüncellemeSayacı = 0.0;
-			int tıklarınınSayısı = 0;
-			int karelerininSayısı = 0;
-			
-			while (çalışması) {
-				final double geçenSüre = zamanıEdin() - öncekiZamanı;
-				öncekiZamanı += geçenSüre;
-				güncellenmemişTıkları += geçenSüre * istediğiTıkOranı;
-				
-				while (güncellenmemişTıkları >= 1.0) {
-					güncelle();
-					güncellenmemişTıkları--;
-					tıklarınınSayısı++;
-				}
-				
-				çiz();
-				karelerininSayısı++;
-				
-				if ((saniyelikGüncellemeSayacı += geçenSüre) >= 1.0) {
-					tıklarınınOranı =
-						tıklarınınSayısı / saniyelikGüncellemeSayacı;
-					karelerininOranı =
-						karelerininSayısı / saniyelikGüncellemeSayacı;
-					
-					olaySağlayıcısı.sayaçOlayınıDağıt();
-					
-					saniyelikGüncellemeSayacı = 0.0;
-					tıklarınınSayısı = 0;
-					karelerininSayısı = 0;
-				}
-			}
-		} catch (final Exception hata) {
-			hata.printStackTrace();
-		} finally {
-			yokEt();
-		}
 	}
 	
 	private void oluştur() {
@@ -270,19 +230,18 @@ public class İskelet {
 	
 	private void güncelle() {
 		süreçleri.get("Tık").başla((float)zamanıEdin());
-		
 		olaySağlayıcısı.güncellemeOlayınıDağıt();
-		anı++;
-		
 		süreçleri.get("Tık").dur((float)zamanıEdin());
+	}
+	
+	private void saniyeSay() {
+		olaySağlayıcısı.sayaçOlayınıDağıt();
 	}
 	
 	private void çiz() {
 		süreçleri.get("Kare").başla((float)zamanıEdin());
-		
 		olaySağlayıcısı.çizimOlayınıDağıt();
 		Gösterici.edin().göster();
-		
 		süreçleri.get("Kare").dur((float)zamanıEdin());
 	}
 }
