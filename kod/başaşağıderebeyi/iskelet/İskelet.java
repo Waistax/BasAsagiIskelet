@@ -25,7 +25,7 @@ public class İskelet {
 	/** Ara sürümü. */
 	public static final int ARA_SÜRÜMÜ = 11;
 	/** Yaması. */
-	public static final int YAMASI = 0;
+	public static final int YAMASI = 1;
 	/** Bütün sürümü. */
 	public static final String SÜRÜM =
 		ANA_SÜRÜMÜ + "." + ARA_SÜRÜMÜ + "." + YAMASI;
@@ -162,21 +162,27 @@ public class İskelet {
 		System.out.println("Oluşturuluyor...");
 		final Süreç oluşturmaSüreci = new Süreç();
 		oluşturmaSüreci.başla(sistemZamanınıEdin());
+		System.out.println("Oluşturma A.");
 		
 		tıklarınınOranınınOrtalaması = new Ortalama();
 		karelerininOranınınOrtalaması = new Ortalama();
 		
+		System.out.println("Oluşturma B.");
 		süreçleriniOluştur(oluşturmaSüreci);
 		
 		çiğGirdisi = new ÇiğGirdi();
 		olaySağlayıcısınıOluştur();
+		System.out.println("Oluşturma C.");
 		
 		UygulamaYükleyicisi.NESNESİ.yükle();
 		
+		System.out.println("Oluşturma Ç.");
 		Gösterici.edin().penceresiniOluştur();
 		
+		System.out.println("Oluşturma D.");
 		olaySağlayıcısı.oluşturmaOlayınıDağıt();
 		
+		System.out.println("Oluşturma E.");
 		oluşturmaSüreci.dur(sistemZamanınıEdin());
 		System.out
 			.println(
