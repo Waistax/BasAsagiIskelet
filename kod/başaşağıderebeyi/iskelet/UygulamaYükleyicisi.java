@@ -93,6 +93,8 @@ public class UygulamaYükleyicisi {
 						.put(
 							sınıf.getAnnotation(Uygulama.class),
 							sınıf.getConstructor().newInstance());
+				else
+					System.out.println(adı + " yüklendi ama Uygulama değil.");
 			}
 		} catch (final Throwable hata) {
 			throw new RuntimeException(
