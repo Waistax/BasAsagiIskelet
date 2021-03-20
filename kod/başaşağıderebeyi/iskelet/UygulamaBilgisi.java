@@ -16,8 +16,17 @@ public class UygulamaBilgisi {
 		kaynakları = new HashMap<>();
 	}
 	
-	public URL kaynağınıBul(String arşivGirdisi) {
-		return kaynakları.get(arşivGirdisi);
+	public URL kaynağınıBul(String konumu) {
+		URL kaynak = kaynakları.get(konumu);
+		
+		if (kaynak == null)
+			throw new RuntimeException(
+				nesnesi.getClass() +
+					" arşivinin içinde " +
+					konumu +
+					" bulunmuyor!");
+		
+		return kaynak;
 	}
 	
 	public Object nesnesiniEdin() {

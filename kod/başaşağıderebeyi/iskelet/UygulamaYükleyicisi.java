@@ -92,7 +92,12 @@ public class UygulamaYükleyicisi {
 						adı.substring(0, adı.length() - 6).replace('/', '.'));
 				
 				if (sınıf.isAnnotationPresent(Uygulama.class)) {
-					bilgisi.nesnesi = sınıf.getConstructor().newInstance();
+					if (bilgisi.nesnesi != null)
+						throw new RuntimeException(
+							"Birden fazla uygulama var!");
+					bilgisi.nesnesi = sınıf
+						.getConstructor(UygulamaBilgisi.class)
+						.newInstance(bilgisi);
 					uygulamaları.put(bilgisi.nesnesi, bilgisi);
 				}
 			} else {
