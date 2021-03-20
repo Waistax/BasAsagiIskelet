@@ -23,12 +23,12 @@ class AnaDöngü {
 	private final Runnable yokEdici;
 	
 	AnaDöngü(
-		Runnable oluşturucu,
-		DoubleSupplier zamanEdinici,
-		Runnable güncelleyici,
-		Runnable sayacı,
-		Runnable çizici,
-		Runnable yokEdici) {
+		final Runnable oluşturucu,
+		final DoubleSupplier zamanEdinici,
+		final Runnable güncelleyici,
+		final Runnable sayacı,
+		final Runnable çizici,
+		final Runnable yokEdici) {
 		anı = -1L;
 		this.oluşturucu = oluşturucu;
 		this.zamanEdinici = zamanEdinici;

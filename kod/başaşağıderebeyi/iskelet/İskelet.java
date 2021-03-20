@@ -26,7 +26,7 @@ public class İskelet {
 	/** Ara sürümü. */
 	public static final int ARA_SÜRÜMÜ = 10;
 	/** Yaması. */
-	public static final int YAMASI = 3;
+	public static final int YAMASI = 4;
 	/** Bütün sürümü. */
 	public static final String SÜRÜM =
 		ANA_SÜRÜMÜ + "." + ARA_SÜRÜMÜ + "." + YAMASI;
@@ -43,7 +43,7 @@ public class İskelet {
 		NESNESİ.başlat();
 	}
 	
-	private AnaDöngü anaDöngü;
+	private final AnaDöngü anaDöngü;
 	
 	private Ortalama tıklarınınOranınınOrtalaması;
 	private Ortalama karelerininOranınınOrtalaması;
@@ -88,7 +88,7 @@ public class İskelet {
 	}
 	
 	/** Ana döngünün ulaşmaya çalıştığı saniye başına tık oranını değiştirir. */
-	public void istenenTıkOranınıDeğiştir(double istenenTıkOranı) {
+	public void istenenTıkOranınıDeğiştir(final double istenenTıkOranı) {
 		anaDöngü.istenenTıkOranı = istenenTıkOranı;
 	}
 	
@@ -187,6 +187,13 @@ public class İskelet {
 					oluşturmaSüreci.toplamınıEdin());
 	}
 	
+	private void süreçleriniOluştur(final Süreç oluşturmaSüreci) {
+		süreçleri = new HashMap<>();
+		süreçleri.put("Oluşturma", oluşturmaSüreci);
+		süreçleri.put("Tık", new Süreç());
+		süreçleri.put("Kare", new Süreç());
+	}
+	
 	private void olaySağlayıcısınıOluştur() {
 		olaySağlayıcısı = new OlaySağlayıcısı();
 		
@@ -202,13 +209,6 @@ public class İskelet {
 					GüncellemeOlayı.class,
 					this::güncellemeOlayınıDinle)
 						.önceliğiniDeğiştir(Öncelik.ÖNCE));
-	}
-	
-	private void süreçleriniOluştur(final Süreç oluşturmaSüreci) {
-		süreçleri = new HashMap<>();
-		süreçleri.put("Oluşturma", oluşturmaSüreci);
-		süreçleri.put("Tık", new Süreç());
-		süreçleri.put("Kare", new Süreç());
 	}
 	
 	private void yokEt() {
