@@ -26,11 +26,11 @@ public class UygulamaYükleyicisi {
 	public static final UygulamaYükleyicisi NESNESİ = new UygulamaYükleyicisi();
 	
 	/** Yüklenmiş olan uygulamalar ve nesnelerinin haritası. */
-	public final Map<Uygulama, Object> uygulamaları;
+	public final Set<Object> uygulamaları;
 	
 	/** Boş tanımlar. */
 	private UygulamaYükleyicisi() {
-		uygulamaları = new HashMap<>();
+		uygulamaları = new HashSet<>();
 	}
 	
 	/** Klasördeki bütün uygulamaları yükler. */
@@ -89,12 +89,7 @@ public class UygulamaYükleyicisi {
 						adı.substring(0, adı.length() - 6).replace('/', '.'));
 				
 				if (sınıf.isAnnotationPresent(Uygulama.class))
-					uygulamaları
-						.put(
-							sınıf.getAnnotation(Uygulama.class),
-							sınıf.getConstructor().newInstance());
-				else
-					System.out.println(adı + " yüklendi ama Uygulama değil.");
+					uygulamaları.add(sınıf.getConstructor().newInstance());
 			}
 		} catch (final Throwable hata) {
 			throw new RuntimeException(
