@@ -14,9 +14,9 @@ public abstract class GeriDönüşümlüOlay extends Olay {
 	 * Yoksa tek bir anda aynı olay birden fazla kere dağıtılır. */
 	public long enSonDağıtıldığıAn;
 	
-	/** Geçersiz tanımlar. */
+	/** Geçersiz bir anla tanımlar. */
 	public GeriDönüşümlüOlay() {
-		enSonDağıtıldığıAn = -1L;
+		enSonDağıtıldığıAn = Long.MIN_VALUE;
 	}
 	
 	/** Bu olayı dağıtmayı dener. Eğer şu anda olay dağıtılmadıysa dağıtır.
