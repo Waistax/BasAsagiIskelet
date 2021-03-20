@@ -30,13 +30,11 @@ public class UygulamaYükleyicisi {
 	
 	/** Boş tanımlar. */
 	private UygulamaYükleyicisi() {
-		System.out.println("A");
 		uygulamaları = new HashMap<>();
 	}
 	
 	/** Klasördeki bütün uygulamaları yükler. */
 	public void yükle() {
-		System.out.println("B");
 		final File[] dosyalar = Path
 			.of(UYGULAMALARIN_KLASÖRÜ)
 			.toFile()
@@ -47,7 +45,6 @@ public class UygulamaYükleyicisi {
 	}
 	
 	private boolean dosyaAdınınGeçerliliğiniBul(final String adı) {
-		System.out.println("C");
 		return adı.length() > UYGULAMALARIN_UZANTISI.length() &&
 			adı
 				.substring(
@@ -57,7 +54,6 @@ public class UygulamaYükleyicisi {
 	}
 	
 	private void dosyayıİşle(final File dosya) {
-		System.out.println("Ç");
 		final String dosyanınYolu = dosya.getAbsolutePath();
 		try (JarFile arşiv = new JarFile(dosyanınYolu)) {
 			arşiviİşle(
@@ -75,7 +71,6 @@ public class UygulamaYükleyicisi {
 		final JarFile arşiv,
 		final URLClassLoader sınıfYükleyicisi)
 		throws Exception {
-		System.out.println("D");
 		for (final Enumeration<JarEntry> arşivdekiDosyalar =
 			arşiv.entries(); arşivdekiDosyalar.hasMoreElements();)
 			arşivGirdisiniİşle(
@@ -87,10 +82,8 @@ public class UygulamaYükleyicisi {
 		final JarEntry girdi,
 		final URLClassLoader sınıfYükleyicisi)
 		throws Exception {
-		System.out.println("E");
 		final String adı = girdi.getName();
 		if (adı.endsWith(".class")) {
-			System.out.println("F");
 			final Class<?> sınıf = sınıfYükleyicisi
 				.loadClass(
 					adı.substring(0, adı.length() - 6).replace('/', '.'));
@@ -100,7 +93,6 @@ public class UygulamaYükleyicisi {
 					.put(
 						sınıf.getAnnotation(Uygulama.class),
 						sınıf.getConstructor().newInstance());
-			System.out.println("G");
 		}
 	}
 }
