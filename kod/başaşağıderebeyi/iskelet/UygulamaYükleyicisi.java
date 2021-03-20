@@ -69,8 +69,7 @@ public class UygulamaYükleyicisi {
 	
 	private void arşiviİşle(
 		final JarFile arşiv,
-		final URLClassLoader sınıfYükleyicisi)
-		throws Exception {
+		final URLClassLoader sınıfYükleyicisi) {
 		for (final Enumeration<JarEntry> arşivdekiDosyalar =
 			arşiv.entries(); arşivdekiDosyalar.hasMoreElements();)
 			arşivGirdisiniİşle(
@@ -80,19 +79,25 @@ public class UygulamaYükleyicisi {
 	
 	private void arşivGirdisiniİşle(
 		final JarEntry girdi,
-		final URLClassLoader sınıfYükleyicisi)
-		throws Exception {
+		final URLClassLoader sınıfYükleyicisi) {
 		final String adı = girdi.getName();
-		if (adı.endsWith(".class")) {
-			final Class<?> sınıf = sınıfYükleyicisi
-				.loadClass(
-					adı.substring(0, adı.length() - 6).replace('/', '.'));
-			
-			if (sınıf.isAnnotationPresent(Uygulama.class))
-				uygulamaları
-					.put(
-						sınıf.getAnnotation(Uygulama.class),
-						sınıf.getConstructor().newInstance());
+		try {
+			if (adı.endsWith(".class") &&
+				!adı.equalsIgnoreCase("module-info.class")) {
+				final Class<?> sınıf = sınıfYükleyicisi
+					.loadClass(
+						adı.substring(0, adı.length() - 6).replace('/', '.'));
+				
+				if (sınıf.isAnnotationPresent(Uygulama.class))
+					uygulamaları
+						.put(
+							sınıf.getAnnotation(Uygulama.class),
+							sınıf.getConstructor().newInstance());
+			}
+		} catch (final Throwable hata) {
+			throw new RuntimeException(
+				"Arşiv girdisi " + adı + " işlenemedi!",
+				hata);
 		}
 	}
 }
