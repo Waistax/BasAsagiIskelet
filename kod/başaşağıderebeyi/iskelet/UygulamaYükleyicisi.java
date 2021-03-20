@@ -26,11 +26,11 @@ public class UygulamaYükleyicisi {
 	public static final UygulamaYükleyicisi NESNESİ = new UygulamaYükleyicisi();
 	
 	/** Yüklenmiş olan uygulamalar ve nesnelerinin haritası. */
-	public final Set<Object> uygulamaları;
+	public final Map<Object, UygulamaBilgisi> uygulamaları;
 	
 	/** Boş tanımlar. */
 	private UygulamaYükleyicisi() {
-		uygulamaları = new HashSet<>();
+		uygulamaları = new HashMap<>();
 	}
 	
 	/** Klasördeki bütün uygulamaları yükler. */
@@ -70,16 +70,19 @@ public class UygulamaYükleyicisi {
 	private void arşiviİşle(
 		final JarFile arşiv,
 		final URLClassLoader sınıfYükleyicisi) {
+		UygulamaBilgisi bilgisi = new UygulamaBilgisi();
 		for (final Enumeration<JarEntry> arşivdekiDosyalar =
 			arşiv.entries(); arşivdekiDosyalar.hasMoreElements();)
 			arşivGirdisiniİşle(
 				arşivdekiDosyalar.nextElement(),
-				sınıfYükleyicisi);
+				sınıfYükleyicisi,
+				bilgisi);
 	}
 	
 	private void arşivGirdisiniİşle(
 		final JarEntry girdi,
-		final URLClassLoader sınıfYükleyicisi) {
+		final URLClassLoader sınıfYükleyicisi,
+		final UygulamaBilgisi bilgisi) {
 		final String adı = girdi.getName();
 		try {
 			if (adı.endsWith(".class") &&
@@ -88,8 +91,12 @@ public class UygulamaYükleyicisi {
 					.loadClass(
 						adı.substring(0, adı.length() - 6).replace('/', '.'));
 				
-				if (sınıf.isAnnotationPresent(Uygulama.class))
-					uygulamaları.add(sınıf.getConstructor().newInstance());
+				if (sınıf.isAnnotationPresent(Uygulama.class)) {
+					bilgisi.nesnesi = sınıf.getConstructor().newInstance();
+					uygulamaları.put(bilgisi.nesnesi, bilgisi);
+				}
+			} else {
+				bilgisi.kaynakları.put(adı, sınıfYükleyicisi.getResource(adı));
 			}
 		} catch (final Throwable hata) {
 			throw new RuntimeException(
