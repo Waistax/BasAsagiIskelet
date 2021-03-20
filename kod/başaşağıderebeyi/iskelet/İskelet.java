@@ -11,7 +11,6 @@ import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.iskelet.olaylar.*;
 import başaşağıderebeyi.kütüphane.girdi.*;
 import başaşağıderebeyi.kütüphane.matematik.ortalama.*;
-import başaşağıderebeyi.kütüphane.matematik.sayısal.*;
 import başaşağıderebeyi.kütüphane.olay.*;
 
 import java.util.*;
@@ -26,7 +25,7 @@ public class İskelet {
 	/** Ara sürümü. */
 	public static final int ARA_SÜRÜMÜ = 10;
 	/** Yaması. */
-	public static final int YAMASI = 4;
+	public static final int YAMASI = 5;
 	/** Bütün sürümü. */
 	public static final String SÜRÜM =
 		ANA_SÜRÜMÜ + "." + ARA_SÜRÜMÜ + "." + YAMASI;
@@ -37,9 +36,6 @@ public class İskelet {
 	
 	/** İskeleti çalıştırır. */
 	public static void main(final String[] argümanlar) {
-		Gösterici
-			.sağla(new Gösterici(1000, 800, SÜRÜM, false, 0, 1, new Yöney4()));
-		NESNESİ.istenenTıkOranınıDeğiştir(10.0);
 		NESNESİ.başlat();
 	}
 	
