@@ -23,9 +23,9 @@ public class İskelet {
 	/** Ana sürümü. */
 	public static final int ANA_SÜRÜMÜ = 0;
 	/** Ara sürümü. */
-	public static final int ARA_SÜRÜMÜ = 10;
+	public static final int ARA_SÜRÜMÜ = 11;
 	/** Yaması. */
-	public static final int YAMASI = 5;
+	public static final int YAMASI = 0;
 	/** Bütün sürümü. */
 	public static final String SÜRÜM =
 		ANA_SÜRÜMÜ + "." + ARA_SÜRÜMÜ + "." + YAMASI;
@@ -159,6 +159,7 @@ public class İskelet {
 	}
 	
 	private void oluştur() {
+		System.out.println("Oluşturuluyor...");
 		final Süreç oluşturmaSüreci = new Süreç();
 		oluşturmaSüreci.başla(sistemZamanınıEdin());
 		
