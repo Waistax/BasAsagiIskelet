@@ -1,0 +1,82 @@
+/**
+ * Cem GEÇGEL (BaşAşağıDerebeyi)
+ * 0.12.2 / 20 Mar 2021 / 22:24:38
+ */
+package başaşağıderebeyi.iskelet.görsel.kaynak;
+
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL30.*;
+import static org.lwjgl.system.MemoryUtil.*;
+
+import java.net.*;
+import java.nio.*;
+import java.util.*;
+
+import org.lwjgl.glfw.*;
+import org.lwjgl.opengl.*;
+
+class DokuYükleyicisi {
+	private final List<Integer> dokuları;
+	
+	DokuYükleyicisi() {
+		dokuları = new ArrayList<>();
+	}
+	
+	void yokEt() {
+		glBindTexture(GL_TEXTURE_2D, 0);
+		dokuları.forEach(GL11::glDeleteTextures);
+		dokuları.clear();
+	}
+	
+	GLFWImage glfwResmiYükle(final URI kaynağı) {
+		return glfwResmiYükle(new ResimBilgisi(kaynağı));
+	}
+	
+	GLFWImage glfwResmiYükle(final ResimBilgisi resim) {
+		final byte[] renkBaytları = resim.renkBaytlarınıBul();
+		
+		final ByteBuffer tampon =
+			memAlloc(renkBaytları.length).put(renkBaytları).flip();
+		final GLFWImage glfwResmi =
+			GLFWImage.malloc().set(resim.genişliği, resim.yüksekliği, tampon);
+		memFree(tampon);
+		return glfwResmi;
+	}
+	
+	int yükle(final URI kaynağı) {
+		return yükle(new ResimBilgisi(kaynağı).rgbOlarak());
+	}
+	
+	int yükle(final ResimBilgisi resim) {
+		final int doku = glGenTextures();
+		dokuları.add(doku);
+		glBindTexture(GL_TEXTURE_2D, doku);
+		resminVerisiniYükle(resim);
+		glTexParameteri(
+			GL_TEXTURE_2D,
+			GL_TEXTURE_MIN_FILTER,
+			GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glGenerateMipmap(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		return doku;
+	}
+	
+	private void resminVerisiniYükle(final ResimBilgisi resim) {
+		final IntBuffer tampon =
+			memAllocInt(resim.verisi.length).put(resim.verisi).flip();
+		
+		glTexImage2D(
+			GL_TEXTURE_2D,
+			0,
+			GL_RGBA,
+			resim.genişliği,
+			resim.yüksekliği,
+			0,
+			GL_RGBA,
+			GL_UNSIGNED_BYTE,
+			tampon);
+		
+		memFree(tampon);
+	}
+}

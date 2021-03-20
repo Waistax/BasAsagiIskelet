@@ -70,7 +70,7 @@ public class UygulamaYükleyicisi {
 	private void arşiviİşle(
 		final JarFile arşiv,
 		final URLClassLoader sınıfYükleyicisi) {
-		UygulamaBilgisi bilgisi = new UygulamaBilgisi();
+		final UygulamaBilgisi bilgisi = new UygulamaBilgisi();
 		for (final Enumeration<JarEntry> arşivdekiDosyalar =
 			arşiv.entries(); arşivdekiDosyalar.hasMoreElements();)
 			arşivGirdisiniİşle(
@@ -100,9 +100,8 @@ public class UygulamaYükleyicisi {
 						.newInstance(bilgisi);
 					uygulamaları.put(bilgisi.nesnesi, bilgisi);
 				}
-			} else {
+			} else
 				bilgisi.kaynakları.put(adı, sınıfYükleyicisi.getResource(adı));
-			}
 		} catch (final Throwable hata) {
 			throw new RuntimeException(
 				"Arşiv girdisi " + adı + " işlenemedi!",

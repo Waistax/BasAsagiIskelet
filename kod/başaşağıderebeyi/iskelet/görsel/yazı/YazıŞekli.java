@@ -6,7 +6,7 @@ package başaşağıderebeyi.iskelet.görsel.yazı;
 
 import static org.lwjgl.opengl.GL11.*;
 
-import başaşağıderebeyi.iskelet.görsel.*;
+import başaşağıderebeyi.iskelet.görsel.kaynak.*;
 
 import java.util.*;
 

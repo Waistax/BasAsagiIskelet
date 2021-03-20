@@ -8,6 +8,7 @@
 package başaşağıderebeyi.iskelet;
 
 import başaşağıderebeyi.iskelet.görsel.*;
+import başaşağıderebeyi.iskelet.görsel.kaynak.*;
 import başaşağıderebeyi.iskelet.olaylar.*;
 import başaşağıderebeyi.kütüphane.girdi.*;
 import başaşağıderebeyi.kütüphane.matematik.ortalama.*;
@@ -25,7 +26,7 @@ public class İskelet {
 	/** Ara sürümü. */
 	public static final int ARA_SÜRÜMÜ = 12;
 	/** Yaması. */
-	public static final int YAMASI = 1;
+	public static final int YAMASI = 2;
 	/** Bütün sürümü. */
 	public static final String SÜRÜM =
 		ANA_SÜRÜMÜ + "." + ARA_SÜRÜMÜ + "." + YAMASI;

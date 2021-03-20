@@ -16,19 +16,13 @@ public class UygulamaBilgisi {
 		kaynakları = new HashMap<>();
 	}
 	
-	public URL kaynağınıBul(String konumu) {
-		URL kaynak = kaynakları.get(konumu);
-		
-		if (kaynak == null)
-			throw new RuntimeException(
-				nesnesi.getClass() +
-					" arşivinin içinde " +
-					konumu +
-					" bulunmuyor!");
-		
-		return kaynak;
+	/** Verilen konumun URL'sini döndürür. Eğer arşivden alınan kaynaklar
+	 * içerisinde verilen konumda bir şey bulunmuyorsa null döndürür. */
+	public URL kaynağınıBul(final String konumu) {
+		return kaynakları.get(konumu);
 	}
 	
+	/** Uygulamanın iskelet tarafından oluşturulmuş nesnesini döndürür. */
 	public Object nesnesiniEdin() {
 		return nesnesi;
 	}

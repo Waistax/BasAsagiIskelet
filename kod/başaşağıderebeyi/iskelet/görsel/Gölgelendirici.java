@@ -9,8 +9,10 @@ package başaşağıderebeyi.iskelet.görsel;
 
 import static org.lwjgl.opengl.GL20.*;
 
+import başaşağıderebeyi.iskelet.görsel.kaynak.*;
 import başaşağıderebeyi.kütüphane.matematik.sayısal.*;
 
+import java.net.*;
 import java.util.*;
 
 /** Ekran kartına yüklenen köşe dizilerinin nasıl çizileceğini anlatan
@@ -25,26 +27,20 @@ public class Gölgelendirici {
 	private final int yazılımı;
 	private final Map<String, Integer> değerlerininKonumları;
 	
-	/** Gölgelendiriciler klasöründeki verilen addaki gölgelendirici çiftini
-	 * yükler. */
-	public Gölgelendirici(final String adı) {
-		this(adı, adı);
-	}
-	
 	/** Gölgelendirici yükler ve yazılımı derler. */
 	public Gölgelendirici(
-		final String köşeGölgelendiricisininAdı,
-		final String benekGölgelendiricisininAdı) {
+		final URI köşeGölgelendiricisininKaynağı,
+		final URI benekGölgelendiricisininKaynağı) {
 		yazılımı = Yükleyici.NESNESİ.yazılımYükle();
 		
 		gölgelendiricileriAyarla(
 			Yükleyici.NESNESİ
 				.gölgelendiriciYükle(
-					köşeGölgelendiricisininAdı,
+					köşeGölgelendiricisininKaynağı,
 					GL_VERTEX_SHADER),
 			Yükleyici.NESNESİ
 				.gölgelendiriciYükle(
-					benekGölgelendiricisininAdı,
+					benekGölgelendiricisininKaynağı,
 					GL_FRAGMENT_SHADER));
 		
 		değerlerininKonumları = new HashMap<>();
