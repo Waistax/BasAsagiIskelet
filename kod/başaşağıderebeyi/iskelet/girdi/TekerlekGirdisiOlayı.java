@@ -4,16 +4,9 @@
  */
 package başaşağıderebeyi.iskelet.girdi;
 
-import başaşağıderebeyi.iskelet.*;
-import başaşağıderebeyi.iskelet.olaylar.*;
-
 /** Fare tekerleğiyle girdi verilmesinin olayı. Bu girdi olayı tekrar tekrar
  * kullanılır. Böylece her olayda yeni bir nesne oluşturulmamış olur. */
-public class TekerlekGirdisiOlayı extends GeriDönüşümlüOlay {
+public class TekerlekGirdisiOlayı extends GirdiOlayı {
 	/** Fare tekerleğinin döndüğü devir. */
 	public double devri;
-	
-	TekerlekGirdisiOlayı(final İskelet çalıştıranİskelet) {
-		super(çalıştıranİskelet);
-	}
 }

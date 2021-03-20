@@ -22,18 +22,17 @@ public class DurağanYazıGörselleştirici {
 	
 	/** Verilenler ile tanımlar. */
 	public DurağanYazıGörselleştirici(
-		final Yükleyici yükleyici,
 		final Dizey4 izdüşümDizeyi,
 		final float saydamlıkEşiği,
 		final DurağanYazıOluşturucu oluşturucu) {
-		gölgelendiricisi = new Gölgelendirici(yükleyici, "durağanYazı");
+		gölgelendiricisi = new Gölgelendirici("durağanYazı");
 		gölgelendiricisiniOluştur(izdüşümDizeyi, saydamlıkEşiği);
 		
 		şekli = oluşturucu.şekli;
 		rengi = new Yöney4();
 		dönüşümü = new Dönüşüm();
 		
-		köşeDizisi = new SıralıKöşeDizisi(yükleyici, GL_TRIANGLES);
+		köşeDizisi = new SıralıKöşeDizisi(GL_TRIANGLES);
 		
 		final FloatBuffer konumları =
 			memAllocFloat(oluşturucu.konumları.size());

@@ -27,12 +27,13 @@ public class YazıŞekli {
 	private final int dokusu;
 	
 	/** Verilen addaki yazı şeklini tanımlar. */
-	public YazıŞekli(final Yükleyici yükleyici, final String adı) {
+	public YazıŞekli(final String adı) {
 		seslerininŞekilleri = new HashMap<>();
-		dokusu = yükleyici.rgbDokuYükle(adı + "YazıŞekli");
+		dokusu = Yükleyici.NESNESİ.rgbDokuYükle(adı + "YazıŞekli");
 		
-		enBüyükYüksekliği =
-			new ŞekilOkuyucusu(this, yükleyici.yazıŞekliBilgisiniYükle(adı))
+		enBüyükYüksekliği = new ŞekilOkuyucusu(
+			this,
+			Yükleyici.NESNESİ.yazıŞekliBilgisiniYükle(adı))
 				.enBüyükYüksekliğiniEdin();
 	}
 	

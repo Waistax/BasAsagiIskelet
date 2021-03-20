@@ -21,19 +21,17 @@ public class Görselleştirici {
 	
 	/** Boş görselleştirici tanımlar. */
 	public Görselleştirici(
-		final Yükleyici yükleyici,
 		final Dizey4 izdüşümDizeyi,
 		final int sığası,
 		final int dokusu) {
-		gölgelendiricisi = new Gölgelendirici(yükleyici, "dokuluDikdörtgen");
+		gölgelendiricisi = new Gölgelendirici("dokuluDikdörtgen");
 		gölgelendiricisi.değerinKonumunuBul("izdusumDizeyi");
 		
 		gölgelendiricisi.bağla();
 		gölgelendiricisi.değeriDeğiştir("izdusumDizeyi", izdüşümDizeyi);
 		gölgelendiricisi.kopar();
 		
-		köşeDizisi =
-			new SıralıOluşumluKöşeDizisi(yükleyici, GL_TRIANGLES, sığası, 16);
+		köşeDizisi = new SıralıOluşumluKöşeDizisi(GL_TRIANGLES, sığası, 16);
 		oluşumluKöşeDizisiniOluştur();
 		
 		this.sığası = sığası;

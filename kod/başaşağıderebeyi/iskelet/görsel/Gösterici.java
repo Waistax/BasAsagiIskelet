@@ -11,7 +11,6 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
-import başaşağıderebeyi.iskelet.*;
 import başaşağıderebeyi.iskelet.girdi.*;
 import başaşağıderebeyi.kütüphane.matematik.sayısal.*;
 
@@ -20,6 +19,20 @@ import org.lwjgl.opengl.*;
 
 /** GLFW ile bir pencere oluşturan ve OpenGL içeriğini ayarlayan araç. */
 public class Gösterici {
+	private static Gösterici nesnesi;
+	
+	/** Verilen gösterici nesnesini kullanılacak olanla değiştirir. Bu yöntem
+	 * yalnızca bir kez çağırılmalıdır. */
+	public static void sağla(final Gösterici gösterici) {
+		assert nesnesi == null && gösterici != null;
+		nesnesi = gösterici;
+	}
+	
+	/** Kullanılacak göstericiyi döndürür. */
+	public static Gösterici edin() {
+		return nesnesi;
+	}
+	
 	private final int genişliği;
 	private final int yüksekliği;
 	private final String başlığı;
@@ -52,7 +65,7 @@ public class Gösterici {
 	}
 	
 	/** Verilen iskelet için pencere oluşturur. */
-	public void penceresiniOluştur(final İskelet çalıştıranİskelet) {
+	public void penceresiniOluştur() {
 		GLFWErrorCallback.createPrint().set();
 		
 		if (!glfwInit())
@@ -70,7 +83,7 @@ public class Gösterici {
 		if (penceresi == NULL)
 			throw new RuntimeException("Pencere oluşturulamadı!");
 		
-		girdisi = new Girdi(çalıştıranİskelet, penceresi);
+		girdisi = new Girdi(penceresi);
 		
 		penceresiniOturt(ekranı);
 		içeriğiniAyarla();

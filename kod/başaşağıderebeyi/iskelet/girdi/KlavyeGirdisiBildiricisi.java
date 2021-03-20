@@ -14,12 +14,11 @@ class KlavyeGirdisiBildiricisi extends GLFWKeyCallback {
 	private final KlavyeGirdisiOlayı[] olayları =
 		new KlavyeGirdisiOlayı[GLFW_KEY_LAST + 1];
 	
-	KlavyeGirdisiBildiricisi(final İskelet bildireceğiİskelet) {
+	KlavyeGirdisiBildiricisi() {
 		for (int i = 0; i < olayları.length; i++) {
-			bildireceğiİskelet.girdisiniEdin().klavyesininTuşunuEkle(i);
+			İskelet.NESNESİ.girdisiniEdin().klavyesininTuşunuEkle(i);
 			olayları[i] = new KlavyeGirdisiOlayı(
-				bildireceğiİskelet,
-				bildireceğiİskelet.girdisiniEdin().klavyesininTuşunuEdin(i));
+				İskelet.NESNESİ.girdisiniEdin().klavyesininTuşunuEdin(i));
 		}
 	}
 	

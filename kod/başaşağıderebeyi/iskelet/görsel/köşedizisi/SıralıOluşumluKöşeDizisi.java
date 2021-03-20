@@ -17,18 +17,17 @@ import java.nio.*;
 public class SıralıOluşumluKöşeDizisi extends OluşumluKöşeDizisi {
 	/** Verilen boyutta ve sığada tanımlar. */
 	public SıralıOluşumluKöşeDizisi(
-		final Yükleyici yükleyici,
 		final int çizimKipi,
 		final int sığası,
 		final int oluşumBoyutu) {
-		super(yükleyici, çizimKipi, sığası, oluşumBoyutu);
+		super(çizimKipi, sığası, oluşumBoyutu);
 	}
 	
 	/** Köşelerin çizim sırasını yükler. Verilen tamponu kendiliğinden çevirir
 	 * ve yok eder. */
 	public void sıraTamponuNesnesiYükle(final IntBuffer yüklenecekVeri) {
 		glBindVertexArray(işaretçisi);
-		yükleyici.sıraTamponuNesnesiYükle(yüklenecekVeri.flip());
+		Yükleyici.NESNESİ.sıraTamponuNesnesiYükle(yüklenecekVeri.flip());
 		glBindVertexArray(0);
 		çizilecekKöşeSayısı = yüklenecekVeri.limit();
 	}

@@ -5,19 +5,14 @@
 package başaşağıderebeyi.iskelet.olaylar;
 
 import başaşağıderebeyi.iskelet.*;
+import başaşağıderebeyi.kütüphane.olay.*;
 
-/** İskelet ilk açıldığı zaman gerekli kaynakların yüklenmesi için oluşturulmuş
+/** İskelet ilk açıldığı zaman gerekli kaynakların yüklenmesi için dağıtılan
  * olay. */
 public class OluşturmaOlayı extends GeriDönüşümlüOlay {
-	/** Verilen iskelet ile tanımlar ve kendisini dağıtır. */
-	public OluşturmaOlayı(final İskelet çalıştıranİskelet) {
-		super(çalıştıranİskelet);
-		assert çalıştıranİskelet.anınıEdin() == 0L;
-		çalıştıranİskelet.olaylarınınDağıtıcısınıEdin().dağıt(this);
-	}
-	
 	@Override
-	public void dağıtmayıDene() {
-		// Oluşturma olayı yalnızca bir kere en başta dağıtılmalıdır.
+	public void dağıtmayıDene(final OlayDağıtıcısı olayDağıtıcısı) {
+		assert İskelet.NESNESİ.anınıEdin() == 0L;
+		super.dağıtmayıDene(olayDağıtıcısı);
 	}
 }

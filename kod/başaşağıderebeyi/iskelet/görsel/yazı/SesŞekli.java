@@ -28,9 +28,8 @@ public class SesŞekli {
 		final float çizgidenUzaklığı,
 		final float dokusununBoyutu) {
 		solÜstDokuKonumu = new Yöney2(dokuKonumu).böl(dokusununBoyutu);
-		sağAltDokuKonumu = new Yöney2(dokuKonumu).topla(boyutu)
-//			.çıkar(Yöney2.BİR)
-			.böl(dokusununBoyutu);
+		sağAltDokuKonumu =
+			new Yöney2(dokuKonumu).topla(boyutu).böl(dokusununBoyutu);
 		solAltDokuKonumu = new Yöney2(
 			solÜstDokuKonumu.birinciBileşeni,
 			sağAltDokuKonumu.ikinciBileşeni);

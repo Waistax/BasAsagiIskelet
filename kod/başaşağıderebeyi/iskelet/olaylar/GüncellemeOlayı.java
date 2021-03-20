@@ -4,12 +4,6 @@
  */
 package başaşağıderebeyi.iskelet.olaylar;
 
-import başaşağıderebeyi.iskelet.*;
-
 /** İskeletin bir sonraki anı güncellemek için dağıttığı olay. */
 public class GüncellemeOlayı extends GeriDönüşümlüOlay {
-	/** Verilen iskelette tanımlar. */
-	public GüncellemeOlayı(final İskelet çalıştıranİskelet) {
-		super(çalıştıranİskelet);
-	}
 }

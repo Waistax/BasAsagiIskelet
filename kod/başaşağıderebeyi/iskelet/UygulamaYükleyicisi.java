@@ -21,26 +21,30 @@ public class UygulamaYükleyicisi {
 	/** Uygulamaların uzantısı. */
 	public static final String UYGULAMALARIN_UZANTISI = ".jar";
 	
+	/** Uygulama yükleyicisinin kullanılacak nesnesi. Uygulamaları yüklemek için
+	 * yeni bir uygulama yükleyicisi oluşturmak gereksiz. */
+	public static final UygulamaYükleyicisi NESNESİ = new UygulamaYükleyicisi();
+	
 	/** Yüklenmiş olan uygulamalar ve nesnelerinin haritası. */
 	public final Map<Uygulama, Object> uygulamaları;
 	
 	/** Boş tanımlar. */
-	public UygulamaYükleyicisi() {
+	private UygulamaYükleyicisi() {
 		uygulamaları = new HashMap<>();
 	}
 	
 	/** Klasördeki bütün uygulamaları yükler. */
 	public void yükle() {
-		File[] dosyalar = Path
+		final File[] dosyalar = Path
 			.of(UYGULAMALARIN_KLASÖRÜ)
 			.toFile()
 			.listFiles((konumu, adı) -> dosyaAdınınGeçerliliğiniBul(adı));
 		
-		for (File dosya : dosyalar)
+		for (final File dosya : dosyalar)
 			dosyayıİşle(dosya);
 	}
 	
-	private boolean dosyaAdınınGeçerliliğiniBul(String adı) {
+	private boolean dosyaAdınınGeçerliliğiniBul(final String adı) {
 		return adı.length() > UYGULAMALARIN_UZANTISI.length() &&
 			adı
 				.substring(
@@ -49,46 +53,46 @@ public class UygulamaYükleyicisi {
 				.equalsIgnoreCase(UYGULAMALARIN_UZANTISI);
 	}
 	
-	private void dosyayıİşle(File dosya) {
+	private void dosyayıİşle(final File dosya) {
 		final String dosyanınYolu = dosya.getAbsolutePath();
 		try (JarFile arşiv = new JarFile(dosyanınYolu)) {
 			arşiviİşle(
 				arşiv,
 				new URLClassLoader(
 					new URL[] { new URL("jar:file:" + dosyanınYolu + "!/") }));
-		} catch (Exception hata) {
+		} catch (final Exception hata) {
 			throw new RuntimeException(
 				"Uygulama " + dosya.getPath() + " yüklenemedi!",
 				hata);
 		}
 	}
 	
-	private void arşiviİşle(JarFile arşiv, URLClassLoader sınıfYükleyicisi)
+	private void arşiviİşle(
+		final JarFile arşiv,
+		final URLClassLoader sınıfYükleyicisi)
 		throws Exception {
-		for (Enumeration<JarEntry> arşivdekiDosyalar =
-			arşiv.entries(); arşivdekiDosyalar.hasMoreElements();) {
+		for (final Enumeration<JarEntry> arşivdekiDosyalar =
+			arşiv.entries(); arşivdekiDosyalar.hasMoreElements();)
 			arşivGirdisiniİşle(
 				arşivdekiDosyalar.nextElement(),
 				sınıfYükleyicisi);
-		}
 	}
 	
 	private void arşivGirdisiniİşle(
-		JarEntry girdi,
-		URLClassLoader sınıfYükleyicisi)
+		final JarEntry girdi,
+		final URLClassLoader sınıfYükleyicisi)
 		throws Exception {
-		String adı = girdi.getName();
+		final String adı = girdi.getName();
 		if (adı.endsWith(".class")) {
-			Class<?> sınıf = sınıfYükleyicisi
+			final Class<?> sınıf = sınıfYükleyicisi
 				.loadClass(
 					adı.substring(0, adı.length() - 6).replace('/', '.'));
 			
-			if (sınıf.isAnnotationPresent(Uygulama.class)) {
+			if (sınıf.isAnnotationPresent(Uygulama.class))
 				uygulamaları
 					.put(
 						sınıf.getAnnotation(Uygulama.class),
 						sınıf.getConstructor().newInstance());
-			}
 		}
 	}
 }

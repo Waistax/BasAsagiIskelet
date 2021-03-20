@@ -54,13 +54,13 @@ public class Yükleyici {
 	/** Yazı şekillerinin uzantısı. */
 	public static final String YAZI_ŞEKİLLERİNİN_UZANTISI = ".yşek";
 	
-	/**  */
+	/** Resmin beneğini RGB renk uzayına çeviren işleç. */
 	public static final IntUnaryOperator BENEĞİ_RGB_UZAYINA_ÇEVİRİCİ =
 		benekRengi -> benekRengi & 0xFF000000 |
 			(benekRengi & 0x000000FF) << 16 |
 			(benekRengi & 0x0000FF00) << 0 |
 			(benekRengi & 0x00FF0000) >> 16;
-	
+	/** Resmin beneğini HSLUV renk uzayına çeviren işleç. */
 	public static final IntUnaryOperator BENEĞİ_HSLUV_UZAYINA_ÇEVİRİCİ =
 		benekRengi -> {
 			final int solukluğu = (benekRengi & 0xFF000000) >> 24;
@@ -78,6 +78,10 @@ public class Yükleyici {
 				(int)round(HSLuv[0] / 360.0 * 255.0);
 		};
 	
+	/** Yükleyicinin kullanılacak nesnesi. Ekran kartına bir şey yüklemek için
+	 * yeni bir yükleyici oluşturmak gereksiz. */
+	public static final Yükleyici NESNESİ = new Yükleyici();
+	
 	/** Dizeyleri ekran kartına yüklemek için kullanılacak tampon. */
 	public final FloatBuffer dizeyTamponu;
 	
@@ -88,7 +92,7 @@ public class Yükleyici {
 	private final List<Buffer> tamponlar;
 	
 	/** Boş yükleyici tanımlar. */
-	public Yükleyici() {
+	private Yükleyici() {
 		köşeDizisiNesneleri = new ArrayList<>();
 		köşeTamponuNesneleri = new ArrayList<>();
 		dokuları = new ArrayList<>();
@@ -329,6 +333,7 @@ public class Yükleyici {
 	}
 	
 	/** Verilen resmi GLFW resmi olarak yükler ve döndürür. */
+	@SuppressWarnings("exports")
 	public GLFWImage glfwResmiYükle(final BufferedImage resim) {
 		final int[] resminVerisi = resim
 			.getRGB(
@@ -382,6 +387,7 @@ public class Yükleyici {
 	}
 	
 	/** Verilen resmi ekran kartına yükler ve işaretçisini döndürür. */
+	@SuppressWarnings("exports")
 	public int dokuYükle(
 		final BufferedImage resim,
 		final IntUnaryOperator çevirici) {
@@ -438,15 +444,15 @@ public class Yükleyici {
 	}
 	
 	/** Resimler klasöründeki verilen addaki resmi yükler ve döndürür. */
+	@SuppressWarnings("exports")
 	public BufferedImage resimYükle(final String resminAdı) {
 		try {
 			return ImageIO
 				.read(
-					Paths
-						.get(
-							RESİMLERİN_KLASÖRÜ,
-							resminAdı + RESİMLERİN_UZANTISI)
-						.toFile());
+					dosyayıBul(
+						RESİMLERİN_KLASÖRÜ,
+						resminAdı,
+						RESİMLERİN_UZANTISI).toFile());
 		} catch (final IOException hata) {
 			throw new RuntimeException(
 				"Resim " +

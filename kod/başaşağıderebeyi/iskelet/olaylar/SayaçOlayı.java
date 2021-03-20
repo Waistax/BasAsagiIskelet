@@ -4,8 +4,6 @@
  */
 package başaşağıderebeyi.iskelet.olaylar;
 
-import başaşağıderebeyi.kütüphane.olay.*;
-
 /** İskelet her saniye sayaçları güncellediğinde gerçekleşen olay. */
-public class SayaçOlayı extends Olay {
+public class SayaçOlayı extends GeriDönüşümlüOlay {
 }

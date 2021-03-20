@@ -14,15 +14,15 @@ import java.nio.*;
 /** Köşeleri bir sıra ile çizen nesne. */
 public class SıralıKöşeDizisi extends KöşeDizisi {
 	/** Verilenler ile tanımlar. */
-	public SıralıKöşeDizisi(final Yükleyici yükleyici, final int çizimKipi) {
-		super(yükleyici, çizimKipi);
+	public SıralıKöşeDizisi(final int çizimKipi) {
+		super(çizimKipi);
 	}
 	
 	/** Köşelerin çizim sırasını yükler. Verilen tamponu kendiliğinden çevirir
 	 * ve yok eder. */
 	public void sıraTamponuNesnesiYükle(final IntBuffer yüklenecekVeri) {
 		glBindVertexArray(işaretçisi);
-		yükleyici.sıraTamponuNesnesiYükle(yüklenecekVeri.flip());
+		Yükleyici.NESNESİ.sıraTamponuNesnesiYükle(yüklenecekVeri.flip());
 		glBindVertexArray(0);
 		çizilecekKöşeSayısı = yüklenecekVeri.limit();
 	}

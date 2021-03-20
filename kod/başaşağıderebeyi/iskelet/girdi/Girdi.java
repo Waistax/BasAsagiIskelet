@@ -15,30 +15,19 @@ import başaşağıderebeyi.kütüphane.olay.*;
 
 /** Pencereye yapılan girdileri bildirir. */
 public class Girdi {
-	final İskelet bildireceğiİskelet;
-	
 	private final KlavyeGirdisiBildiricisi klavyeGirdisiBildiricisi;
 	private final FareGirdisiBildiricisi fareGirdisiBildiricisi;
 	private final İmleçGirdisiBildiricisi imleçGirdisiBildiricisi;
 	private final TekerlekGirdisiBildiricisi tekerlekGirdisiBildiricisi;
 	
 	/** Verilenler ile tanımlar. */
-	public Girdi(
-		final İskelet bildireceğiİskelet,
-		final long dinlediğiPencere) {
-		this.bildireceğiİskelet = bildireceğiİskelet;
+	public Girdi(final long dinlediğiPencere) {
+		klavyeGirdisiBildiricisi = new KlavyeGirdisiBildiricisi();
+		fareGirdisiBildiricisi = new FareGirdisiBildiricisi();
+		imleçGirdisiBildiricisi = new İmleçGirdisiBildiricisi();
+		tekerlekGirdisiBildiricisi = new TekerlekGirdisiBildiricisi();
 		
-		klavyeGirdisiBildiricisi =
-			new KlavyeGirdisiBildiricisi(bildireceğiİskelet);
-		fareGirdisiBildiricisi = new FareGirdisiBildiricisi(bildireceğiİskelet);
-		imleçGirdisiBildiricisi =
-			new İmleçGirdisiBildiricisi(bildireceğiİskelet);
-		tekerlekGirdisiBildiricisi =
-			new TekerlekGirdisiBildiricisi(bildireceğiİskelet);
-		
-		bildireceğiİskelet
-			.olaylarınınDağıtıcısınıEdin()
-			.dinleyicileriniEkle(this);
+		dinleyicileriniİskeleteEkle();
 		bildiricileriPencereyeEkle(dinlediğiPencere);
 	}
 	
@@ -50,30 +39,38 @@ public class Girdi {
 		tekerlekGirdisiBildiricisi.free();
 	}
 	
-	@Dinleyici
-	public void klavyeGirdisiOlayınıDinle(final KlavyeGirdisiOlayı olay) {
-		olay.tuşu.basılıOlmasınıBildir(olay.basılıOlması);
-	}
-	
-	@Dinleyici
-	public void fareGirdisiOlayınıDinle(final FareGirdisiOlayı olay) {
-		olay.tuşu.basılıOlmasınıBildir(olay.basılıOlması);
-	}
-	
-	@Dinleyici
-	public void imleçGirdisiOlayınıDinle(final İmleçGirdisiOlayı olay) {
-		bildireceğiİskelet
-			.girdisiniEdin()
-			.imlecininKonumunuBildir(
-				(float)olay.konumununYatayBileşeni,
-				(float)olay.konumununDikeyBileşeni);
-	}
-	
-	@Dinleyici
-	public void tekerlekGirdisiOlayınıDinle(final TekerlekGirdisiOlayı olay) {
-		bildireceğiİskelet
-			.girdisiniEdin()
-			.tekerleğininDevriniBildir(yuvarla((float)olay.devri));
+	private void dinleyicileriniİskeleteEkle() {
+		İskelet.NESNESİ
+			.güncellemeOlaylarınınDağıtıcısınıEdin()
+			.dinleyiciyiEkle(
+				new DinleyiciBilgisi<>(
+					KlavyeGirdisiOlayı.class,
+					olay -> olay.tuşu.basılıOlmasınıBildir(olay.basılıOlması)));
+		İskelet.NESNESİ
+			.güncellemeOlaylarınınDağıtıcısınıEdin()
+			.dinleyiciyiEkle(
+				new DinleyiciBilgisi<>(
+					FareGirdisiOlayı.class,
+					olay -> olay.tuşu.basılıOlmasınıBildir(olay.basılıOlması)));
+		İskelet.NESNESİ
+			.güncellemeOlaylarınınDağıtıcısınıEdin()
+			.dinleyiciyiEkle(
+				new DinleyiciBilgisi<>(
+					İmleçGirdisiOlayı.class,
+					olay -> İskelet.NESNESİ
+						.girdisiniEdin()
+						.imlecininKonumunuBildir(
+							(float)olay.konumununYatayBileşeni,
+							(float)olay.konumununDikeyBileşeni)));
+		İskelet.NESNESİ
+			.güncellemeOlaylarınınDağıtıcısınıEdin()
+			.dinleyiciyiEkle(
+				new DinleyiciBilgisi<>(
+					TekerlekGirdisiOlayı.class,
+					olay -> İskelet.NESNESİ
+						.girdisiniEdin()
+						.tekerleğininDevriniBildir(
+							yuvarla((float)olay.devri))));
 	}
 	
 	private void bildiricileriPencereyeEkle(final long dinlediğiPencere) {

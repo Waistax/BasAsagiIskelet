@@ -10,25 +10,22 @@ import başaşağıderebeyi.kütüphane.olay.*;
 /** Geri dönüştürülebilir bir olay. Bu olay tekrar tekrar kullanıldığı için her
  * an tek bir kere dağıtıldığından emin olmak gerekir. */
 public abstract class GeriDönüşümlüOlay extends Olay {
-	/** Çalıştıran iskelet. */
-	public final İskelet çalıştıranİskelet;
 	/** Bu olayın en son dağıtıldığı an. Her dağıtımda bu an güncellenmelidir.
 	 * Yoksa tek bir anda aynı olay birden fazla kere dağıtılır. */
 	public long enSonDağıtıldığıAn;
 	
-	/** Verilen iskelette tanımlar. */
-	public GeriDönüşümlüOlay(final İskelet çalıştıranİskelet) {
-		this.çalıştıranİskelet = çalıştıranİskelet;
+	/** Geçersiz tanımlar. */
+	public GeriDönüşümlüOlay() {
 		enSonDağıtıldığıAn = -1L;
 	}
 	
 	/** Bu olayı dağıtmayı dener. Eğer şu anda olay dağıtılmadıysa dağıtır.
 	 * Ayrıca dağıtmadan önce olayın susturulmadığından emin olur. */
-	public void dağıtmayıDene() {
-		if (enSonDağıtıldığıAn != çalıştıranİskelet.anınıEdin()) {
+	public void dağıtmayıDene(final OlayDağıtıcısı olayDağıtıcısı) {
+		if (enSonDağıtıldığıAn != İskelet.NESNESİ.anınıEdin()) {
 			susturulması = false;
-			çalıştıranİskelet.olaylarınınDağıtıcısınıEdin().dağıt(this);
-			enSonDağıtıldığıAn = çalıştıranİskelet.anınıEdin();
+			olayDağıtıcısı.dağıt(this);
+			enSonDağıtıldığıAn = İskelet.NESNESİ.anınıEdin();
 		}
 	}
 }

@@ -28,17 +28,15 @@ public class DeğişkenYazıGörselleştirici {
 	
 	/** Verilenler ile tanımlar. */
 	public DeğişkenYazıGörselleştirici(
-		final Yükleyici yükleyici,
 		final int sığası,
 		final YazıŞekli şekli,
 		final float açısı,
 		final Dizey4 izdüşümDizeyi,
 		final float saydamlıkEşiği) {
-		gölgelendiricisi = new Gölgelendirici(yükleyici, "değişkenYazı");
+		gölgelendiricisi = new Gölgelendirici("değişkenYazı");
 		gölgelendiricisiniOluştur(izdüşümDizeyi, saydamlıkEşiği);
 		
-		köşeDizisi =
-			new SıralıOluşumluKöşeDizisi(yükleyici, GL_TRIANGLES, sığası, 28);
+		köşeDizisi = new SıralıOluşumluKöşeDizisi(GL_TRIANGLES, sığası, 28);
 		oluşumluKöşeDizisiniOluştur(açısı);
 		this.sığası = sığası;
 		this.şekli = şekli;

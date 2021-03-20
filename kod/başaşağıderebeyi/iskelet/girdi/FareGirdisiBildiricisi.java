@@ -14,12 +14,11 @@ class FareGirdisiBildiricisi extends GLFWMouseButtonCallback {
 	private final FareGirdisiOlayı[] olayları =
 		new FareGirdisiOlayı[GLFW_MOUSE_BUTTON_LAST + 1];
 	
-	FareGirdisiBildiricisi(final İskelet bildireceğiİskelet) {
+	FareGirdisiBildiricisi() {
 		for (int i = 0; i < olayları.length; i++) {
-			bildireceğiİskelet.girdisiniEdin().faresininTuşunuEkle(i);
+			İskelet.NESNESİ.girdisiniEdin().faresininTuşunuEkle(i);
 			olayları[i] = new FareGirdisiOlayı(
-				bildireceğiİskelet,
-				bildireceğiİskelet.girdisiniEdin().faresininTuşunuEdin(i));
+				İskelet.NESNESİ.girdisiniEdin().faresininTuşunuEdin(i));
 		}
 	}
 	

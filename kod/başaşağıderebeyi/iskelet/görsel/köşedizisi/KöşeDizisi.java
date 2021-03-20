@@ -14,8 +14,6 @@ import java.nio.*;
 
 /** Köşeler ile ilgili verileri tutan ve onları çizen nesne. */
 public class KöşeDizisi {
-	/** Yükleneceği yükleyici. */
-	protected final Yükleyici yükleyici;
 	/** Köşelerin verilerinin nasıl çizileceği. */
 	protected final int çizimKipi;
 	/** Nesnenin ekran kartındaki konumu. */
@@ -28,10 +26,9 @@ public class KöşeDizisi {
 	protected int niteliklerininSayısı;
 	
 	/** Verilenler ile tanımlar. */
-	public KöşeDizisi(final Yükleyici yükleyici, final int çizimKipi) {
-		this.yükleyici = yükleyici;
+	public KöşeDizisi(final int çizimKipi) {
 		this.çizimKipi = çizimKipi;
-		işaretçisi = yükleyici.köşeDizisiNesnesiYükle();
+		işaretçisi = Yükleyici.NESNESİ.köşeDizisiNesnesiYükle();
 	}
 	
 	/** Köşe başına değişen ve bir kere yazıldıktan sonra değişmeyen verileri bu
@@ -41,7 +38,7 @@ public class KöşeDizisi {
 		final int boyutu,
 		final FloatBuffer verisi) {
 		glBindVertexArray(işaretçisi);
-		yükleyici
+		Yükleyici.NESNESİ
 			.köşeTamponuNesnesiYükle(
 				niteliklerininSayısı++,
 				boyutu,

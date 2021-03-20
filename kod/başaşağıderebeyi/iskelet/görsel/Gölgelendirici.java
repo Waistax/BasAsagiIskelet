@@ -11,7 +11,6 @@ import static org.lwjgl.opengl.GL20.*;
 
 import başaşağıderebeyi.kütüphane.matematik.sayısal.*;
 
-import java.nio.*;
 import java.util.*;
 
 /** Ekran kartına yüklenen köşe dizilerinin nasıl çizileceğini anlatan
@@ -25,33 +24,30 @@ public class Gölgelendirici {
 	
 	private final int yazılımı;
 	private final Map<String, Integer> değerlerininKonumları;
-	private final FloatBuffer dizeyTamponu;
 	
 	/** Gölgelendiriciler klasöründeki verilen addaki gölgelendirici çiftini
 	 * yükler. */
-	public Gölgelendirici(final Yükleyici yükleyici, final String adı) {
-		this(yükleyici, adı, adı);
+	public Gölgelendirici(final String adı) {
+		this(adı, adı);
 	}
 	
 	/** Gölgelendirici yükler ve yazılımı derler. */
 	public Gölgelendirici(
-		final Yükleyici yükleyici,
 		final String köşeGölgelendiricisininAdı,
 		final String benekGölgelendiricisininAdı) {
-		yazılımı = yükleyici.yazılımYükle();
+		yazılımı = Yükleyici.NESNESİ.yazılımYükle();
 		
 		gölgelendiricileriAyarla(
-			yükleyici
+			Yükleyici.NESNESİ
 				.gölgelendiriciYükle(
 					köşeGölgelendiricisininAdı,
 					GL_VERTEX_SHADER),
-			yükleyici
+			Yükleyici.NESNESİ
 				.gölgelendiriciYükle(
 					benekGölgelendiricisininAdı,
 					GL_FRAGMENT_SHADER));
 		
 		değerlerininKonumları = new HashMap<>();
-		dizeyTamponu = yükleyici.dizeyTamponu;
 	}
 	
 	/** Yazılımı kullanmaya başlar. */
@@ -123,7 +119,7 @@ public class Gölgelendirici {
 		glUniformMatrix4fv(
 			değerlerininKonumları.get(değerinAdı),
 			false,
-			dizeyTamponu.put(yeniDeğer.girdileri).flip());
+			Yükleyici.NESNESİ.dizeyTamponu.put(yeniDeğer.girdileri).flip());
 	}
 	
 	private void gölgelendiricileriAyarla(

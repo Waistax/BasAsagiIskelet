@@ -5,21 +5,17 @@
 package başaşağıderebeyi.iskelet.olaylar;
 
 import başaşağıderebeyi.iskelet.*;
+import başaşağıderebeyi.kütüphane.olay.*;
 
 /** İskeletin bir sonraki kareyi oluşturmak için dağıttığı olay. */
 public class ÇizimOlayı extends GeriDönüşümlüOlay {
 	/** Önceki tığa olan uzaklık. */
 	public float uzaklığı;
 	
-	/** Verilen iskelette tanımlar. */
-	public ÇizimOlayı(final İskelet çalıştıranİskelet) {
-		super(çalıştıranİskelet);
-	}
-	
 	@Override
-	public void dağıtmayıDene() {
-		uzaklığı = (float)çalıştıranİskelet.güncellenmemişTıklarınıEdin();
+	public void dağıtmayıDene(final OlayDağıtıcısı olayDağıtıcısı) {
+		uzaklığı = (float)İskelet.NESNESİ.güncellenmemişTıklarınıEdin();
 		susturulması = false;
-		çalıştıranİskelet.çizimOlaylarınınDağıtıcısınıEdin().dağıt(this);
+		İskelet.NESNESİ.çizimOlaylarınınDağıtıcısınıEdin().dağıt(this);
 	}
 }

@@ -28,23 +28,22 @@ public class OluşumluKöşeDizisi extends KöşeDizisi {
 	
 	/** Verilen boyutta ve sığada tanımlar. */
 	public OluşumluKöşeDizisi(
-		final Yükleyici yükleyici,
 		final int çizimKipi,
 		final int sığası,
 		final int oluşumBoyutu) {
-		super(yükleyici, çizimKipi);
-		yazılacakVerisi = yükleyici.tamponYükle(oluşumBoyutu * sığası);
+		super(çizimKipi);
+		yazılacakVerisi = Yükleyici.NESNESİ.tamponYükle(oluşumBoyutu * sığası);
 		this.sığası = sığası;
 		this.oluşumBoyutu = oluşumBoyutu;
-		oluşumluKöşeTamponuNesnesi =
-			yükleyici.boşKöşeTamponuNesnesiOluştur(yazılacakVerisi.capacity());
+		oluşumluKöşeTamponuNesnesi = Yükleyici.NESNESİ
+			.boşKöşeTamponuNesnesiOluştur(yazılacakVerisi.capacity());
 	}
 	
 	/** Oluşum başına değişen ve her kare yenilenebilecek verileri bu köşe
 	 * dizisi nesnesine ekler. Verilen tamponu kendiliğinden yok eder. */
 	public void oluşumBaşınaDeğişenNitelikEkle(final int boyutu) {
 		glBindVertexArray(işaretçisi);
-		yükleyici
+		Yükleyici.NESNESİ
 			.oluşumBaşınaDeğişenNitelikEkle(
 				işaretçisi,
 				oluşumluKöşeTamponuNesnesi,
@@ -59,7 +58,7 @@ public class OluşumluKöşeDizisi extends KöşeDizisi {
 	/** Tampona yazılmış verileri oluşum başına değişen köşe tamponu nesnesine
 	 * yükler. Yerleşik tamponu kendiliğinden çevirir. */
 	public void tamponunuGüncelle() {
-		yükleyici
+		Yükleyici.NESNESİ
 			.oluşumlarınNitelikleriniGüncelle(
 				oluşumluKöşeTamponuNesnesi,
 				yazılacakVerisi.flip());
