@@ -7,7 +7,6 @@ package başaşağıderebeyi.iskelet.görsel.kaynak;
 import static java.lang.Math.*;
 
 import java.awt.image.*;
-import java.io.*;
 import java.net.*;
 import java.nio.file.*;
 import java.util.function.*;
@@ -71,7 +70,7 @@ public class ResimBilgisi {
 					new int[genişliği * yüksekliği],
 					0,
 					genişliği);
-		} catch (final IOException hata) {
+		} catch (final Exception hata) {
 			throw new RuntimeException(
 				"Resim kaynağı " + tanımlayıcısı + " yüklenemedi!",
 				hata);

@@ -12,6 +12,7 @@ import java.net.*;
 import java.nio.*;
 import java.util.*;
 
+import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 
@@ -35,11 +36,15 @@ class DokuYükleyicisi {
 	GLFWImage glfwResmiYükle(final ResimBilgisi resim) {
 		final byte[] renkBaytları = resim.renkBaytlarınıBul();
 		
-		final ByteBuffer tampon =
-			memAlloc(renkBaytları.length).put(renkBaytları).flip();
-		final GLFWImage glfwResmi =
-			GLFWImage.malloc().set(resim.genişliği, resim.yüksekliği, tampon);
-		memFree(tampon);
+		final GLFWImage glfwResmi = GLFWImage
+			.malloc()
+			.set(
+				resim.genişliği,
+				resim.yüksekliği,
+				BufferUtils
+					.createByteBuffer(renkBaytları.length)
+					.put(renkBaytları)
+					.flip());
 		return glfwResmi;
 	}
 	

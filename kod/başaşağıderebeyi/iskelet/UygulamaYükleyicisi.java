@@ -8,7 +8,6 @@
 package başaşağıderebeyi.iskelet;
 
 import java.io.*;
-import java.lang.reflect.*;
 import java.net.*;
 import java.nio.file.*;
 import java.util.*;
@@ -67,10 +66,12 @@ public class UygulamaYükleyicisi {
 	private void dosyayıİşle(final File dosya) {
 		final String dosyanınYolu = dosya.getAbsolutePath();
 		try (JarFile arşiv = new JarFile(dosyanınYolu)) {
+			System.out.println("Arşiv " + dosya.getPath() + " yükleniyor...");
 			arşiviİşle(
 				arşiv,
 				new URLClassLoader(
 					new URL[] { new URL("jar:file:" + dosyanınYolu + "!/") }));
+			System.out.println("Arşiv " + dosya.getPath() + " yüklendi!");
 		} catch (final Exception hata) {
 			throw new RuntimeException(
 				"Uygulama " + dosya.getPath() + " yüklenemedi!",
@@ -80,7 +81,8 @@ public class UygulamaYükleyicisi {
 	
 	private void arşiviİşle(
 		final JarFile arşiv,
-		final URLClassLoader sınıfYükleyicisi) {
+		final URLClassLoader sınıfYükleyicisi)
+		throws Exception {
 		final UygulamaBilgisi bilgisi = new UygulamaBilgisi();
 		for (final Enumeration<JarEntry> arşivdekiDosyalar =
 			arşiv.entries(); arşivdekiDosyalar.hasMoreElements();)
@@ -88,6 +90,8 @@ public class UygulamaYükleyicisi {
 				arşivdekiDosyalar.nextElement(),
 				sınıfYükleyicisi,
 				bilgisi);
+		bilgisi.tanımla();
+		uygulamaları.put(bilgisi.nesnesiniEdin(), bilgisi);
 	}
 	
 	private void arşivGirdisiniİşle(
@@ -99,9 +103,8 @@ public class UygulamaYükleyicisi {
 			if (adı.endsWith(".class"))
 				sınıfıYükle(sınıfYükleyicisi, bilgisi, adı);
 			else
-				bilgisi.kaynakları
-					.put(adı, sınıfYükleyicisi.getResource(adı).toURI());
-		} catch (final Exception hata) {
+				kaynağıYükle(sınıfYükleyicisi, bilgisi, adı);
+		} catch (final Throwable hata) {
 			throw new RuntimeException(
 				"Arşiv girdisi " + adı + " işlenemedi!",
 				hata);
@@ -112,24 +115,40 @@ public class UygulamaYükleyicisi {
 		final URLClassLoader sınıfYükleyicisi,
 		final UygulamaBilgisi bilgisi,
 		final String adı)
-		throws ClassNotFoundException,
-			InstantiationException,
-			IllegalAccessException,
-			InvocationTargetException,
-			NoSuchMethodException {
+		throws Exception {
 		if (adı.equalsIgnoreCase("module-info.class"))
 			return;
 		
 		final Class<?> sınıf = sınıfYükleyicisi
 			.loadClass(adı.substring(0, adı.length() - 6).replace('/', '.'));
+		System.out.println("Sınıf " + sınıf + " yüklendi!");
 		
 		if (sınıf.isAnnotationPresent(Uygulama.class)) {
-			if (bilgisi.nesnesi != null)
-				throw new RuntimeException("Birden fazla uygulama var!");
-			bilgisi.nesnesi = sınıf
-				.getConstructor(UygulamaBilgisi.class)
-				.newInstance(bilgisi);
-			uygulamaları.put(bilgisi.nesnesi, bilgisi);
+			if (bilgisi.sınıfı != null)
+				throw new RuntimeException("Birden fazla uygulama sınıfı var!");
+			bilgisi.sınıfı = sınıf;
+			System.out.println("Uygulama sınıfı bulundu!");
 		}
+	}
+	
+	private void kaynağıYükle(
+		final URLClassLoader sınıfYükleyicisi,
+		final UygulamaBilgisi bilgisi,
+		final String adı)
+		throws Exception {
+		URL bulucusu = sınıfYükleyicisi.findResource(adı);
+		File geçiciDosya = File.createTempFile("" + bulucusu.hashCode(), null);
+		geçiciDosya.deleteOnExit();
+		
+		try (
+			FileOutputStream yazıcı = new FileOutputStream(geçiciDosya);
+			InputStream okuyucu = bulucusu.openStream()) {
+			yazıcı.write(okuyucu.readAllBytes());
+		}
+		
+		bilgisi.kaynakları.put(adı, geçiciDosya.toURI());
+		System.out.println("Kaynak " + adı + " yüklendi!");
+		System.out
+			.println("Geçici dosya konumu: " + geçiciDosya.getAbsolutePath());
 	}
 }

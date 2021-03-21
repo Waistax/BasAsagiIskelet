@@ -8,6 +8,7 @@ import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.iskelet.görsel.kaynak.*;
 import başaşağıderebeyi.iskelet.görsel.yazı.*;
 
+import java.lang.reflect.*;
 import java.net.*;
 import java.util.*;
 
@@ -16,7 +17,8 @@ import org.lwjgl.glfw.*;
 /** Uygulamanın arşivdeki bilgilerini içiren nesne. */
 public class UygulamaBilgisi {
 	final Map<String, URI> kaynakları;
-	Object nesnesi;
+	Class<?> sınıfı;
+	private Object nesnesi;
 	
 	UygulamaBilgisi() {
 		kaynakları = new HashMap<>();
@@ -71,8 +73,24 @@ public class UygulamaBilgisi {
 		return kaynakları.get(konumu);
 	}
 	
+	/** Uygulamanın sınıfını döndürür. */
+	public Class<?> sınıfınıEdin() {
+		return sınıfı;
+	}
+	
 	/** Uygulamanın iskelet tarafından oluşturulmuş nesnesini döndürür. */
 	public Object nesnesiniEdin() {
 		return nesnesi;
+	}
+	
+	void tanımla()
+		throws InstantiationException,
+			IllegalAccessException,
+			IllegalArgumentException,
+			InvocationTargetException,
+			NoSuchMethodException,
+			SecurityException {
+		nesnesi =
+			sınıfı.getConstructor(UygulamaBilgisi.class).newInstance(this);
 	}
 }
