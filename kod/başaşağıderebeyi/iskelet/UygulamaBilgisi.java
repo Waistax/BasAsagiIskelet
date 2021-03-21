@@ -31,8 +31,8 @@ public class UygulamaBilgisi {
 	
 	/** Verilen kaynaklardaki yazı şeklini yükler. */
 	public YazıŞekli yazıŞekliYükle(
-		String dokusununKonumu,
-		String bilgisininKonumu) {
+		final String dokusununKonumu,
+		final String bilgisininKonumu) {
 		return new YazıŞekli(
 			kaynağınıBul(dokusununKonumu),
 			kaynağınıBul(bilgisininKonumu));

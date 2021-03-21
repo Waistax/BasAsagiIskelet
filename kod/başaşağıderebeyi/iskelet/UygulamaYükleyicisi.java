@@ -9,18 +9,11 @@ package başaşağıderebeyi.iskelet;
 
 import java.io.*;
 import java.net.*;
-import java.nio.file.*;
 import java.util.*;
 import java.util.jar.*;
 
 /** Uygulamaları yükleyecek olan araç. */
 public class UygulamaYükleyicisi {
-	/** Uygulamaların saklandığı klasörün yolu. Bu yol programın çalıştığı yere
-	 * göredir. */
-	public static final String UYGULAMALARIN_KLASÖRÜ = "uygulamalar";
-	/** Uygulamaların uzantısı. */
-	public static final String UYGULAMALARIN_UZANTISI = ".jar";
-	
 	/** Uygulama yükleyicisinin kullanılacak nesnesi. Uygulamaları yüklemek için
 	 * yeni bir uygulama yükleyicisi oluşturmak gereksiz. */
 	public static final UygulamaYükleyicisi NESNESİ = new UygulamaYükleyicisi();
@@ -34,33 +27,39 @@ public class UygulamaYükleyicisi {
 	}
 	
 	/** Klasördeki bütün uygulamaları yükler. */
-	public void yükle(final String altKlasörü) {
-		File yüklenecekKlasör = Path
-			.of(
-				UYGULAMALARIN_KLASÖRÜ +
-					(altKlasörü == null ? "" : "/" + altKlasörü))
-			.toFile();
-		
-		if (!yüklenecekKlasör.exists())
-			throw new RuntimeException(
-				"Uygulamaların yükleneceği klasör " +
-					yüklenecekKlasör.getPath() +
-					" bulunamadı!");
-		
-		final File[] dosyalar = yüklenecekKlasör
-			.listFiles((konumu, adı) -> dosyaAdınınGeçerliliğiniBul(adı));
-		
-		for (final File dosya : dosyalar)
+	void yükle(final File klasör) {
+		assert İskelet.NESNESİ.anınıEdin() == -1L;
+		System.out
+			.println(
+				"Uygulamalar " +
+					klasör.getAbsolutePath() +
+					" klasöründen yükleniyor...");
+		for (final File dosya : dosyalarınıBul(klasör))
 			dosyayıİşle(dosya);
 	}
 	
+	private File[] dosyalarınıBul(final File klasör) {
+		if (!klasör.exists())
+			throw new RuntimeException(
+				"Uygulamaların yükleneceği klasör " +
+					klasör.getPath() +
+					" bulunamadı!");
+		
+		if (!klasör.isDirectory())
+			throw new RuntimeException(
+				"Uygulamaların yükleneceği klasör " +
+					klasör.getPath() +
+					" klasör değil!");
+		
+		return klasör
+			.listFiles((konumu, adı) -> dosyaAdınınGeçerliliğiniBul(adı));
+	}
+	
 	private boolean dosyaAdınınGeçerliliğiniBul(final String adı) {
-		return adı.length() > UYGULAMALARIN_UZANTISI.length() &&
+		return adı.length() > 4 &&
 			adı
-				.substring(
-					adı.length() - UYGULAMALARIN_UZANTISI.length(),
-					adı.length())
-				.equalsIgnoreCase(UYGULAMALARIN_UZANTISI);
+				.substring(adı.length() - 4, adı.length())
+				.equalsIgnoreCase(".jar");
 	}
 	
 	private void dosyayıİşle(final File dosya) {
@@ -136,8 +135,9 @@ public class UygulamaYükleyicisi {
 		final UygulamaBilgisi bilgisi,
 		final String adı)
 		throws Exception {
-		URL bulucusu = sınıfYükleyicisi.findResource(adı);
-		File geçiciDosya = File.createTempFile("" + bulucusu.hashCode(), null);
+		final URL bulucusu = sınıfYükleyicisi.findResource(adı);
+		final File geçiciDosya =
+			File.createTempFile("" + bulucusu.hashCode(), null);
 		geçiciDosya.deleteOnExit();
 		
 		try (

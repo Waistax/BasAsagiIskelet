@@ -14,6 +14,7 @@ import başaşağıderebeyi.kütüphane.girdi.*;
 import başaşağıderebeyi.kütüphane.matematik.ortalama.*;
 import başaşağıderebeyi.kütüphane.olay.*;
 
+import java.io.*;
 import java.util.*;
 
 import org.lwjgl.glfw.*;
@@ -26,29 +27,33 @@ public class İskelet {
 	/** Ara sürümü. */
 	public static final int ARA_SÜRÜMÜ = 0;
 	/** Yaması. */
-	public static final int YAMASI = 2;
+	public static final int YAMASI = 3;
 	/** Bütün sürümü. */
 	public static final String SÜRÜM =
 		ANA_SÜRÜMÜ + "." + ARA_SÜRÜMÜ + "." + YAMASI;
+	
+	/** İskeletin uygulamaları yükleyeceği klasörün varsayılan konumu. İskeleti
+	 * çalıştırırken verilmiş bir klasör yoksa bu kullanılır. */
+	public static final String VARSAYILAN_UYGULAMA_KLASÖRÜ = "uygulamalar";
 	
 	/** İskeletin kullanılacak nesnesi. Herhangi bir zamanda birden fazla
 	 * İskelet olması akıl dışı. */
 	public static final İskelet NESNESİ = new İskelet();
 	
-	private static String yüklenecekUygulamaAltKlasörü;
+	private static File uygulamalarınKlasörü;
 	
 	/** İskeleti çalıştırır. */
 	public static void main(final String[] argümanlar) {
-		if (argümanlar.length == 1)
-			yüklenecekUygulamaAltKlasörü = argümanlar[0];
+		uygulamalarınKlasörü = new File(
+			argümanlar.length != 0 ?
+				String.join("/", argümanlar) :
+				VARSAYILAN_UYGULAMA_KLASÖRÜ);
 		NESNESİ.başlat();
 	}
 	
-	/** İskeletin uygulamaları yüklediği uygulamalar klasörünün altındaki
-	 * klasörü döndürür. Eğer iskelet doğrudan uygulamalar klasöründen
-	 * yüklemişse null döndürür. */
-	public static String yüklenenUygulamaAltKlasörünüEdin() {
-		return yüklenecekUygulamaAltKlasörü;
+	/** İskeletin uygulamaları yüklediği klasörü döndürür. */
+	public static File uygulamalarınKlasörünüEdin() {
+		return uygulamalarınKlasörü;
 	}
 	
 	private final AnaDöngü anaDöngü;
@@ -101,12 +106,12 @@ public class İskelet {
 	}
 	
 	/** Saniye başına tık oranını döndürür. Tık oranı güncelleme sayısıdır. */
-	public double tıklarınınOranınıEdin() {
+	public int tıklarınınOranınıEdin() {
 		return anaDöngü.tıklarınınOranınıEdin();
 	}
 	
 	/** Saniye başına kare oranını döndürür. Kare oranı çizme sayısıdır. */
-	public double karelerininOranınıEdin() {
+	public int karelerininOranınıEdin() {
 		return anaDöngü.karelerininOranınıEdin();
 	}
 	
@@ -183,7 +188,7 @@ public class İskelet {
 		çiğGirdisi = new ÇiğGirdi();
 		olaySağlayıcısınıOluştur();
 		
-		UygulamaYükleyicisi.NESNESİ.yükle(yüklenecekUygulamaAltKlasörü);
+		UygulamaYükleyicisi.NESNESİ.yükle(uygulamalarınKlasörü);
 		
 		Gösterici.edin().penceresiniOluştur();
 		

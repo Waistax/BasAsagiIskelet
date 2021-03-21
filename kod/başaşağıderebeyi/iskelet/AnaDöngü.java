@@ -10,8 +10,8 @@ class AnaDöngü {
 	double istenenTıkOranı;
 	
 	private volatile boolean çalışması;
-	private double tıklarınınOranı;
-	private double karelerininOranı;
+	private int tıklarınınOranı;
+	private int karelerininOranı;
 	private double güncellenmemişTıkları;
 	private long anı;
 	
@@ -74,11 +74,11 @@ class AnaDöngü {
 				karelerininSayısı++;
 				
 				if ((saniyeSayacı += geçenSüre) >= 1.0) {
-					tıklarınınOranı = tıklarınınSayısı / saniyeSayacı;
-					karelerininOranı = karelerininSayısı / saniyeSayacı;
+					tıklarınınOranı = tıklarınınSayısı;
+					karelerininOranı = karelerininSayısı;
 					sayacı.run();
 					
-					saniyeSayacı = 0.0;
+					saniyeSayacı--;
 					tıklarınınSayısı = 0;
 					karelerininSayısı = 0;
 				}
@@ -90,11 +90,11 @@ class AnaDöngü {
 		}
 	}
 	
-	double tıklarınınOranınıEdin() {
+	int tıklarınınOranınıEdin() {
 		return tıklarınınOranı;
 	}
 	
-	double karelerininOranınıEdin() {
+	int karelerininOranınıEdin() {
 		return karelerininOranı;
 	}
 	
