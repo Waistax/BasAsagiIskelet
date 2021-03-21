@@ -2,7 +2,7 @@
  * Cem GEÇGEL (BaşAşağıDerebeyi)
  * 0.2 / 3 Mar 2021 / 20:32:15
  */
-package başaşağıderebeyi.iskelet.girdi;
+package başaşağıderebeyi.iskelet.olaylar;
 
 import başaşağıderebeyi.kütüphane.girdi.*;
 
@@ -14,8 +14,8 @@ public class KlavyeGirdisiOlayı extends GirdiOlayı {
 	/** Olayın tuşunun basılı olup olmaması. */
 	public boolean basılıOlması;
 	
-	/** Verilen tuş koduyla tanımlar. */
-	KlavyeGirdisiOlayı(final Tuş tuşu) {
+	/** Verilen tuşla tanımlar. */
+	public KlavyeGirdisiOlayı(final Tuş tuşu) {
 		this.tuşu = tuşu;
 	}
 }

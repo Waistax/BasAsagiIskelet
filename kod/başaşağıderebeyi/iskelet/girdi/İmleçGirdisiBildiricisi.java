@@ -4,6 +4,8 @@
  */
 package başaşağıderebeyi.iskelet.girdi;
 
+import başaşağıderebeyi.iskelet.olaylar.*;
+
 import org.lwjgl.glfw.*;
 
 class İmleçGirdisiBildiricisi extends GLFWCursorPosCallback {

@@ -7,8 +7,6 @@
 module başaşağıderebeyi.iskelet {
 	exports başaşağıderebeyi.iskelet;
 	
-	exports başaşağıderebeyi.iskelet.girdi;
-	
 	exports başaşağıderebeyi.iskelet.görsel;
 	exports başaşağıderebeyi.iskelet.görsel.kaynak;
 	exports başaşağıderebeyi.iskelet.görsel.köşedizisi;

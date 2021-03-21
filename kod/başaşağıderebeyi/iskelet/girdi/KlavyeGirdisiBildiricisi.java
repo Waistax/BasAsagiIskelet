@@ -7,6 +7,7 @@ package başaşağıderebeyi.iskelet.girdi;
 import static org.lwjgl.glfw.GLFW.*;
 
 import başaşağıderebeyi.iskelet.*;
+import başaşağıderebeyi.iskelet.olaylar.*;
 
 import org.lwjgl.glfw.*;
 
