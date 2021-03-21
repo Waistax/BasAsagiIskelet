@@ -24,8 +24,9 @@ public class DurağanYazıGörselleştirici {
 	public DurağanYazıGörselleştirici(
 		final Dizey4 izdüşümDizeyi,
 		final float saydamlıkEşiği,
+		final Gölgelendirici gölgelendiricisi,
 		final DurağanYazıOluşturucu oluşturucu) {
-		gölgelendiricisi = new Gölgelendirici("durağanYazı");
+		this.gölgelendiricisi = gölgelendiricisi;
 		gölgelendiricisiniOluştur(izdüşümDizeyi, saydamlıkEşiği);
 		
 		şekli = oluşturucu.şekli;

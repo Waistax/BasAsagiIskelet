@@ -32,8 +32,9 @@ public class DeğişkenYazıGörselleştirici {
 		final YazıŞekli şekli,
 		final float açısı,
 		final Dizey4 izdüşümDizeyi,
-		final float saydamlıkEşiği) {
-		gölgelendiricisi = new Gölgelendirici("değişkenYazı");
+		final float saydamlıkEşiği,
+		final Gölgelendirici gölgelendiricisi) {
+		this.gölgelendiricisi = gölgelendiricisi;
 		gölgelendiricisiniOluştur(izdüşümDizeyi, saydamlıkEşiği);
 		
 		köşeDizisi = new SıralıOluşumluKöşeDizisi(GL_TRIANGLES, sığası, 28);

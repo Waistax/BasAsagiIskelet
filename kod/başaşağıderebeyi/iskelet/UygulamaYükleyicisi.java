@@ -8,6 +8,7 @@
 package başaşağıderebeyi.iskelet;
 
 import java.io.*;
+import java.lang.reflect.*;
 import java.net.*;
 import java.nio.file.*;
 import java.util.*;
@@ -85,27 +86,40 @@ public class UygulamaYükleyicisi {
 		final UygulamaBilgisi bilgisi) {
 		final String adı = girdi.getName();
 		try {
-			if (adı.endsWith(".class") &&
-				!adı.equalsIgnoreCase("module-info.class")) {
-				final Class<?> sınıf = sınıfYükleyicisi
-					.loadClass(
-						adı.substring(0, adı.length() - 6).replace('/', '.'));
-				
-				if (sınıf.isAnnotationPresent(Uygulama.class)) {
-					if (bilgisi.nesnesi != null)
-						throw new RuntimeException(
-							"Birden fazla uygulama var!");
-					bilgisi.nesnesi = sınıf
-						.getConstructor(UygulamaBilgisi.class)
-						.newInstance(bilgisi);
-					uygulamaları.put(bilgisi.nesnesi, bilgisi);
-				}
-			} else
-				bilgisi.kaynakları.put(adı, sınıfYükleyicisi.getResource(adı));
-		} catch (final Throwable hata) {
+			if (adı.endsWith(".class"))
+				sınıfıYükle(sınıfYükleyicisi, bilgisi, adı);
+			else
+				bilgisi.kaynakları
+					.put(adı, sınıfYükleyicisi.getResource(adı).toURI());
+		} catch (final Exception hata) {
 			throw new RuntimeException(
 				"Arşiv girdisi " + adı + " işlenemedi!",
 				hata);
+		}
+	}
+	
+	private void sınıfıYükle(
+		final URLClassLoader sınıfYükleyicisi,
+		final UygulamaBilgisi bilgisi,
+		final String adı)
+		throws ClassNotFoundException,
+			InstantiationException,
+			IllegalAccessException,
+			InvocationTargetException,
+			NoSuchMethodException {
+		if (adı.equalsIgnoreCase("module-info.class"))
+			return;
+		
+		final Class<?> sınıf = sınıfYükleyicisi
+			.loadClass(adı.substring(0, adı.length() - 6).replace('/', '.'));
+		
+		if (sınıf.isAnnotationPresent(Uygulama.class)) {
+			if (bilgisi.nesnesi != null)
+				throw new RuntimeException("Birden fazla uygulama var!");
+			bilgisi.nesnesi = sınıf
+				.getConstructor(UygulamaBilgisi.class)
+				.newInstance(bilgisi);
+			uygulamaları.put(bilgisi.nesnesi, bilgisi);
 		}
 	}
 }

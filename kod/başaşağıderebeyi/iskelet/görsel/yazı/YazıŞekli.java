@@ -8,6 +8,7 @@ import static org.lwjgl.opengl.GL11.*;
 
 import başaşağıderebeyi.iskelet.görsel.kaynak.*;
 
+import java.net.*;
 import java.util.*;
 
 /** Bir yazının nasıl görselleştirileceğini belirleyen nesne. */
@@ -26,14 +27,14 @@ public class YazıŞekli {
 	final Map<Character, SesŞekli> seslerininŞekilleri;
 	private final int dokusu;
 	
-	/** Verilen addaki yazı şeklini tanımlar. */
-	public YazıŞekli(final String adı) {
+	/** Verilen doku ve bilgiden tanımlar. */
+	public YazıŞekli(final URI dokusununKaynağı, final URI bilgisininKaynağı) {
 		seslerininŞekilleri = new HashMap<>();
-		dokusu = Yükleyici.NESNESİ.rgbDokuYükle(adı + "YazıŞekli");
+		dokusu = Yükleyici.NESNESİ.dokuYükle(dokusununKaynağı);
 		
 		enBüyükYüksekliği = new ŞekilOkuyucusu(
 			this,
-			Yükleyici.NESNESİ.yazıŞekliBilgisiniYükle(adı))
+			Yükleyici.NESNESİ.satırlarınıYükle(bilgisininKaynağı))
 				.enBüyükYüksekliğiniEdin();
 	}
 	
