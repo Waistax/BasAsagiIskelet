@@ -6,6 +6,7 @@ package başaşağıderebeyi.iskelet;
 
 import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.iskelet.görsel.kaynak.*;
+import başaşağıderebeyi.iskelet.görsel.yazı.*;
 
 import java.net.*;
 import java.util.*;
@@ -26,13 +27,22 @@ public class UygulamaBilgisi {
 		return new ResimBilgisi(kaynağınıBul(konumu));
 	}
 	
+	/** Verilen kaynaklardaki yazı şeklini yükler. */
+	public YazıŞekli yazıŞekliYükle(
+		String dokusununKonumu,
+		String bilgisininKonumu) {
+		return new YazıŞekli(
+			kaynağınıBul(dokusununKonumu),
+			kaynağınıBul(bilgisininKonumu));
+	}
+	
 	/** Verilen kaynaklardaki gölgelendiricileri yükler. */
 	public Gölgelendirici gölgelendiriciYükle(
-		final String köşeninKonumu,
-		final String beneğinKonumu) {
+		final String köşesininKonumu,
+		final String beneğininKonumu) {
 		return new Gölgelendirici(
-			kaynağınıBul(köşeninKonumu),
-			kaynağınıBul(beneğinKonumu));
+			kaynağınıBul(köşesininKonumu),
+			kaynağınıBul(beneğininKonumu));
 	}
 	
 	/** Kaynağı verilen resmi GLFW resmi olarak yükler ve döndürür. */

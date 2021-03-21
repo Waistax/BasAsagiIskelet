@@ -28,14 +28,14 @@ public class Gölgelendirici {
 	private final Map<String, Integer> değerlerininKonumları;
 	
 	/** Gölgelendirici yükler ve yazılımı derler. */
-	public Gölgelendirici(final URI köşeninKaynağı, final URI beneğinKaynağı) {
+	public Gölgelendirici(final URI köşesininKaynağı, final URI beneğininKaynağı) {
 		yazılımı = Yükleyici.NESNESİ.yazılımYükle();
 		
 		gölgelendiricileriAyarla(
 			Yükleyici.NESNESİ
-				.gölgelendiriciYükle(köşeninKaynağı, GL_VERTEX_SHADER),
+				.gölgelendiriciYükle(köşesininKaynağı, GL_VERTEX_SHADER),
 			Yükleyici.NESNESİ
-				.gölgelendiriciYükle(beneğinKaynağı, GL_FRAGMENT_SHADER));
+				.gölgelendiriciYükle(beneğininKaynağı, GL_FRAGMENT_SHADER));
 		
 		değerlerininKonumları = new HashMap<>();
 	}

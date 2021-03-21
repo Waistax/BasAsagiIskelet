@@ -26,7 +26,7 @@ public class İskelet {
 	/** Ara sürümü. */
 	public static final int ARA_SÜRÜMÜ = 0;
 	/** Yaması. */
-	public static final int YAMASI = 0;
+	public static final int YAMASI = 1;
 	/** Bütün sürümü. */
 	public static final String SÜRÜM =
 		ANA_SÜRÜMÜ + "." + ARA_SÜRÜMÜ + "." + YAMASI;
@@ -35,9 +35,20 @@ public class İskelet {
 	 * İskelet olması akıl dışı. */
 	public static final İskelet NESNESİ = new İskelet();
 	
+	private static String yüklenecekUygulamaAltKlasörü;
+	
 	/** İskeleti çalıştırır. */
 	public static void main(final String[] argümanlar) {
+		if (argümanlar.length == 1)
+			yüklenecekUygulamaAltKlasörü = argümanlar[0];
 		NESNESİ.başlat();
+	}
+	
+	/** İskeletin uygulamaları yüklediği uygulamalar klasörünün altındaki
+	 * klasörü döndürür. Eğer iskelet doğrudan uygulamalar klasöründen
+	 * yüklemişse null döndürür. */
+	public static String yüklenenUygulamaAltKlasörünüEdin() {
+		return yüklenecekUygulamaAltKlasörü;
 	}
 	
 	private final AnaDöngü anaDöngü;
@@ -172,7 +183,7 @@ public class İskelet {
 		çiğGirdisi = new ÇiğGirdi();
 		olaySağlayıcısınıOluştur();
 		
-		UygulamaYükleyicisi.NESNESİ.yükle();
+		UygulamaYükleyicisi.NESNESİ.yükle(yüklenecekUygulamaAltKlasörü);
 		
 		Gösterici.edin().penceresiniOluştur();
 		

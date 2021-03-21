@@ -35,10 +35,20 @@ public class UygulamaYükleyicisi {
 	}
 	
 	/** Klasördeki bütün uygulamaları yükler. */
-	public void yükle() {
-		final File[] dosyalar = Path
-			.of(UYGULAMALARIN_KLASÖRÜ)
-			.toFile()
+	public void yükle(final String altKlasörü) {
+		File yüklenecekKlasör = Path
+			.of(
+				UYGULAMALARIN_KLASÖRÜ +
+					(altKlasörü == null ? "" : "/" + altKlasörü))
+			.toFile();
+		
+		if (!yüklenecekKlasör.exists())
+			throw new RuntimeException(
+				"Uygulamaların yükleneceği klasör " +
+					yüklenecekKlasör.getPath() +
+					" bulunamadı!");
+		
+		final File[] dosyalar = yüklenecekKlasör
 			.listFiles((konumu, adı) -> dosyaAdınınGeçerliliğiniBul(adı));
 		
 		for (final File dosya : dosyalar)
