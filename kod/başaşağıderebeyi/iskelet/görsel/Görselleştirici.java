@@ -23,8 +23,9 @@ public class Görselleştirici {
 	public Görselleştirici(
 		final Dizey4 izdüşümDizeyi,
 		final int sığası,
-		final int dokusu) {
-		gölgelendiricisi = new Gölgelendirici("dokuluDikdörtgen");
+		final int dokusu,
+		final Gölgelendirici gölgelendiricisi) {
+		this.gölgelendiricisi = gölgelendiricisi;
 		gölgelendiricisi.değerinKonumunuBul("izdusumDizeyi");
 		
 		gölgelendiricisi.bağla();
