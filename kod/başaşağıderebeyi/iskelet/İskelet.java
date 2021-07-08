@@ -96,8 +96,8 @@ public class İskelet {
 	/** Şu anki zamanı JDK saatinden saniye biriminde döndürür. Bu zamanın
 	 * değeri tek başına anlamlı olmayabilir ama daha önceden edinilmiş başka
 	 * bir zamanı bu zamandan çıkarak saniye biriminden geçen süre bulunur. */
-	public float sistemZamanınıEdin() {
-		return System.nanoTime() / 1000000000.0F;
+	public double sistemZamanınıEdin() {
+		return System.nanoTime() / 1000000000.0;
 	}
 	
 	/** Ana döngünün ulaşmaya çalıştığı saniye başına tık hızını değiştirir. */
@@ -159,8 +159,8 @@ public class İskelet {
 	}
 	
 	private void sayaçOlayınıDinle(final SayaçOlayı olay) {
-		tıkHızınınOrtalaması.ekle(tıkHızınıEdin());
-		kareHızınınOrtalaması.ekle(kareHızınıEdin());
+		tıkHızınınOrtalaması.örnekle(tıkHızınıEdin());
+		kareHızınınOrtalaması.örnekle(kareHızınıEdin());
 		
 		süreçleri.forEach((ad, süreç) -> {
 			if (ad != "Oluşturma") {
@@ -242,9 +242,9 @@ public class İskelet {
 	}
 	
 	private void güncelle() {
-		süreçleri.get("Tık").başla((float)zamanıEdin());
+		süreçleri.get("Tık").başla(zamanıEdin());
 		olaySağlayıcısı.güncellemeOlayınıDağıt();
-		süreçleri.get("Tık").dur((float)zamanıEdin());
+		süreçleri.get("Tık").dur(zamanıEdin());
 	}
 	
 	private void saniyeSay() {
@@ -252,9 +252,9 @@ public class İskelet {
 	}
 	
 	private void çiz() {
-		süreçleri.get("Kare").başla((float)zamanıEdin());
+		süreçleri.get("Kare").başla(zamanıEdin());
 		olaySağlayıcısı.çizimOlayınıDağıt();
 		Gösterici.edin().göster();
-		süreçleri.get("Kare").dur((float)zamanıEdin());
+		süreçleri.get("Kare").dur(zamanıEdin());
 	}
 }
