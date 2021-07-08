@@ -15,14 +15,14 @@ import java.util.*;
 public class YazıŞekli {
 	/** Satır çizgileri arasında bırakılacak boşluğun en büyük yüksekliğe
 	 * oranı. */
-	public static final float ÇİZGİLER_ARASI_BOŞLUĞUN_ORANI = 1.1F;
+	public static final double ÇİZGİLER_ARASI_BOŞLUĞUN_ORANI = 1.1;
 	/** Herhangi bitişik iki sesin arasında bırakılacak boşluğun bu iki sesin
 	 * toplam genişliğine oranı. */
-	public static final float SESLER_ARASI_BOŞLUĞUN_ORANI = 0.0F;
+	public static final double SESLER_ARASI_BOŞLUĞUN_ORANI = 0.0;
 	
 	/** Yazı şeklindeki en büyük yükseklik. Çizilecek yüksekliğin buna oranı
 	 * bütün yazının boyutudur. */
-	public final float enBüyükYüksekliği;
+	public final double enBüyükYüksekliği;
 	
 	final Map<Character, SesŞekli> seslerininŞekilleri;
 	private final int dokusu;
