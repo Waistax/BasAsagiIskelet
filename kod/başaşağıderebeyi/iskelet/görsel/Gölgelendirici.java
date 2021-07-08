@@ -10,7 +10,7 @@ package başaşağıderebeyi.iskelet.görsel;
 import static org.lwjgl.opengl.GL20.*;
 
 import başaşağıderebeyi.iskelet.görsel.kaynak.*;
-import başaşağıderebeyi.kütüphane.matematik.sayısal.*;
+import başaşağıderebeyi.kütüphane.matematik.doğrusalcebir.*;
 
 import java.net.*;
 import java.util.*;
@@ -28,7 +28,9 @@ public class Gölgelendirici {
 	private final Map<String, Integer> değerlerininKonumları;
 	
 	/** Gölgelendirici yükler ve yazılımı derler. */
-	public Gölgelendirici(final URI köşesininKaynağı, final URI beneğininKaynağı) {
+	public Gölgelendirici(
+		final URI köşesininKaynağı,
+		final URI beneğininKaynağı) {
 		yazılımı = Yükleyici.NESNESİ.yazılımYükle();
 		
 		gölgelendiricileriAyarla(
@@ -69,47 +71,45 @@ public class Gölgelendirici {
 		glUniform1f(değerlerininKonumları.get(değerinAdı), yeniDeğer);
 	}
 	
-	/** Vec2 değeri değiştirir. */
-	public void değeriDeğiştir(
+	/** Yöney değeri değiştirir. */
+	public Gölgelendirici değeriDeğiştir(
 		final String değerinAdı,
-		final Yöney2 yeniDeğer) {
-		glUniform2f(
-			değerlerininKonumları.get(değerinAdı),
-			yeniDeğer.birinciBileşeni,
-			yeniDeğer.ikinciBileşeni);
-	}
-	
-	/** Vec3 değeri değiştirir. */
-	public void değeriDeğiştir(
-		final String değerinAdı,
-		final Yöney3 yeniDeğer) {
-		glUniform3f(
-			değerlerininKonumları.get(değerinAdı),
-			yeniDeğer.birinciBileşeni,
-			yeniDeğer.ikinciBileşeni,
-			yeniDeğer.üçüncüBileşeni);
-	}
-	
-	/** Vec4 değeri değiştirir. */
-	public void değeriDeğiştir(
-		final String değerinAdı,
-		final Yöney4 yeniDeğer) {
-		glUniform4f(
-			değerlerininKonumları.get(değerinAdı),
-			yeniDeğer.birinciBileşeni,
-			yeniDeğer.ikinciBileşeni,
-			yeniDeğer.üçüncüBileşeni,
-			yeniDeğer.dördüncüBileşeni);
-	}
-	
-	/** Mat4 değeri değiştirir. */
-	public void değeriDeğiştir(
-		final String değerinAdı,
-		final Dizey4 yeniDeğer) {
-		glUniformMatrix4fv(
-			değerlerininKonumları.get(değerinAdı),
-			false,
-			Yükleyici.NESNESİ.dizeyTamponu.put(yeniDeğer.girdileri).flip());
+		final DoğrusalSayıDizisi yeniDeğer) {
+		int değerinKonumu = değerlerininKonumları.get(değerinAdı);
+		switch (yeniDeğer.uzunluğunuEdin()) {
+		case 2:
+			glUniform2f(
+				değerinKonumu,
+				(float)yeniDeğer.sayısınıEdin(0),
+				(float)yeniDeğer.sayısınıEdin(1));
+			break;
+		case 3:
+			glUniform3f(
+				değerinKonumu,
+				(float)yeniDeğer.sayısınıEdin(0),
+				(float)yeniDeğer.sayısınıEdin(1),
+				(float)yeniDeğer.sayısınıEdin(2));
+			break;
+		case 4:
+			glUniform4f(
+				değerinKonumu,
+				(float)yeniDeğer.sayısınıEdin(0),
+				(float)yeniDeğer.sayısınıEdin(1),
+				(float)yeniDeğer.sayısınıEdin(2),
+				(float)yeniDeğer.sayısınıEdin(3));
+			break;
+		case 16:
+			yeniDeğer
+				.uygula(
+					girdisi -> Yükleyici.NESNESİ.dizeyTamponu
+						.put((float)girdisi));
+			glUniformMatrix4fv(
+				değerlerininKonumları.get(değerinAdı),
+				false,
+				Yükleyici.NESNESİ.dizeyTamponu.flip());
+			break;
+		}
+		return this;
 	}
 	
 	private void gölgelendiricileriAyarla(

@@ -11,7 +11,7 @@ import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.iskelet.görsel.kaynak.*;
 import başaşağıderebeyi.iskelet.olaylar.*;
 import başaşağıderebeyi.kütüphane.girdi.*;
-import başaşağıderebeyi.kütüphane.matematik.ortalama.*;
+import başaşağıderebeyi.kütüphane.matematik.ölçüm.*;
 import başaşağıderebeyi.kütüphane.olay.*;
 
 import java.io.*;
@@ -58,12 +58,12 @@ public class İskelet {
 	
 	private final AnaDöngü anaDöngü;
 	
-	private Ortalama tıklarınınOranınınOrtalaması;
-	private Ortalama karelerininOranınınOrtalaması;
+	private Ortalama tıkHızınınOrtalaması;
+	private Ortalama kareHızınınOrtalaması;
 	private Map<String, Süreç> süreçleri;
 	
 	private OlaySağlayıcısı olaySağlayıcısı;
-	private ÇiğGirdi çiğGirdisi;
+	private Girdi girdisi;
 	
 	/** İskeletin dışarıdan tanımlanmasını engeller. */
 	private İskelet() {
@@ -100,26 +100,28 @@ public class İskelet {
 		return System.nanoTime() / 1000000000.0F;
 	}
 	
-	/** Ana döngünün ulaşmaya çalıştığı saniye başına tık oranını değiştirir. */
-	public void istenenTıkOranınıDeğiştir(final double istenenTıkOranı) {
-		anaDöngü.istenenTıkOranı = istenenTıkOranı;
+	/** Ana döngünün ulaşmaya çalıştığı saniye başına tık hızını değiştirir. */
+	public void istenenTıkHızınıDeğiştir(final double istenenTıkHızı) {
+		anaDöngü.istenenTıkHızı = istenenTıkHızı;
 	}
 	
-	/** Saniye başına tık oranını döndürür. Tık oranı güncelleme sayısıdır. */
-	public int tıklarınınOranınıEdin() {
-		return anaDöngü.tıklarınınOranınıEdin();
+	/** Hertz biriminden tık hızını döndürür. Tık hızı, motorun birim zamandaki
+	 * güncelleme sayısıdır. */
+	public int tıkHızınıEdin() {
+		return anaDöngü.tıkHızınıEdin();
 	}
 	
-	/** Saniye başına kare oranını döndürür. Kare oranı çizme sayısıdır. */
-	public int karelerininOranınıEdin() {
-		return anaDöngü.karelerininOranınıEdin();
+	/** Hertz biriminden kare hızını döndürür. Kare hızı, motorun birim
+	 * zamandaki çizme sayısıdır. */
+	public int kareHızınıEdin() {
+		return anaDöngü.kareHızınıEdin();
 	}
 	
 	/** Anlık olarak güncellenmeyi bekleyen tıkların sayısını döndürür. Bu sayı
 	 * çizim yaparken aradeğerleri hesaplamada kullanılmalıdır. Ayrıca bu sayı
 	 * birden büyükse iskelet istenen hızda çalışamıyor demektir. */
-	public double güncellenmemişTıklarınıEdin() {
-		return anaDöngü.güncellenmemişTıklarınıEdin();
+	public double güncellenmemişTıkSayısınıEdin() {
+		return anaDöngü.güncellenmemişTıkSayısınıEdin();
 	}
 	
 	/** Şu anın sırasını döndürür. */
@@ -127,16 +129,16 @@ public class İskelet {
 		return anaDöngü.anınıEdin();
 	}
 	
-	/** İskeletin çalıştığı her saniyedeki tık oranının ortalamasını
-	 * döndürür. */
-	public float tıklarınınOranınınOrtalamasınıEdin() {
-		return tıklarınınOranınınOrtalaması.ortalamasınıEdin();
+	/** İskeletin çalışmaya başlamasından beri her saniyedeki tık hızlarının
+	 * ortalamasını döndürür. */
+	public double tıkHızınınOrtalamasınıEdin() {
+		return tıkHızınınOrtalaması.ortalamasınıEdin();
 	}
 	
-	/** İskeletin çalıştığı her saniyedeki kare oranının ortalamasını
-	 * döndürür. */
-	public float karelerininOranınınOrtalamasınıEdin() {
-		return karelerininOranınınOrtalaması.ortalamasınıEdin();
+	/** İskeletin çalışmaya başlamasından beri her saniyedeki kare hızlarının
+	 * ortalamasını döndürür. */
+	public double kareHızınınOrtalamasınıEdin() {
+		return kareHızınınOrtalaması.ortalamasınıEdin();
 	}
 	
 	/** İskeletin olay dağıtıcısını döndürür. Bu anlık olarak çalışır;
@@ -152,13 +154,13 @@ public class İskelet {
 	}
 	
 	/** İskeletin çiğ girdisini döndürür. */
-	public ÇiğGirdi girdisiniEdin() {
-		return çiğGirdisi;
+	public Girdi girdisiniEdin() {
+		return girdisi;
 	}
 	
 	private void sayaçOlayınıDinle(final SayaçOlayı olay) {
-		tıklarınınOranınınOrtalaması.ekle((float)tıklarınınOranınıEdin());
-		karelerininOranınınOrtalaması.ekle((float)karelerininOranınıEdin());
+		tıkHızınınOrtalaması.ekle(tıkHızınıEdin());
+		kareHızınınOrtalaması.ekle(kareHızınıEdin());
 		
 		süreçleri.forEach((ad, süreç) -> {
 			if (ad != "Oluşturma") {
@@ -172,7 +174,7 @@ public class İskelet {
 		if (Gösterici.edin().penceresininKapatılmasınıEdin())
 			durdur();
 		
-		çiğGirdisi.güncelle();
+		girdisi.güncelle();
 	}
 	
 	private void oluştur() {
@@ -180,12 +182,12 @@ public class İskelet {
 		final Süreç oluşturmaSüreci = new Süreç();
 		oluşturmaSüreci.başla(sistemZamanınıEdin());
 		
-		tıklarınınOranınınOrtalaması = new Ortalama();
-		karelerininOranınınOrtalaması = new Ortalama();
+		tıkHızınınOrtalaması = new Ortalama();
+		kareHızınınOrtalaması = new Ortalama();
 		
 		süreçleriniOluştur(oluşturmaSüreci);
 		
-		çiğGirdisi = new ÇiğGirdi();
+		girdisi = new Girdi();
 		olaySağlayıcısınıOluştur();
 		
 		UygulamaYükleyicisi.NESNESİ.yükle(uygulamalarınKlasörü);
@@ -234,12 +236,9 @@ public class İskelet {
 		Yükleyici.NESNESİ.yokEt();
 		
 		System.out
-			.println(
-				"Ortalama Tık Oranı: " + tıklarınınOranınınOrtalamasınıEdin());
+			.println("Ortalama Tık Oranı: " + tıkHızınınOrtalamasınıEdin());
 		System.out
-			.println(
-				"Ortalama Kare Oranı: " +
-					karelerininOranınınOrtalamasınıEdin());
+			.println("Ortalama Kare Oranı: " + kareHızınınOrtalamasınıEdin());
 	}
 	
 	private void güncelle() {

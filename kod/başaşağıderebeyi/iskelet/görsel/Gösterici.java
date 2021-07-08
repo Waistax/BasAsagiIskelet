@@ -12,7 +12,7 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 import başaşağıderebeyi.iskelet.girdi.*;
-import başaşağıderebeyi.kütüphane.matematik.sayısal.*;
+import başaşağıderebeyi.kütüphane.matematik.doğrusalcebir.*;
 
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
@@ -41,10 +41,10 @@ public class Gösterici {
 	
 	private final int örneklemelerininSayısı;
 	private final int değiştirilmeAralığı;
-	private final Yöney4 temizlenmeRengi;
+	private final Yöney temizlenmeRengi;
 	
 	private long penceresi;
-	private Girdi girdisi;
+	private GLFWGirdisi girdisi;
 	
 	/** Verilenler ile tanımlar. */
 	public Gösterici(
@@ -54,7 +54,7 @@ public class Gösterici {
 		final boolean tamEkranOlması,
 		final int örneklemelerininSayısı,
 		final int değiştirilmeAralığı,
-		final Yöney4 temizlenmeRengi) {
+		final Yöney temizlenmeRengi) {
 		this.genişliği = genişliği;
 		this.yüksekliği = yüksekliği;
 		this.başlığı = başlığı;
@@ -83,7 +83,7 @@ public class Gösterici {
 		if (penceresi == NULL)
 			throw new RuntimeException("Pencere oluşturulamadı!");
 		
-		girdisi = new Girdi(penceresi);
+		girdisi = new GLFWGirdisi(penceresi);
 		
 		penceresiniOturt(ekranı);
 		içeriğiniAyarla();
@@ -169,9 +169,9 @@ public class Gösterici {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glViewport(0, 0, genişliği, yüksekliği);
 		glClearColor(
-			temizlenmeRengi.birinciBileşeni,
-			temizlenmeRengi.ikinciBileşeni,
-			temizlenmeRengi.üçüncüBileşeni,
-			temizlenmeRengi.dördüncüBileşeni);
+			(float)temizlenmeRengi.sayısınıEdin(0),
+			(float)temizlenmeRengi.sayısınıEdin(1),
+			(float)temizlenmeRengi.sayısınıEdin(2),
+			(float)temizlenmeRengi.sayısınıEdin(3));
 	}
 }

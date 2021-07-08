@@ -7,12 +7,12 @@ package başaşağıderebeyi.iskelet;
 import java.util.function.*;
 
 class AnaDöngü {
-	double istenenTıkOranı;
+	double istenenTıkHızı;
 	
 	private volatile boolean çalışması;
-	private int tıklarınınOranı;
-	private int karelerininOranı;
-	private double güncellenmemişTıkları;
+	private int tıkHızı;
+	private int kareHızı;
+	private double güncellenmemişTıkSayısı;
 	private long anı;
 	
 	private final Runnable oluşturucu;
@@ -54,33 +54,33 @@ class AnaDöngü {
 			
 			double öncekiZamanı = zamanEdinici.getAsDouble();
 			double saniyeSayacı = 0.0;
-			int tıklarınınSayısı = 0;
-			int karelerininSayısı = 0;
+			int tıkSayısı = 0;
+			int kareSayısı = 0;
 			
 			while (çalışması) {
 				final double geçenSüre =
 					zamanEdinici.getAsDouble() - öncekiZamanı;
 				öncekiZamanı += geçenSüre;
-				güncellenmemişTıkları += geçenSüre * istenenTıkOranı;
+				güncellenmemişTıkSayısı += geçenSüre * istenenTıkHızı;
 				
-				while (güncellenmemişTıkları >= 1.0) {
+				while (güncellenmemişTıkSayısı >= 1.0) {
 					anı++;
 					güncelleyici.run();
-					güncellenmemişTıkları--;
-					tıklarınınSayısı++;
+					güncellenmemişTıkSayısı--;
+					tıkSayısı++;
 				}
 				
 				çizici.run();
-				karelerininSayısı++;
+				kareSayısı++;
 				
 				if ((saniyeSayacı += geçenSüre) >= 1.0) {
-					tıklarınınOranı = tıklarınınSayısı;
-					karelerininOranı = karelerininSayısı;
+					tıkHızı = tıkSayısı;
+					kareHızı = kareSayısı;
 					sayacı.run();
 					
 					saniyeSayacı--;
-					tıklarınınSayısı = 0;
-					karelerininSayısı = 0;
+					tıkSayısı = 0;
+					kareSayısı = 0;
 				}
 			}
 		} catch (final Exception hata) {
@@ -90,16 +90,16 @@ class AnaDöngü {
 		}
 	}
 	
-	int tıklarınınOranınıEdin() {
-		return tıklarınınOranı;
+	int tıkHızınıEdin() {
+		return tıkHızı;
 	}
 	
-	int karelerininOranınıEdin() {
-		return karelerininOranı;
+	int kareHızınıEdin() {
+		return kareHızı;
 	}
 	
-	double güncellenmemişTıklarınıEdin() {
-		return güncellenmemişTıkları;
+	double güncellenmemişTıkSayısınıEdin() {
+		return güncellenmemişTıkSayısı;
 	}
 	
 	long anınıEdin() {

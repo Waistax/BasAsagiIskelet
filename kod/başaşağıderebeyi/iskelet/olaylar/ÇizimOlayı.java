@@ -14,7 +14,7 @@ public class ÇizimOlayı extends GeriDönüşümlüOlay {
 	
 	@Override
 	public void dağıtmayıDene(final OlayDağıtıcısı olayDağıtıcısı) {
-		uzaklığı = (float)İskelet.NESNESİ.güncellenmemişTıklarınıEdin();
+		uzaklığı = (float)İskelet.NESNESİ.güncellenmemişTıkSayısınıEdin();
 		susturulması = false;
 		İskelet.NESNESİ.çizimOlaylarınınDağıtıcısınıEdin().dağıt(this);
 	}

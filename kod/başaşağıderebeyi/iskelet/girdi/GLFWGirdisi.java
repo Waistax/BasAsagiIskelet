@@ -7,7 +7,6 @@
  */
 package başaşağıderebeyi.iskelet.girdi;
 
-import static başaşağıderebeyi.kütüphane.matematik.MatematikAracı.*;
 import static org.lwjgl.glfw.GLFW.*;
 
 import başaşağıderebeyi.iskelet.*;
@@ -15,14 +14,14 @@ import başaşağıderebeyi.iskelet.olaylar.*;
 import başaşağıderebeyi.kütüphane.olay.*;
 
 /** Pencereye yapılan girdileri bildirir. */
-public class Girdi {
+public class GLFWGirdisi {
 	private final KlavyeGirdisiBildiricisi klavyeGirdisiBildiricisi;
 	private final FareGirdisiBildiricisi fareGirdisiBildiricisi;
 	private final İmleçGirdisiBildiricisi imleçGirdisiBildiricisi;
 	private final TekerlekGirdisiBildiricisi tekerlekGirdisiBildiricisi;
 	
 	/** Verilenler ile tanımlar. */
-	public Girdi(final long dinlediğiPencere) {
+	public GLFWGirdisi(final long dinlediğiPencere) {
 		klavyeGirdisiBildiricisi = new KlavyeGirdisiBildiricisi();
 		fareGirdisiBildiricisi = new FareGirdisiBildiricisi();
 		imleçGirdisiBildiricisi = new İmleçGirdisiBildiricisi();
@@ -61,8 +60,8 @@ public class Girdi {
 					olay -> İskelet.NESNESİ
 						.girdisiniEdin()
 						.imlecininKonumunuBildir(
-							(float)olay.konumununYatayBileşeni,
-							(float)olay.konumununDikeyBileşeni)));
+							olay.konumununYatayBileşeni,
+							olay.konumununDikeyBileşeni)));
 		İskelet.NESNESİ
 			.güncellemeOlaylarınınDağıtıcısınıEdin()
 			.dinleyiciyiEkle(
@@ -71,7 +70,7 @@ public class Girdi {
 					olay -> İskelet.NESNESİ
 						.girdisiniEdin()
 						.tekerleğininDevriniBildir(
-							yuvarla((float)olay.devri))));
+							(int)Math.round(olay.devri))));
 	}
 	
 	private void bildiricileriPencereyeEkle(final long dinlediğiPencere) {

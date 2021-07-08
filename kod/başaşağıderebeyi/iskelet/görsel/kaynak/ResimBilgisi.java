@@ -4,8 +4,6 @@
  */
 package başaşağıderebeyi.iskelet.görsel.kaynak;
 
-import static java.lang.Math.*;
-
 import java.awt.image.*;
 import java.net.*;
 import java.nio.file.*;
@@ -14,36 +12,19 @@ import java.util.stream.*;
 
 import javax.imageio.*;
 
-import org.hsluv.*;
-
 public class ResimBilgisi {
-	/** Resmin beneğini RGB renk uzayına çeviren işleç. */
-	public static final IntUnaryOperator BENEĞİ_RGB_UZAYINA_ÇEVİRİCİ =
+	private static final IntUnaryOperator BENEĞİ_RGB_UZAYINA_ÇEVİRİCİ =
 		benekRengi -> benekRengi & 0xFF000000 |
 			(benekRengi & 0x000000FF) << 16 |
 			(benekRengi & 0x0000FF00) << 0 |
 			(benekRengi & 0x00FF0000) >> 16;
 	
-	/** Resmin beneğini HSLUV renk uzayına çeviren işleç. */
-	public static final IntUnaryOperator BENEĞİ_HSLUV_UZAYINA_ÇEVİRİCİ =
-		benekRengi -> {
-			final int solukluğu = (benekRengi & 0xFF000000) >> 24;
-			
-			final double[] HSLuv = HUSLColorConverter
-				.rgbToHsluv(
-					new double[] {
-						((benekRengi & 0x00FF0000) >> 16) / 255.0,
-						((benekRengi & 0x0000FF00) >> 8) / 255.0,
-						((benekRengi & 0x000000FF) >> 0) / 255.0 });
-			
-			return solukluğu << 24 |
-				(int)round(HSLuv[2] / 100.0 * 255.0) << 16 |
-				(int)round(HSLuv[1] / 100.0 * 255.0) << 8 |
-				(int)round(HSLuv[0] / 360.0 * 255.0);
-		};
-	
+	/** Resmin yataydaki benek sayısı. */
 	public final int genişliği;
+	/** Resmin dikeydeki benek sayısı. */
 	public final int yüksekliği;
+	/** Resmin benekleri. Bu dizide beneklerin her biri bir int tarafından
+	 * temsil edilir. Bunun biçimi yüklendikten sonra çevrilmelidir. */
 	public final int[] verisi;
 	
 	/** Boş tanımlar. */
@@ -70,6 +51,7 @@ public class ResimBilgisi {
 					new int[genişliği * yüksekliği],
 					0,
 					genişliği);
+			çevir();
 		} catch (final Exception hata) {
 			throw new RuntimeException(
 				"Resim kaynağı " + tanımlayıcısı + " yüklenemedi!",
@@ -77,23 +59,17 @@ public class ResimBilgisi {
 		}
 	}
 	
-	public ResimBilgisi rgbOlarak() {
-		return çevir(BENEĞİ_RGB_UZAYINA_ÇEVİRİCİ);
-	}
-	
-	public ResimBilgisi hsluvOlarak() {
-		return çevir(BENEĞİ_HSLUV_UZAYINA_ÇEVİRİCİ);
-	}
-	
-	public ResimBilgisi çevir(final IntUnaryOperator çevirici) {
+	private ResimBilgisi çevir() {
 		IntStream
 			.range(0, verisi.length)
 			.parallel()
 			.forEach(
-				benek -> verisi[benek] = çevirici.applyAsInt(verisi[benek]));
+				benek -> verisi[benek] =
+					BENEĞİ_RGB_UZAYINA_ÇEVİRİCİ.applyAsInt(verisi[benek]));
 		return this;
 	}
 	
+	/** Resmin verisini yeni oluşturduğu bir bayt dizisine yazar ve döndürür. */
 	public byte[] renkBaytlarınıBul() {
 		final byte[] renkBaytları = new byte[verisi.length * 4];
 		

@@ -49,7 +49,7 @@ class DokuYükleyicisi {
 	}
 	
 	int yükle(final URI kaynağı) {
-		return yükle(new ResimBilgisi(kaynağı).rgbOlarak());
+		return yükle(new ResimBilgisi(kaynağı));
 	}
 	
 	int yükle(final ResimBilgisi resim) {
