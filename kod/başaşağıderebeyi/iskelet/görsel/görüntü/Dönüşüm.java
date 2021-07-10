@@ -25,7 +25,7 @@ public class Dönüşüm {
 	/** Sahnede bulunduğu konum. */
 	public final Yöney3 konumu;
 	/** Sahnedeki boyutu. */
-	public Yöney2 boyutu;
+	public final Yöney2 boyutu;
 	/** Sahnede bulunduğu açı. */
 	public double açısı;
 	
