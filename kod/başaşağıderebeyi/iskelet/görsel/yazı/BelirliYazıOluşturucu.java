@@ -11,7 +11,7 @@ public class BelirliYazıOluşturucu extends DurağanYazıOluşturucu {
 	/** Verilenlerle oluşturucuyu tanımlar. */
 	public BelirliYazıOluşturucu(
 		final YazıŞekli şekli,
-		final float açısı,
+		final double açısı,
 		final String... satırlar) {
 		super(şekli, açısı, satırlar);
 	}
@@ -22,12 +22,12 @@ public class BelirliYazıOluşturucu extends DurağanYazıOluşturucu {
 	}
 	
 	@Override
-	protected float satırÇizgisininBaşlangıcınıBul() {
-		return 0.0F;
+	protected double satırÇizgisininBaşlangıcınıBul() {
+		return 0.0;
 	}
 	
 	@Override
-	protected float satırınınKonumunuBul(final int satırınSırası) {
-		return 0.0F;
+	protected double satırınınKonumunuBul(final int satırınSırası) {
+		return 0.0;
 	}
 }

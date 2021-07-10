@@ -15,7 +15,7 @@ class ŞekilOkuyucusu {
 	
 	private final YazıŞekli okuduğuŞekil;
 	private final double dokusununBoyutu;
-	private final Yöney dokuKonumu;
+	private final Yöney2 dokuKonumu;
 	
 	private double satırınÇizgisi;
 	private double boşluklarınınBoyutu;
@@ -27,7 +27,7 @@ class ŞekilOkuyucusu {
 		
 		final String[] bilgileri = satırları.get(0).split(AYIRICI_SES);
 		dokusununBoyutu = Integer.parseInt(bilgileri[2]);
-		dokuKonumu = new Yöney(2);
+		dokuKonumu = new Yöney2();
 		
 		satırları.forEach(this::satırıOku);
 	}
@@ -44,7 +44,7 @@ class ŞekilOkuyucusu {
 		else {
 			dokuKonumu
 				.birinciBileşeniniDeğiştir(
-					dokuKonumu.sayısınıEdin(0) + boşluklarınınBoyutu);
+					dokuKonumu.birinciBileşeniniEdin() + boşluklarınınBoyutu);
 			sesŞekliniOku(verileri);
 		}
 	}
@@ -55,7 +55,7 @@ class ŞekilOkuyucusu {
 		dokuKonumu.birinciBileşeniniDeğiştir(0.0);
 		dokuKonumu
 			.ikinciBileşeniniDeğiştir(
-				dokuKonumu.sayısınıEdin(1) +
+				dokuKonumu.ikinciBileşeniniEdin() +
 					satırdakiEnBüyükYüksekliği +
 					boşluklarınınBoyutu);
 		
@@ -68,11 +68,11 @@ class ŞekilOkuyucusu {
 	private SesŞekli sesŞekliniOku(final String[] verileri) {
 		final double dikeyKaçıklığı = Integer.parseInt(verileri[3]);
 		final SesŞekli sesŞekli = new SesŞekli(
-			new Yöney(2)
+			new Yöney2()
 				.bileşenleriniDeğiştir(
-					dokuKonumu.sayısınıEdin(0),
-					dokuKonumu.sayısınıEdin(1) + dikeyKaçıklığı),
-			new Yöney(2)
+					dokuKonumu.birinciBileşeniniEdin(),
+					dokuKonumu.ikinciBileşeniniEdin() + dikeyKaçıklığı),
+			new Yöney2()
 				.bileşenleriniDeğiştir(
 					Integer.parseInt(verileri[1]),
 					Integer.parseInt(verileri[2])),
@@ -81,7 +81,7 @@ class ŞekilOkuyucusu {
 		
 		sesŞekliniİşle(
 			sesŞekli,
-			sesŞekli.boyutu.sayısınıEdin(1) + dikeyKaçıklığı);
+			sesŞekli.boyutu.ikinciBileşeniniEdin() + dikeyKaçıklığı);
 		
 		okuduğuŞekil.seslerininŞekilleri.put(verileri[0].charAt(0), sesŞekli);
 		return sesŞekli;
@@ -92,7 +92,8 @@ class ŞekilOkuyucusu {
 		final double yüksekliği) {
 		dokuKonumu
 			.birinciBileşeniniDeğiştir(
-				dokuKonumu.sayısınıEdin(0) + sesŞekli.boyutu.sayısınıEdin(0));
+				dokuKonumu.birinciBileşeniniEdin() +
+					sesŞekli.boyutu.birinciBileşeniniEdin());
 		if (yüksekliği > satırdakiEnBüyükYüksekliği)
 			satırdakiEnBüyükYüksekliği = yüksekliği;
 	}

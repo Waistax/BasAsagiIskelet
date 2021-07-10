@@ -4,10 +4,10 @@
  */
 package başaşağıderebeyi.iskelet.görsel.yazı;
 
-import static başaşağıderebeyi.kütüphane.matematik.MatematikAracı.*;
+import static java.lang.Math.*;
 
 import başaşağıderebeyi.kütüphane.matematik.dikdörtgen.*;
-import başaşağıderebeyi.kütüphane.matematik.sayısal.*;
+import başaşağıderebeyi.kütüphane.matematik.doğrusalcebir.*;
 
 import java.util.*;
 
@@ -17,7 +17,7 @@ public abstract class DurağanYazıOluşturucu {
 	final List<Float> dokuKonumları;
 	final List<Integer> sırası;
 	
-	private final float yarımDikmeliği;
+	private final double yarımDikmeliği;
 	private final Dikdörtgen ekleneninDikdörtgeni;
 	
 	/** Yazının şekli. */
@@ -30,7 +30,7 @@ public abstract class DurağanYazıOluşturucu {
 	/** Verilenlerle oluşturucuyu tanımlar. */
 	public DurağanYazıOluşturucu(
 		final YazıŞekli şekli,
-		final float açısı,
+		final double açısı,
 		final String... satırlar) {
 		int sesSayısı = 0;
 		for (final String element : satırlar)
@@ -41,7 +41,7 @@ public abstract class DurağanYazıOluşturucu {
 		sırası = new ArrayList<>(sesSayısı * 6);
 		
 		this.şekli = şekli;
-		yarımDikmeliği = dikmeliğiniBul(radyanaÇevir(açısı)) / 2.0F;
+		yarımDikmeliği = sin(toRadians(açısı)) / 2.0;
 		
 		satırları = new ArrayList<>();
 		satırlarınıBul(satırlar);
@@ -55,13 +55,13 @@ public abstract class DurağanYazıOluşturucu {
 	protected abstract void satırlarınıBul(String[] satırlar);
 	
 	/** İlk satırın çizgisinin dikeydeki konumunu döndürür. */
-	protected abstract float satırÇizgisininBaşlangıcınıBul();
+	protected abstract double satırÇizgisininBaşlangıcınıBul();
 	
 	/** Verilen satırın ilk sesinin sol kenarının konumunu döndürür. */
-	protected abstract float satırınınKonumunuBul(int satırınSırası);
+	protected abstract double satırınınKonumunuBul(int satırınSırası);
 	
 	private void satırlarıEkle() {
-		float satırÇizgisi = satırÇizgisininBaşlangıcınıBul();
+		double satırÇizgisi = satırÇizgisininBaşlangıcınıBul();
 		for (int i = 0; i < satırları.size(); i++) {
 			satırınıEkle(i, satırÇizgisi, satırınınKonumunuBul(i));
 			satırÇizgisi -= YazıŞekli.ÇİZGİLER_ARASI_BOŞLUĞUN_ORANI;
@@ -70,8 +70,8 @@ public abstract class DurağanYazıOluşturucu {
 	
 	private void satırınıEkle(
 		final int satırınınSırası,
-		final float satırınınÇizgisi,
-		final float satırınınKonumu) {
+		final double satırınınÇizgisi,
+		final double satırınınKonumu) {
 		ekleneninDikdörtgeni.küçükKöşesi.birinciBileşeni = satırınınKonumu;
 		final String satırı = satırları.get(satırınınSırası);
 		for (int i = 0; i < satırı.length(); i++) {
@@ -94,26 +94,21 @@ public abstract class DurağanYazıOluşturucu {
 	
 	private void sesiEkle(final SesŞekli sesŞekli) {
 		eklenenSeseAyarla(sesŞekli);
-		
-		final float oranlıYarımDikmeliği =
+		final double oranlıYarımDikmeliği =
 			yarımDikmeliği * ekleneninDikdörtgeni.uzunlukları.ikinciBileşeni;
-		
 		for (int i = 0; i < 4; i++) {
 			köşeyiEkle(i, oranlıYarımDikmeliği);
 			dokuKonumunuEkle(i, sesŞekli);
 		}
-		
 		sonrakiÜçgenleriSırala();
 	}
 	
 	private void eklenenSeseAyarla(final SesŞekli sesŞekli) {
 		ekleneninDikdörtgeni.uzunlukları
 			.böl(sesŞekli.boyutu, şekli.enBüyükYüksekliği);
-		
 		ekleneninDikdörtgeni.küçükKöşesi.ikinciBileşeni +=
 			(sesŞekli.çizgidenUzaklığı - sesŞekli.boyutu.ikinciBileşeni) /
 				şekli.enBüyükYüksekliği;
-		
 		DikdörtgenVerisi
 			.bileşenleriniBul(
 				DikdörtgenVerisi.KÜÇÜK_KÖŞESİ,
@@ -123,17 +118,17 @@ public abstract class DurağanYazıOluşturucu {
 	
 	private void köşeyiEkle(
 		final int sırası,
-		final float oranlıYarımDikmeliği) {
+		final double oranlıYarımDikmeliği) {
 		final boolean a = sırası < 2;
 		konumları
 			.add(
-				(sırası % 2 == 0 ?
+				(float)((sırası % 2 == 0 ?
 					ekleneninDikdörtgeni.küçükKöşesi :
 					ekleneninDikdörtgeni.büyükKöşesi).birinciBileşeni +
-					(a ? -oranlıYarımDikmeliği : oranlıYarımDikmeliği));
+					(a ? -oranlıYarımDikmeliği : oranlıYarımDikmeliği)));
 		konumları
 			.add(
-				(a ?
+				(float)(a ?
 					ekleneninDikdörtgeni.küçükKöşesi :
 					ekleneninDikdörtgeni.büyükKöşesi).ikinciBileşeni);
 		konumları.add(0.0F);
@@ -150,8 +145,8 @@ public abstract class DurağanYazıOluşturucu {
 			"Unexpected value: " + sırası);
 		};
 		
-		dokuKonumları.add(dokuKonumu.birinciBileşeni);
-		dokuKonumları.add(dokuKonumu.ikinciBileşeni);
+		dokuKonumları.add((float)dokuKonumu.birinciBileşeni);
+		dokuKonumları.add((float)dokuKonumu.ikinciBileşeni);
 	}
 	
 	private void sonrakiÜçgenleriSırala() {
