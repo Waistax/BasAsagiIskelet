@@ -8,6 +8,8 @@ import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.kütüphane.matematik.*;
 import başaşağıderebeyi.kütüphane.matematik.doğrusalcebir.*;
 
+import java.nio.*;
+
 /** Sahnedeki nesnelerin ekran uzayına dönüşümünü yapan */
 public class Dönüşüm {
 	private static final String DÖNÜŞÜM_KONUMU_DEĞERİ_ADI = "donusumKonumu";
@@ -40,6 +42,18 @@ public class Dönüşüm {
 		gölgelendirici.değeriDeğiştir(DÖNÜŞÜM_KONUMU_DEĞERİ_ADI, konumu);
 		gölgelendirici.değeriDeğiştir(DÖNÜŞÜM_BOYUTU_DEĞERİ_ADI, boyutu);
 		gölgelendirici.değeriDeğiştir(DÖNÜŞÜM_AÇISI_DEĞERİ_ADI, açısı);
+	}
+	
+	/** Dönüşümü tampona yükler. */
+	public void yükle(final FloatBuffer tampon) {
+		tampon
+			.put((float)konumu.birinciBileşeniniEdin())
+			.put((float)konumu.ikinciBileşeniniEdin())
+			.put((float)konumu.üçüncüBileşeniniEdin())
+			.put((float)boyutu.birinciBileşeniniEdin())
+			.put((float)boyutu.ikinciBileşeniniEdin())
+			.put((float)boyutu.üçüncüBileşeniniEdin())
+			.put((float)açısı);
 	}
 	
 	/** Bu dönüşümü baştaki ve sondaki dönüşümlerin verilen uzaklığa göre

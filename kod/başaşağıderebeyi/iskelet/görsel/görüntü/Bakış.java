@@ -8,6 +8,8 @@ import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.kütüphane.matematik.*;
 import başaşağıderebeyi.kütüphane.matematik.doğrusalcebir.*;
 
+import java.nio.*;
+
 /** Sahnenin ekran kartı uzayına aktarılmasına yarayan araç. */
 public class Bakış {
 	private static final String İZDÜŞÜM_BOYUTU_DEĞERİ_ADI = "izdusumBoyutu";
@@ -47,6 +49,19 @@ public class Bakış {
 		gölgelendirici.değeriDeğiştir(BAKIŞ_KONUMU_DEĞERİ_ADI, konumu);
 		gölgelendirici.değeriDeğiştir(BAKIŞ_BOYUTU_DEĞERİ_ADI, boyutu);
 		gölgelendirici.değeriDeğiştir(BAKIŞ_AÇISI_DEĞERİ_ADI, açısı);
+	}
+	
+	/** Bakışı tampona yükler. */
+	public void yükle(final FloatBuffer tampon) {
+		tampon
+			.put((float)izdüşümBoyutu.birinciBileşeniniEdin())
+			.put((float)izdüşümBoyutu.ikinciBileşeniniEdin())
+			.put((float)izdüşümBoyutu.üçüncüBileşeniniEdin())
+			.put((float)konumu.birinciBileşeniniEdin())
+			.put((float)konumu.ikinciBileşeniniEdin())
+			.put((float)konumu.üçüncüBileşeniniEdin())
+			.put((float)boyutu)
+			.put((float)açısı);
 	}
 	
 	/** Bu bakışı baştaki ve sondaki bakışların verilen uzaklığa göre
