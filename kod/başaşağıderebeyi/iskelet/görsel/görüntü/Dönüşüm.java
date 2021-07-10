@@ -37,6 +37,12 @@ public class Dönüşüm {
 		boyutu = new Yöney2(Yöney2.BİR);
 	}
 	
+	/** Verilenin aynısı tanımlar. */
+	public Dönüşüm(final Dönüşüm dönüşüm) {
+		this();
+		değiştir(dönüşüm);
+	}
+	
 	/** Dönüşümü gölgelendiriciye yükler. */
 	public void yükle(final Gölgelendirici gölgelendirici) {
 		gölgelendirici.değeriDeğiştir(DÖNÜŞÜM_KONUMU_DEĞERİ_ADI, konumu);
@@ -67,6 +73,14 @@ public class Dönüşüm {
 		konumu.aradeğerleriniBul(baştaki.konumu, sondaki.konumu, uzaklık);
 		açısı = MatematikAracı
 			.aradeğerleriniBul(baştaki.açısı, sondaki.açısı, uzaklık);
+		return this;
+	}
+	
+	/** Bu dönüşümü verilen dönüşümle değiştirir. Bu dönüşümü döndürür. */
+	public Dönüşüm değiştir(final Dönüşüm öbürü) {
+		konumu.değiştir(öbürü.konumu);
+		boyutu.değiştir(öbürü.boyutu);
+		açısı = öbürü.açısı;
 		return this;
 	}
 }

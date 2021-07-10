@@ -43,6 +43,12 @@ public class Bakış {
 		boyutu = 1.0;
 	}
 	
+	/** Verilenin aynısı tanımlar. */
+	public Bakış(final Bakış bakış) {
+		this();
+		değiştir(bakış);
+	}
+	
 	/** Bakışı gölgelendiriciye yükler. */
 	public void yükle(final Gölgelendirici gölgelendirici) {
 		gölgelendirici.değeriDeğiştir(İZDÜŞÜM_BOYUTU_DEĞERİ_ADI, izdüşümBoyutu);
@@ -81,6 +87,15 @@ public class Bakış {
 			.aradeğerleriniBul(baştaki.boyutu, sondaki.boyutu, uzaklık);
 		açısı = MatematikAracı
 			.aradeğerleriniBul(baştaki.açısı, sondaki.açısı, uzaklık);
+		return this;
+	}
+	
+	/** Bu bakışı verilen bakışla değiştirir. Bu bakışı döndürür. */
+	public Bakış değiştir(final Bakış öbürü) {
+		izdüşümBoyutu.değiştir(öbürü.izdüşümBoyutu);
+		konumu.değiştir(öbürü.konumu);
+		boyutu = öbürü.boyutu;
+		açısı = öbürü.açısı;
 		return this;
 	}
 }
