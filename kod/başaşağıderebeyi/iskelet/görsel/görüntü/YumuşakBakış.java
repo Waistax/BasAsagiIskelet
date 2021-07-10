@@ -30,11 +30,12 @@ public class YumuşakBakış {
 	
 	/** Önceki bakışı anlık bakışa değiştirir. Güncellemenin başında
 	 * çağrılmalıdır. */
-	public void güncelle() {
+	public void sakla() {
 		öncekiBakışı.değiştir(anlıkBakışı);
 	}
 	
-	/** Çizilecek bakışı bulur. Çizimin başında çağrılmalıdır. */
+	/** Çizilecek bakışı önceki ve anlık bakışların aradeğerinden bulur. Çizimin
+	 * başında çağrılmalıdır. */
 	public void bul() {
 		çizilecekBakışı
 			.aradeğerleriniBul(

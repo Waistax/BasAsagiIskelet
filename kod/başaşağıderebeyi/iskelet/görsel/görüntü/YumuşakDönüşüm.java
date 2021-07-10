@@ -30,11 +30,12 @@ public class YumuşakDönüşüm {
 	
 	/** Önceki dönüşümü anlık dönüşüme değiştirir. Güncellemenin başında
 	 * çağrılmalıdır. */
-	public void güncelle() {
+	public void sakla() {
 		öncekiDönüşümü.değiştir(anlıkDönüşümü);
 	}
 	
-	/** Çizilecek dönüşümü bulur. Çizimin başında çağrılmalıdır. */
+	/** Çizilecek dönüşümü önceki ve şu anki dönüşümlerin aradeğerinden bulur.
+	 * Çizimin başında çağrılmalıdır. */
 	public void bul() {
 		çizilecekDönüşümü
 			.aradeğerleriniBul(
