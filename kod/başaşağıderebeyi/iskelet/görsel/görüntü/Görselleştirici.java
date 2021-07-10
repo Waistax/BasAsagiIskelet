@@ -20,10 +20,7 @@ public class Görselleştirici {
 	
 	/** Kullanılacak gölgelendirici. */
 	public final Gölgelendirici gölgelendiricisi;
-	/** Yumuşatılmış bakışı. */
-	public final YumuşakBakış bakışı;
 	
-	private final İzdüşüm izdüşümü;
 	private final SıralıOluşumluKöşeDizisi köşeDizisi;
 	private final int sığası;
 	
@@ -35,8 +32,6 @@ public class Görselleştirici {
 		İzdüşüm izdüşümü,
 		final int sığası) {
 		this.gölgelendiricisi = gölgelendiricisi;
-		this.izdüşümü = izdüşümü;
-		bakışı = new YumuşakBakış();
 		this.sığası = sığası;
 		
 		gölgelendiricisi.bağla();
@@ -57,12 +52,11 @@ public class Görselleştirici {
 		görüntü.dönüşümü.çizilecekDönüşümü.yükle(köşeDizisi);
 	}
 	
-	/** Dönüşümlerin verilen uzaklığa göre aradeğerlerini çizer. */
-	public void çiz(final float uzaklık) {
+	/** Görüntüleri verilen bakışa göre çizer. */
+	public void çiz(final Bakış bakış) {
 		köşeDizisi.tamponunuGüncelle();
 		gölgelendiricisi.bağla();
-		bakışı.bul();
-		bakışı.anlıkBakışı.yükle(gölgelendiricisi);
+		bakış.yükle(gölgelendiricisi);
 		köşeDizisi.çiz();
 		gölgelendiricisi.kopar();
 		çiziceklerininSayısı = 0;
