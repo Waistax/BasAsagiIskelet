@@ -23,6 +23,7 @@ public class Görselleştirici {
 	/** Yumuşatılmış bakışı. */
 	public final YumuşakBakış bakışı;
 	
+	private final İzdüşüm izdüşümü;
 	private final SıralıOluşumluKöşeDizisi köşeDizisi;
 	private final int sığası;
 	
@@ -31,13 +32,17 @@ public class Görselleştirici {
 	/** Boş görselleştirici tanımlar. */
 	public Görselleştirici(
 		final Gölgelendirici gölgelendiricisi,
+		İzdüşüm izdüşümü,
 		final int sığası) {
 		this.gölgelendiricisi = gölgelendiricisi;
+		this.izdüşümü = izdüşümü;
 		bakışı = new YumuşakBakış();
 		this.sığası = sığası;
 		
 		gölgelendiricisi.bağla();
 		Bakış.değerlerininKonumlarınıBul(gölgelendiricisi);
+		İzdüşüm.değerlerininKonumlarınıBul(gölgelendiricisi);
+		izdüşümü.yükle(gölgelendiricisi);
 		gölgelendiricisi.kopar();
 		
 		köşeDizisi =

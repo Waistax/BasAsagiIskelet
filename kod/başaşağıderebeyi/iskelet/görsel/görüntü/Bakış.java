@@ -10,7 +10,6 @@ import başaşağıderebeyi.kütüphane.matematik.doğrusalcebir.*;
 
 /** Sahnenin ekran kartı uzayına aktarılmasına yarayan araç. */
 public class Bakış {
-	private static final String İZDÜŞÜM_BOYUTU_DEĞERİ_ADI = "izdusumBoyutu";
 	private static final String BAKIŞ_KONUMU_DEĞERİ_ADI = "bakisKonumu";
 	private static final String BAKIŞ_BOYUTU_DEĞERİ_ADI = "bakisBoyutu";
 	private static final String BAKIŞ_AÇISI_DEĞERİ_ADI = "bakisAcisi";
@@ -18,14 +17,11 @@ public class Bakış {
 	/** Bakışı yüklemek için kullanılacak değerleri gölgelendiricide bulur. */
 	public static void değerlerininKonumlarınıBul(
 		final Gölgelendirici gölgelendirici) {
-		gölgelendirici.değerinKonumunuBul(İZDÜŞÜM_BOYUTU_DEĞERİ_ADI);
 		gölgelendirici.değerinKonumunuBul(BAKIŞ_KONUMU_DEĞERİ_ADI);
 		gölgelendirici.değerinKonumunuBul(BAKIŞ_BOYUTU_DEĞERİ_ADI);
 		gölgelendirici.değerinKonumunuBul(BAKIŞ_AÇISI_DEĞERİ_ADI);
 	}
 	
-	/** Ekran kartı uzayına izdüşürülecek alanın boyutu. */
-	public final Yöney3 izdüşümBoyutu;
 	/** Sahnede bulunduğu konum. Bu konumdaki pikseller ekran kartı uzayında
 	 * orijine çizilir. */
 	public final Yöney3 konumu;
@@ -36,7 +32,6 @@ public class Bakış {
 	
 	/** Orijinde birim boyutlarla tanımlar. */
 	public Bakış() {
-		izdüşümBoyutu = new Yöney3(Yöney3.BİR);
 		konumu = new Yöney3();
 		boyutu = 1.0;
 	}
@@ -49,7 +44,6 @@ public class Bakış {
 	
 	/** Bakışı gölgelendiriciye yükler. */
 	public void yükle(final Gölgelendirici gölgelendirici) {
-		gölgelendirici.değeriDeğiştir(İZDÜŞÜM_BOYUTU_DEĞERİ_ADI, izdüşümBoyutu);
 		gölgelendirici.değeriDeğiştir(BAKIŞ_KONUMU_DEĞERİ_ADI, konumu);
 		gölgelendirici.değeriDeğiştir(BAKIŞ_BOYUTU_DEĞERİ_ADI, boyutu);
 		gölgelendirici.değeriDeğiştir(BAKIŞ_AÇISI_DEĞERİ_ADI, açısı);
@@ -62,11 +56,6 @@ public class Bakış {
 		final Bakış baştaki,
 		final Bakış sondaki,
 		final double uzaklık) {
-		izdüşümBoyutu
-			.aradeğerleriniBul(
-				baştaki.izdüşümBoyutu,
-				sondaki.izdüşümBoyutu,
-				uzaklık);
 		konumu.aradeğerleriniBul(baştaki.konumu, sondaki.konumu, uzaklık);
 		boyutu = MatematikAracı
 			.aradeğerleriniBul(baştaki.boyutu, sondaki.boyutu, uzaklık);
@@ -77,7 +66,6 @@ public class Bakış {
 	
 	/** Bu bakışı verilen bakışla değiştirir. Bu bakışı döndürür. */
 	public Bakış değiştir(final Bakış öbürü) {
-		izdüşümBoyutu.değiştir(öbürü.izdüşümBoyutu);
 		konumu.değiştir(öbürü.konumu);
 		boyutu = öbürü.boyutu;
 		açısı = öbürü.açısı;
