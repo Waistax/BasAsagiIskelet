@@ -10,7 +10,8 @@ import static org.lwjgl.system.MemoryUtil.*;
 import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.iskelet.görsel.köşedizisi.*;
 
-/** Belli bir gölgelendirici ve bakış ile görüntüleri çizen araç. */
+/** Aynı gölgelendirici, bakış ve materyal ile birden fazla dönüşüm çizen
+ * araç. */
 public class Görselleştirici {
 	private static final float[] KÖŞE_KONUMLARI =
 		{ -0.5F, -0.5F, 0.5F, -0.5F, -0.5F, 0.5F, 0.5F, 0.5F };
@@ -45,18 +46,19 @@ public class Görselleştirici {
 		oluşumluKöşeDizisiniOluştur();
 	}
 	
-	/** Eğer yer varsa verilen görüntüyü çizmek için ekler. */
-	public void ekle(final Görüntü görüntü) {
+	/** Eğer yer varsa verilen dönüşümü çizmek için ekler. */
+	public void ekle(final Dönüşüm dönüşüm) {
 		if (sığası < ++çiziceklerininSayısı)
 			return;
-		görüntü.dönüşümü.çizilecekDönüşümü.yükle(köşeDizisi);
+		dönüşüm.yükle(köşeDizisi);
 	}
 	
-	/** Görüntüleri verilen bakışa göre çizer. */
-	public void çiz(final Bakış bakış) {
+	/** Dönüşümleri verilen bakışa göre çizer. */
+	public void çiz(final Bakış bakış, final Materyal materyal) {
 		köşeDizisi.tamponunuGüncelle();
 		gölgelendiricisi.bağla();
 		bakış.yükle(gölgelendiricisi);
+		materyal.yükle(gölgelendiricisi);
 		köşeDizisi.çiz();
 		gölgelendiricisi.kopar();
 		çiziceklerininSayısı = 0;
