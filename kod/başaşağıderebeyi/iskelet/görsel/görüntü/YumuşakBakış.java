@@ -9,15 +9,18 @@ import başaşağıderebeyi.iskelet.*;
 /** Çizimi yumuşatmak için eski bakışları saklayıp çizimde kullanılacak bakışı
  * eski ile yeni bakışın aradeğerinden bulmaya yarayan araç. */
 public class YumuşakBakış {
-	public final Bakış bakış;
-	public final Bakış eskiBakış;
-	public final Bakış çizilecekBakış;
+	/** Şu andaki bakışı. */
+	public final Bakış anlıkBakışı;
+	/** Önceki andaki bakışı. */
+	public final Bakış öncekiBakışı;
+	/** Karedeki bakışı. */
+	public final Bakış çizilecekBakışı;
 	
 	/** Verilen bakışla tanımlar. */
-	public YumuşakBakış(final Bakış bakış) {
-		this.bakış = bakış;
-		eskiBakış = new Bakış();
-		çizilecekBakış = new Bakış();
+	public YumuşakBakış(final Bakış anlıkBakışı) {
+		this.anlıkBakışı = anlıkBakışı;
+		öncekiBakışı = new Bakış();
+		çizilecekBakışı = new Bakış();
 	}
 	
 	/** Yeni bir bakışla tanımlar. */
@@ -25,15 +28,18 @@ public class YumuşakBakış {
 		this(new Bakış());
 	}
 	
-	public void sakla() {
-		eskiBakış.değiştir(bakış);
+	/** Önceki bakışı anlık bakışa değiştirir. Güncellemenin başında
+	 * çağrılmalıdır. */
+	public void güncelle() {
+		öncekiBakışı.değiştir(anlıkBakışı);
 	}
 	
+	/** Çizilecek bakışı bulur. Çizimin başında çağrılmalıdır. */
 	public void bul() {
-		çizilecekBakış
+		çizilecekBakışı
 			.aradeğerleriniBul(
-				eskiBakış,
-				bakış,
+				öncekiBakışı,
+				anlıkBakışı,
 				İskelet.NESNESİ.güncellenmemişTıkSayısınıEdin());
 		
 	}

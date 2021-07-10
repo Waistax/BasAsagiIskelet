@@ -9,13 +9,13 @@ import başaşağıderebeyi.kütüphane.matematik.doğrusalcebir.*;
 /** Doku ve renk birleşimi. Herhangi bir nesneyi çizerken kullanılır. */
 public class Materyal {
 	/** Dokunun ekran kartındaki işaretçisi. */
-	public final int doku;
+	public final int dokusu;
 	/** Kullanılacak renk, RGBA olarak. */
-	public final Yöney4 renk;
+	public final Yöney4 rengi;
 	
 	/** Verilenler ile tanımlar. */
-	public Materyal(final int doku, final Yöney4 renk) {
-		this.doku = doku;
-		this.renk = renk;
+	public Materyal(final int dokusu, final Yöney4 rengi) {
+		this.dokusu = dokusu;
+		this.rengi = rengi;
 	}
 }

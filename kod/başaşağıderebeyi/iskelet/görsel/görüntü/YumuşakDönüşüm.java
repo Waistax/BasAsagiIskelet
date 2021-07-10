@@ -9,15 +9,18 @@ import başaşağıderebeyi.iskelet.*;
 /** Çizimi yumuşatmak için eski dönüşümleri saklayıp çizimde kullanılacak
  * dönüşümü eski ile yeni dönüşümün aradeğerinden bulmaya yarayan araç. */
 public class YumuşakDönüşüm {
-	public final Dönüşüm dönüşüm;
-	public final Dönüşüm eskiDönüşüm;
-	public final Dönüşüm çizilecekDönüşüm;
+	/** Şu andaki dönüşümü. */
+	public final Dönüşüm anlıkDönüşümü;
+	/** Önceki andaki dönüşümü. */
+	public final Dönüşüm öncekiDönüşümü;
+	/** Karedeki dönüşümü. */
+	public final Dönüşüm çizilecekDönüşümü;
 	
 	/** Verilen dönüşümle tanımlar. */
-	public YumuşakDönüşüm(final Dönüşüm dönüşüm) {
-		this.dönüşüm = dönüşüm;
-		eskiDönüşüm = new Dönüşüm();
-		çizilecekDönüşüm = new Dönüşüm();
+	public YumuşakDönüşüm(final Dönüşüm anlıkDönüşümü) {
+		this.anlıkDönüşümü = anlıkDönüşümü;
+		öncekiDönüşümü = new Dönüşüm();
+		çizilecekDönüşümü = new Dönüşüm();
 	}
 	
 	/** Yeni bir dönüşümle tanımlar. */
@@ -25,15 +28,18 @@ public class YumuşakDönüşüm {
 		this(new Dönüşüm());
 	}
 	
-	public void sakla() {
-		eskiDönüşüm.değiştir(dönüşüm);
+	/** Önceki dönüşümü anlık dönüşüme değiştirir. Güncellemenin başında
+	 * çağrılmalıdır. */
+	public void güncelle() {
+		öncekiDönüşümü.değiştir(anlıkDönüşümü);
 	}
 	
+	/** Çizilecek dönüşümü bulur. Çizimin başında çağrılmalıdır. */
 	public void bul() {
-		çizilecekDönüşüm
+		çizilecekDönüşümü
 			.aradeğerleriniBul(
-				eskiDönüşüm,
-				dönüşüm,
+				öncekiDönüşümü,
+				anlıkDönüşümü,
 				İskelet.NESNESİ.güncellenmemişTıkSayısınıEdin());
 		
 	}
