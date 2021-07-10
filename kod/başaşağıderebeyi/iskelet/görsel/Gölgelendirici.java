@@ -71,7 +71,14 @@ public class Gölgelendirici {
 		glUniform1f(değerlerininKonumları.get(değerinAdı), yeniDeğer);
 	}
 	
-	/** Yöney değeri değiştirir. */
+	/** Double değeri değiştirir. */
+	public void değeriDeğiştir(
+		final String değerinAdı,
+		final double yeniDeğer) {
+		glUniform1f(değerlerininKonumları.get(değerinAdı), (float)yeniDeğer);
+	}
+	
+	/** Doğrusal Sayı Dizisi değeri değiştirir. */
 	public Gölgelendirici değeriDeğiştir(
 		final String değerinAdı,
 		final DoğrusalSayıDizisi yeniDeğer) {
@@ -109,6 +116,36 @@ public class Gölgelendirici {
 				Yükleyici.NESNESİ.dizeyTamponu.flip());
 			break;
 		}
+		return this;
+	}
+	
+	/** İki boyutlu bir yöney değeri değiştirir. */
+	public Gölgelendirici değeriDeğiştir(String değerinAdı, Yöney2 yeniDeğer) {
+		glUniform2f(
+			değerlerininKonumları.get(değerinAdı),
+			(float)yeniDeğer.birinciBileşeniniEdin(),
+			(float)yeniDeğer.ikinciBileşeniniEdin());
+		return this;
+	}
+	
+	/** Üç boyutlu bir yöney değeri değiştirir. */
+	public Gölgelendirici değeriDeğiştir(String değerinAdı, Yöney3 yeniDeğer) {
+		glUniform3f(
+			değerlerininKonumları.get(değerinAdı),
+			(float)yeniDeğer.birinciBileşeniniEdin(),
+			(float)yeniDeğer.ikinciBileşeniniEdin(),
+			(float)yeniDeğer.üçüncüBileşeniniEdin());
+		return this;
+	}
+	
+	/** Dört boyutlu bir yöney değeri değiştirir. */
+	public Gölgelendirici değeriDeğiştir(String değerinAdı, Yöney4 yeniDeğer) {
+		glUniform4f(
+			değerlerininKonumları.get(değerinAdı),
+			(float)yeniDeğer.birinciBileşeniniEdin(),
+			(float)yeniDeğer.ikinciBileşeniniEdin(),
+			(float)yeniDeğer.üçüncüBileşeniniEdin(),
+			(float)yeniDeğer.dördüncüBileşeniniEdin());
 		return this;
 	}
 	
