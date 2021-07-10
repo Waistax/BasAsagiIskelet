@@ -169,9 +169,9 @@ public class Gösterici {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glViewport(0, 0, genişliği, yüksekliği);
 		glClearColor(
-			(float)temizlenmeRengi.sayısınıEdin(0),
-			(float)temizlenmeRengi.sayısınıEdin(1),
-			(float)temizlenmeRengi.sayısınıEdin(2),
-			(float)temizlenmeRengi.sayısınıEdin(3));
+			(float)temizlenmeRengi.birinciBileşeniniEdin(),
+			(float)temizlenmeRengi.ikinciBileşeniniEdin(),
+			(float)temizlenmeRengi.üçüncüBileşeniniEdin(),
+			(float)temizlenmeRengi.dördüncüBileşeniniEdin());
 	}
 }
