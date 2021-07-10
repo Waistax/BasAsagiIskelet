@@ -54,7 +54,6 @@ public class Dönüşüm {
 			.put((float)konumu.üçüncüBileşeniniEdin())
 			.put((float)boyutu.birinciBileşeniniEdin())
 			.put((float)boyutu.ikinciBileşeniniEdin())
-			.put((float)boyutu.üçüncüBileşeniniEdin())
 			.put((float)açısı);
 	}
 	
