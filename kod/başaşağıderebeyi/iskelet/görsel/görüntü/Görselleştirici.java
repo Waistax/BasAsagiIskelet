@@ -36,8 +36,9 @@ public class Görselleştirici {
 		this.sığası = sığası;
 		
 		gölgelendiricisi.bağla();
-		Bakış.değerlerininKonumlarınıBul(gölgelendiricisi);
 		İzdüşüm.değerlerininKonumlarınıBul(gölgelendiricisi);
+		Bakış.değerlerininKonumlarınıBul(gölgelendiricisi);
+		Materyal.değerlerininKonumlarınıBul(gölgelendiricisi);
 		izdüşümü.yükle(gölgelendiricisi);
 		gölgelendiricisi.kopar();
 		
