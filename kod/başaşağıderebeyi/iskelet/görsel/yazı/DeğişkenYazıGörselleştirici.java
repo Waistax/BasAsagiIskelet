@@ -52,8 +52,9 @@ public class DeğişkenYazıGörselleştirici {
 	}
 	
 	/** Şu ana kadar yazılmış yazıları çizer. */
-	public void çiz() {
+	public void çiz(final Bakış bakış) {
 		gölgelendiricisi.bağla();
+		bakış.yükle(gölgelendiricisi);
 		materyali.yükle(gölgelendiricisi);
 		köşeDizisi.tamponunuGüncelle().çiz();
 		gölgelendiricisi.kopar();
