@@ -11,6 +11,7 @@ import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.iskelet.görsel.kaynak.*;
 import başaşağıderebeyi.iskelet.olaylar.*;
 import başaşağıderebeyi.kütüphane.girdi.*;
+import başaşağıderebeyi.kütüphane.günlük.*;
 import başaşağıderebeyi.kütüphane.matematik.ölçüm.*;
 import başaşağıderebeyi.kütüphane.olay.*;
 
@@ -27,7 +28,7 @@ public class İskelet {
 	/** Ara sürümü. */
 	public static final int ARA_SÜRÜMÜ = 2;
 	/** Yaması. */
-	public static final int YAMASI = 0;
+	public static final int YAMASI = 1;
 	/** Bütün sürümü. */
 	public static final String SÜRÜM =
 		ANA_SÜRÜMÜ + "." + ARA_SÜRÜMÜ + "." + YAMASI;
@@ -39,6 +40,9 @@ public class İskelet {
 	/** İskeletin kullanılacak nesnesi. Herhangi bir zamanda birden fazla
 	 * İskelet olması akıl dışı. */
 	public static final İskelet NESNESİ = new İskelet();
+	
+	private static final GünlükKaydedici GÜNLÜK_KAYDEDİCİSİ =
+		new GünlükKaydedici();
 	
 	private static File uygulamalarınKlasörü;
 	
@@ -239,6 +243,9 @@ public class İskelet {
 			.println("Ortalama Tık Oranı: " + tıkHızınınOrtalamasınıEdin());
 		System.out
 			.println("Ortalama Kare Oranı: " + kareHızınınOrtalamasınıEdin());
+		
+		SistemGünlüğü.KONSOL.yaz("Sistem günlüğü kaydediliyor...");
+		GÜNLÜK_KAYDEDİCİSİ.kaydet(SistemGünlüğü.NESNESİ);
 	}
 	
 	private void güncelle() {
