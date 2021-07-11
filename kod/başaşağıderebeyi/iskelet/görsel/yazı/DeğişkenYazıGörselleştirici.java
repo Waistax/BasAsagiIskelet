@@ -68,9 +68,10 @@ public class DeğişkenYazıGörselleştirici {
 	public void yaz(
 		final double konumu,
 		double çizgisi,
+		final double derinliği,
 		final String... dizeler) {
 		for (final String dize : dizeler) {
-			yaz(konumu, çizgisi, dize);
+			yaz(konumu, çizgisi, derinliği, dize);
 			çizgisi -= şekli.enBüyükYüksekliği *
 				ölçüsü *
 				YazıŞekli.ÇİZGİLER_ARASI_BOŞLUĞUN_ORANI;
@@ -94,7 +95,11 @@ public class DeğişkenYazıGörselleştirici {
 		ölçüsü = boyut / şekli.enBüyükYüksekliği;
 	}
 	
-	private void yaz(double konumu, final double çizgisi, final String dize) {
+	private void yaz(
+		double konumu,
+		final double çizgisi,
+		final double derinliği,
+		final String dize) {
 		SesŞekli öncekiSesŞekli = null;
 		for (int i = 0; i < dize.length(); i++) {
 			final SesŞekli sesŞekli = şekli.sesininŞekliniEdin(dize.charAt(i));
@@ -105,14 +110,15 @@ public class DeğişkenYazıGörselleştirici {
 						YazıŞekli.SESLER_ARASI_BOŞLUĞUN_ORANI) *
 					ölçüsü;
 			öncekiSesŞekli = sesŞekli;
-			sesEkle(sesŞekli, konumu, çizgisi);
+			sesEkle(sesŞekli, konumu, çizgisi, derinliği);
 		}
 	}
 	
 	private void sesEkle(
 		final SesŞekli sesŞekli,
 		final double konumu,
-		final double çizgisi) {
+		final double çizgisi,
+		final double derinliği) {
 		if (sığası < ++eklenmişSesSayısı)
 			return;
 		
@@ -127,7 +133,7 @@ public class DeğişkenYazıGörselleştirici {
 				çizgisi +
 					sesŞekli.çizgidenUzaklığı * ölçüsü -
 					dönüşümü.boyutu.ikinciBileşeniniEdin() / 2.0,
-				0.0);
+				derinliği);
 		
 		sesŞekli.yükle(köşeDizisi.yazılacakVerisi);
 		dönüşümü.yükle(köşeDizisi.yazılacakVerisi);
