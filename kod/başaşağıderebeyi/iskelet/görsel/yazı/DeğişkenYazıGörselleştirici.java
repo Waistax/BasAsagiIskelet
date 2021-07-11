@@ -64,11 +64,6 @@ public class DeğişkenYazıGörselleştirici {
 		eklenmişSesSayısı = 0;
 	}
 	
-	/** Boyutunu değiştirir. */
-	public void boyutunuDeğiştir(final double boyut) {
-		ölçüsü = boyut / şekli.enBüyükYüksekliği;
-	}
-	
 	/** Verilen dizeleri satır satır yazar. */
 	public void yaz(
 		final double konumu,
@@ -80,6 +75,23 @@ public class DeğişkenYazıGörselleştirici {
 				ölçüsü *
 				YazıŞekli.ÇİZGİLER_ARASI_BOŞLUĞUN_ORANI;
 		}
+	}
+	
+	/** Yazdığı yazının rengini döndürür. Bunun sayesinde renk
+	 * değiştirilebilir. */
+	public Yöney3 renginiEdin() {
+		return materyali.rengi;
+	}
+	
+	/** Yazdığı yazının arkaplan rengini döndürür. Bunun sayesinde arkaplan
+	 * rengi değiştirilebilir. */
+	public Yöney3 tersRenginiEdin() {
+		return materyali.tersRengi;
+	}
+	
+	/** Boyutunu değiştirir. */
+	public void boyutunuDeğiştir(final double boyut) {
+		ölçüsü = boyut / şekli.enBüyükYüksekliği;
 	}
 	
 	private void yaz(double konumu, final double çizgisi, final String dize) {
