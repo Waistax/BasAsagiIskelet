@@ -48,7 +48,7 @@ public class DeğişkenYazıGörselleştirici {
 		oluşumluKöşeDizisiniOluştur(açısı);
 		this.şekli = şekli;
 		materyali =
-			new Materyal(şekli.dokusu, new Yöney3(Yöney3.BİR), new Yöney3());
+			new Materyal(şekli.dokusu, new Yöney4(Yöney4.BİR), new Yöney4());
 		dönüşümü = new Dönüşüm();
 		
 		ölçüsü = 1.0;
@@ -79,14 +79,14 @@ public class DeğişkenYazıGörselleştirici {
 	
 	/** Yazdığı yazının rengini döndürür. Bunun sayesinde renk
 	 * değiştirilebilir. */
-	public Yöney3 renginiEdin() {
+	public Yöney4 renginiEdin() {
 		return materyali.rengi;
 	}
 	
-	/** Yazdığı yazının arkaplan rengini döndürür. Bunun sayesinde arkaplan
-	 * rengi değiştirilebilir. */
-	public Yöney3 tersRenginiEdin() {
-		return materyali.tersRengi;
+	/** Yazdığı yazının zemin rengini döndürür. Bunun sayesinde arkaplan rengi
+	 * değiştirilebilir. */
+	public Yöney4 zeminininRenginiEdin() {
+		return materyali.zeminininRengi;
 	}
 	
 	/** Boyutunu değiştirir. */

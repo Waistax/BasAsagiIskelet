@@ -13,38 +13,38 @@ import başaşağıderebeyi.kütüphane.matematik.doğrusalcebir.*;
 /** Doku ve renk birleşimi. Herhangi bir nesneyi çizerken kullanılır. */
 public class Materyal implements Yumuşatılabilir {
 	private static final String RENK_DEĞERİ_ADI = "renk";
-	private static final String TERS_RENK_DEĞERİ_ADI = "tersRenk";
+	private static final String ZEMİN_RENGİ_DEĞERİ_ADI = "zeminRengi";
 	
 	/** Materyali yüklemek için kullanılacak değerleri gölgelendiricide
 	 * bulur. */
 	public static void değerlerininKonumlarınıBul(
 		final Gölgelendirici gölgelendirici) {
 		gölgelendirici.değerinKonumunuBul(RENK_DEĞERİ_ADI);
-		gölgelendirici.değerinKonumunuBul(TERS_RENK_DEĞERİ_ADI);
+		gölgelendirici.değerinKonumunuBul(ZEMİN_RENGİ_DEĞERİ_ADI);
 	}
 	
 	/** Dokunun ekran kartındaki işaretçisi. */
 	public int dokusu;
-	/** Kullanılacak renk, RGBA olarak. */
-	public final Yöney3 rengi;
-	/** Kullanılacak ters renk, RGBA olarak. */
-	public final Yöney3 tersRengi;
+	/** Dokunun üstünü boyayacak renk, RGBA olarak. */
+	public final Yöney4 rengi;
+	/** Saydam kısımları dolduracak renk, RGBA olarak. */
+	public final Yöney4 zeminininRengi;
 	
 	/** Verilenler ile tanımlar. */
 	public Materyal(
 		final int dokusu,
-		final Yöney3 rengi,
-		final Yöney3 tersRengi) {
+		final Yöney4 rengi,
+		final Yöney4 zeminininRengi) {
 		this.dokusu = dokusu;
 		this.rengi = rengi;
-		this.tersRengi = tersRengi;
+		this.zeminininRengi = zeminininRengi;
 	}
 	
 	/** Materyali gölgelendiriciye yükler. */
 	public void yükle(final Gölgelendirici gölgelendirici) {
 		glBindTexture(GL_TEXTURE_2D, dokusu);
 		gölgelendirici.değeriDeğiştir(RENK_DEĞERİ_ADI, rengi);
-		gölgelendirici.değeriDeğiştir(TERS_RENK_DEĞERİ_ADI, tersRengi);
+		gölgelendirici.değeriDeğiştir(ZEMİN_RENGİ_DEĞERİ_ADI, zeminininRengi);
 	}
 	
 	@Override
@@ -64,10 +64,10 @@ public class Materyal implements Yumuşatılabilir {
 				baştakiMateryal.rengi,
 				sondakiMateryal.rengi,
 				uzunluk);
-		tersRengi
+		zeminininRengi
 			.aradeğerleriniBul(
-				baştakiMateryal.tersRengi,
-				sondakiMateryal.tersRengi,
+				baştakiMateryal.zeminininRengi,
+				sondakiMateryal.zeminininRengi,
 				uzunluk);
 		return this;
 	}
@@ -77,7 +77,7 @@ public class Materyal implements Yumuşatılabilir {
 		final Materyal öbürMateryal = (Materyal)öbürü;
 		dokusu = öbürMateryal.dokusu;
 		rengi.değiştir(öbürMateryal.rengi);
-		tersRengi.değiştir(öbürMateryal.tersRengi);
+		zeminininRengi.değiştir(öbürMateryal.zeminininRengi);
 		return this;
 	}
 }
