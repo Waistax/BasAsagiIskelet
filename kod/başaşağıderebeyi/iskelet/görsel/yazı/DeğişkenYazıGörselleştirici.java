@@ -4,72 +4,71 @@
  */
 package başaşağıderebeyi.iskelet.görsel.yazı;
 
-import static başaşağıderebeyi.kütüphane.matematik.MatematikAracı.*;
+import static java.lang.Math.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 import başaşağıderebeyi.iskelet.görsel.*;
+import başaşağıderebeyi.iskelet.görsel.görüntü.*;
 import başaşağıderebeyi.iskelet.görsel.köşedizisi.*;
-import başaşağıderebeyi.kütüphane.matematik.sayısal.*;
+import başaşağıderebeyi.kütüphane.matematik.doğrusalcebir.*;
 
 /** Kısa aralıklarla değişmesi beklenen ve geçici yazıları çizmek için
  * kullanılan araç. Bu sınıfla sabit yazılar da çizilebilir ama sabit yazıları
  * çizmek için daha verimli yöntemler var. */
 public class DeğişkenYazıGörselleştirici {
+	private static final int[] KÖŞE_SIRASI = { 0, 1, 2, 2, 1, 3 };
+	
 	private final Gölgelendirici gölgelendiricisi;
-	private final SıralıOluşumluKöşeDizisi köşeDizisi;
 	private final int sığası;
+	private final SıralıOluşumluKöşeDizisi köşeDizisi;
 	private final YazıŞekli şekli;
-	private final Yöney4 rengi;
+	private final Materyal materyali;
+	
 	private final Dönüşüm dönüşümü;
 	
-	private float ölçüsü;
+	private double ölçüsü;
 	private int eklenmişSesSayısı;
 	
 	/** Verilenler ile tanımlar. */
 	public DeğişkenYazıGörselleştirici(
+		final Gölgelendirici gölgelendiricisi,
+		final İzdüşüm izdüşümü,
 		final int sığası,
 		final YazıŞekli şekli,
-		final float açısı,
-		final Dizey4 izdüşümDizeyi,
-		final float saydamlıkEşiği,
-		final Gölgelendirici gölgelendiricisi) {
+		final double açısı) {
 		this.gölgelendiricisi = gölgelendiricisi;
-		gölgelendiricisiniOluştur(izdüşümDizeyi, saydamlıkEşiği);
+		gölgelendiricisiniKur(izdüşümü);
+		this.sığası = sığası;
 		
 		köşeDizisi = new SıralıOluşumluKöşeDizisi(GL_TRIANGLES, sığası, 28);
 		oluşumluKöşeDizisiniOluştur(açısı);
-		this.sığası = sığası;
 		this.şekli = şekli;
-		rengi = new Yöney4();
+		materyali =
+			new Materyal(şekli.dokusu, new Yöney3(Yöney3.BİR), new Yöney3());
 		dönüşümü = new Dönüşüm();
+		
+		ölçüsü = 1.0;
 	}
 	
 	/** Şu ana kadar yazılmış yazıları çizer. */
 	public void çiz() {
-		köşeDizisi.tamponunuGüncelle();
 		gölgelendiricisi.bağla();
-		şekli.bağla();
-		köşeDizisi.çiz();
-		şekli.kopar();
+		materyali.yükle(gölgelendiricisi);
+		köşeDizisi.tamponunuGüncelle().çiz();
 		gölgelendiricisi.kopar();
 		eklenmişSesSayısı = 0;
 	}
 	
-	/** Rengini döndürür. */
-	public Yöney4 renginiEdin() {
-		return rengi;
-	}
-	
 	/** Boyutunu değiştirir. */
-	public void boyutunuDeğiştir(final float boyut) {
+	public void boyutunuDeğiştir(final double boyut) {
 		ölçüsü = boyut / şekli.enBüyükYüksekliği;
 	}
 	
 	/** Verilen dizeleri satır satır yazar. */
 	public void yaz(
-		final float konumu,
-		float çizgisi,
+		final double konumu,
+		double çizgisi,
 		final String... dizeler) {
 		for (final String dize : dizeler) {
 			yaz(konumu, çizgisi, dize);
@@ -79,115 +78,84 @@ public class DeğişkenYazıGörselleştirici {
 		}
 	}
 	
-	private void yaz(float konumu, final float çizgisi, final String dize) {
+	private void yaz(double konumu, final double çizgisi, final String dize) {
+		SesŞekli öncekiSesŞekli = null;
 		for (int i = 0; i < dize.length(); i++) {
 			final SesŞekli sesŞekli = şekli.sesininŞekliniEdin(dize.charAt(i));
-			if (i > 0) {
-				final SesŞekli öncekiSesŞekli =
-					şekli.sesininŞekliniEdin(dize.charAt(i - 1));
-				konumu += (öncekiSesŞekli.boyutu.birinciBileşeni +
-					(sesŞekli.boyutu.birinciBileşeni +
-						öncekiSesŞekli.boyutu.birinciBileşeni) *
+			if (öncekiSesŞekli != null) {
+				konumu += (öncekiSesŞekli.boyutu.birinciBileşeniniEdin() +
+					(sesŞekli.boyutu.birinciBileşeniniEdin() +
+						öncekiSesŞekli.boyutu.birinciBileşeniniEdin()) *
 						YazıŞekli.SESLER_ARASI_BOŞLUĞUN_ORANI) *
 					ölçüsü;
 			}
+			öncekiSesŞekli = sesŞekli;
 			sesEkle(sesŞekli, konumu, çizgisi);
 		}
 	}
 	
 	private void sesEkle(
 		final SesŞekli sesŞekli,
-		final float konumu,
-		final float çizgisi) {
+		final double konumu,
+		final double çizgisi) {
 		if (sığası < ++eklenmişSesSayısı)
 			return;
 		
-		dönüşümü.biçimi
+		dönüşümü.boyutu
 			.bileşenleriniDeğiştir(
 				sesŞekli.boyutu.birinciBileşeni * ölçüsü,
-				sesŞekli.boyutu.ikinciBileşeni * ölçüsü,
-				0.0F);
+				sesŞekli.boyutu.ikinciBileşeni * ölçüsü);
 		
 		dönüşümü.konumu
 			.bileşenleriniDeğiştir(
-				konumu + dönüşümü.biçimi.birinciBileşeni / 2.0F,
+				konumu + dönüşümü.boyutu.birinciBileşeniniEdin() / 2.0,
 				çizgisi +
 					sesŞekli.çizgidenUzaklığı * ölçüsü -
-					dönüşümü.biçimi.ikinciBileşeni / 2.0F,
-				0.0F);
+					dönüşümü.boyutu.ikinciBileşeniniEdin() / 2.0,
+				0.0);
 		
-		sesiYükle(sesŞekli);
+		sesŞekli.yükle(köşeDizisi.yazılacakVerisi);
+		dönüşümü.yükle(köşeDizisi.yazılacakVerisi);
 	}
 	
-	private void sesiYükle(final SesŞekli sesŞekli) {
-		dönüşümü.güncelle();
-		
-		köşeDizisi.yazılacakVerisi
-			.put(sesŞekli.solAltDokuKonumu.birinciBileşeni)
-			.put(sesŞekli.solAltDokuKonumu.ikinciBileşeni)
-			.put(sesŞekli.sağAltDokuKonumu.birinciBileşeni)
-			.put(sesŞekli.sağAltDokuKonumu.ikinciBileşeni)
-			.put(sesŞekli.solÜstDokuKonumu.birinciBileşeni)
-			.put(sesŞekli.solÜstDokuKonumu.ikinciBileşeni)
-			.put(sesŞekli.sağÜstDokuKonumu.birinciBileşeni)
-			.put(sesŞekli.sağÜstDokuKonumu.ikinciBileşeni)
-			.put(rengi.birinciBileşeni)
-			.put(rengi.ikinciBileşeni)
-			.put(rengi.üçüncüBileşeni)
-			.put(rengi.dördüncüBileşeni)
-			.put(dönüşümü.dizeyi.girdileri);
-	}
-	
-	private void gölgelendiricisiniOluştur(
-		final Dizey4 izdüşümDizeyi,
-		final float saydamlıkEşiği) {
-		gölgelendiricisi.değerinKonumunuBul("izdusumDizeyi");
-		gölgelendiricisi.değerinKonumunuBul("saydamlikEsigi");
-		
+	private void gölgelendiricisiniKur(final İzdüşüm izdüşümü) {
 		gölgelendiricisi.bağla();
-		gölgelendiricisi.değeriDeğiştir("izdusumDizeyi", izdüşümDizeyi);
-		gölgelendiricisi.değeriDeğiştir("saydamlikEsigi", saydamlıkEşiği);
+		İzdüşüm.değerlerininKonumlarınıBul(gölgelendiricisi);
+		Bakış.değerlerininKonumlarınıBul(gölgelendiricisi);
+		Materyal.değerlerininKonumlarınıBul(gölgelendiricisi);
+		izdüşümü.yükle(gölgelendiricisi);
 		gölgelendiricisi.kopar();
 	}
 	
-	private void oluşumluKöşeDizisiniOluştur(final float açısı) {
-		final float yarımDikmeliği = dikmeliğiniBul(radyanaÇevir(açısı)) / 2.0F;
-		final float ileriNokta = 0.5F + yarımDikmeliği;
-		final float geriNokta = 0.5F - yarımDikmeliği;
-		
-		köşeDizisi
-			.durağanKöşeTamponuNesnesiEkle(
-				4,
-				memAllocFloat(16)
-					.put(-ileriNokta)
-					.put(-0.5F)
-					.put(0.0F)
-					.put(1.0F)
-					.put(geriNokta)
-					.put(-0.5F)
-					.put(0.0F)
-					.put(1.0F)
-					.put(-geriNokta)
-					.put(+0.5F)
-					.put(0.0F)
-					.put(1.0F)
-					.put(ileriNokta)
-					.put(+0.5F)
-					.put(0.0F)
-					.put(1.0F));
+	private void oluşumluKöşeDizisiniOluştur(final double açısı) {
+		final float[] köşeKonumları = köşeKonumlarınıBul(açısı);
 		
 		köşeDizisi
 			.sıraTamponuNesnesiYükle(
-				memAllocInt(6).put(0).put(1).put(2).put(2).put(1).put(3));
-		
-		köşeDizisi.oluşumBaşınaDeğişenNitelikEkle(2);
-		köşeDizisi.oluşumBaşınaDeğişenNitelikEkle(2);
-		köşeDizisi.oluşumBaşınaDeğişenNitelikEkle(2);
-		köşeDizisi.oluşumBaşınaDeğişenNitelikEkle(2);
-		köşeDizisi.oluşumBaşınaDeğişenNitelikEkle(4);
-		köşeDizisi.oluşumBaşınaDeğişenNitelikEkle(4);
-		köşeDizisi.oluşumBaşınaDeğişenNitelikEkle(4);
-		köşeDizisi.oluşumBaşınaDeğişenNitelikEkle(4);
-		köşeDizisi.oluşumBaşınaDeğişenNitelikEkle(4);
+				memAllocInt(KÖŞE_SIRASI.length).put(KÖŞE_SIRASI))
+			.durağanKöşeTamponuNesnesiEkle(
+				köşeKonumları.length / 4,
+				memAllocFloat(köşeKonumları.length).put(köşeKonumları));
+		köşeDizisi
+			.oluşumBaşınaDeğişenNitelikEkle(2)
+			.oluşumBaşınaDeğişenNitelikEkle(2)
+			.oluşumBaşınaDeğişenNitelikEkle(2)
+			.oluşumBaşınaDeğişenNitelikEkle(2);
+		Dönüşüm.oluşumluKöşeDizisineEkle(köşeDizisi);
+	}
+	
+	private float[] köşeKonumlarınıBul(final double açısı) {
+		final float yarımDikmeliği = (float)(sin(toRadians(açısı)) / 2.0);
+		final float ileriNokta = 0.5F + yarımDikmeliği;
+		final float geriNokta = 0.5F - yarımDikmeliği;
+		return new float[] {
+			-ileriNokta,
+			-0.5F,
+			geriNokta,
+			-0.5F,
+			-geriNokta,
+			0.5F,
+			ileriNokta,
+			0.5F };
 	}
 }

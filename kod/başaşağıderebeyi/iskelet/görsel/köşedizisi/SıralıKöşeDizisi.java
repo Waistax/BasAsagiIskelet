@@ -20,11 +20,13 @@ public class SıralıKöşeDizisi extends KöşeDizisi {
 	
 	/** Köşelerin çizim sırasını yükler. Verilen tamponu kendiliğinden çevirir
 	 * ve yok eder. */
-	public void sıraTamponuNesnesiYükle(final IntBuffer yüklenecekVeri) {
+	public SıralıKöşeDizisi sıraTamponuNesnesiYükle(
+		final IntBuffer yüklenecekVeri) {
 		glBindVertexArray(işaretçisi);
 		Yükleyici.NESNESİ.sıraTamponuNesnesiYükle(yüklenecekVeri.flip());
 		glBindVertexArray(0);
 		çizilecekKöşeSayısı = yüklenecekVeri.limit();
+		return this;
 	}
 	
 	@Override

@@ -34,7 +34,7 @@ public class KöşeDizisi {
 	/** Köşe başına değişen ve bir kere yazıldıktan sonra değişmeyen verileri bu
 	 * köşe dizisi nesnesine ekler. Verilen tamponu kendiliğinden çevirir ve yok
 	 * eder. */
-	public void durağanKöşeTamponuNesnesiEkle(
+	public KöşeDizisi durağanKöşeTamponuNesnesiEkle(
 		final int boyutu,
 		final FloatBuffer verisi) {
 		glBindVertexArray(işaretçisi);
@@ -44,9 +44,9 @@ public class KöşeDizisi {
 				boyutu,
 				verisi.flip());
 		glBindVertexArray(0);
-		
 		if (çizilecekKöşeSayısı == 0)
 			çizilecekKöşeSayısı = verisi.limit() / boyutu;
+		return this;
 	}
 	
 	/** Köşe dizisini çizer. */

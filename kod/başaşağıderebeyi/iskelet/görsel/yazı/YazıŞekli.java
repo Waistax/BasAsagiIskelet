@@ -4,8 +4,6 @@
  */
 package başaşağıderebeyi.iskelet.görsel.yazı;
 
-import static org.lwjgl.opengl.GL11.*;
-
 import başaşağıderebeyi.iskelet.görsel.kaynak.*;
 
 import java.net.*;
@@ -23,15 +21,15 @@ public class YazıŞekli {
 	/** Yazı şeklindeki en büyük yükseklik. Çizilecek yüksekliğin buna oranı
 	 * bütün yazının boyutudur. */
 	public final double enBüyükYüksekliği;
+	/** Bütün karakterleri içeren doku. */
+	public final int dokusu;
 	
 	final Map<Character, SesŞekli> seslerininŞekilleri;
-	private final int dokusu;
 	
 	/** Verilen doku ve bilgiden tanımlar. */
 	public YazıŞekli(final URI dokusununKaynağı, final URI bilgisininKaynağı) {
 		seslerininŞekilleri = new HashMap<>();
 		dokusu = Yükleyici.NESNESİ.dokuYükle(dokusununKaynağı);
-		
 		enBüyükYüksekliği = new ŞekilOkuyucusu(
 			this,
 			Yükleyici.NESNESİ.satırlarınıYükle(bilgisininKaynağı))
@@ -41,15 +39,5 @@ public class YazıŞekli {
 	/** Verilen sesin şeklini döndürür. */
 	public SesŞekli sesininŞekliniEdin(final char sesi) {
 		return seslerininŞekilleri.get(sesi);
-	}
-	
-	/** Dokusunu bağlar. */
-	public void bağla() {
-		glBindTexture(GL_TEXTURE_2D, dokusu);
-	}
-	
-	/** Dokusunu koparır. */
-	public void kopar() {
-		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 }

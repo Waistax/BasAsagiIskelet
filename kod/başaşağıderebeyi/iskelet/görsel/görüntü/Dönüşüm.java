@@ -18,9 +18,10 @@ public class Dönüşüm implements Yumuşatılabilir {
 	/** Verilen oluşumlu köşe dizisinde dönüşüm için yer ekler. */
 	public static void oluşumluKöşeDizisineEkle(
 		final OluşumluKöşeDizisi köşeDizisi) {
-		köşeDizisi.oluşumBaşınaDeğişenNitelikEkle(3);
-		köşeDizisi.oluşumBaşınaDeğişenNitelikEkle(2);
-		köşeDizisi.oluşumBaşınaDeğişenNitelikEkle(1);
+		köşeDizisi
+			.oluşumBaşınaDeğişenNitelikEkle(3)
+			.oluşumBaşınaDeğişenNitelikEkle(2)
+			.oluşumBaşınaDeğişenNitelikEkle(1);
 	}
 	
 	/** Sahnede bulunduğu konum. */

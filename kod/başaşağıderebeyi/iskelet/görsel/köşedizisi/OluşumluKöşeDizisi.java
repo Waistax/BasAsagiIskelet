@@ -41,7 +41,7 @@ public class OluşumluKöşeDizisi extends KöşeDizisi {
 	
 	/** Oluşum başına değişen ve her kare yenilenebilecek verileri bu köşe
 	 * dizisi nesnesine ekler. Verilen tamponu kendiliğinden yok eder. */
-	public void oluşumBaşınaDeğişenNitelikEkle(final int boyutu) {
+	public OluşumluKöşeDizisi oluşumBaşınaDeğişenNitelikEkle(final int boyutu) {
 		glBindVertexArray(işaretçisi);
 		Yükleyici.NESNESİ
 			.oluşumBaşınaDeğişenNitelikEkle(
@@ -53,17 +53,19 @@ public class OluşumluKöşeDizisi extends KöşeDizisi {
 				niteliklerininBoyutu);
 		niteliklerininBoyutu += boyutu;
 		glBindVertexArray(0);
+		return this;
 	}
 	
 	/** Tampona yazılmış verileri oluşum başına değişen köşe tamponu nesnesine
 	 * yükler. Yerleşik tamponu kendiliğinden çevirir. */
-	public void tamponunuGüncelle() {
+	public OluşumluKöşeDizisi tamponunuGüncelle() {
 		Yükleyici.NESNESİ
 			.oluşumlarınNitelikleriniGüncelle(
 				oluşumluKöşeTamponuNesnesi,
 				yazılacakVerisi.flip());
 		oluşumSayısı = yazılacakVerisi.limit() / oluşumBoyutu;
 		yazılacakVerisi.clear();
+		return this;
 	}
 	
 	@Override
