@@ -7,32 +7,77 @@ package başaşağıderebeyi.iskelet.görsel.görüntü;
 import static org.lwjgl.opengl.GL11.*;
 
 import başaşağıderebeyi.iskelet.görsel.*;
+import başaşağıderebeyi.kütüphane.matematik.*;
 import başaşağıderebeyi.kütüphane.matematik.doğrusalcebir.*;
 
 /** Doku ve renk birleşimi. Herhangi bir nesneyi çizerken kullanılır. */
-public class Materyal {
+public class Materyal implements Yumuşatılabilir {
 	private static final String RENK_DEĞERİ_ADI = "renk";
+	private static final String TERS_RENK_DEĞERİ_ADI = "tersRenk";
 	
-	/** Bakışı yüklemek için kullanılacak değerleri gölgelendiricide bulur. */
+	/** Materyali yüklemek için kullanılacak değerleri gölgelendiricide
+	 * bulur. */
 	public static void değerlerininKonumlarınıBul(
 		final Gölgelendirici gölgelendirici) {
 		gölgelendirici.değerinKonumunuBul(RENK_DEĞERİ_ADI);
+		gölgelendirici.değerinKonumunuBul(TERS_RENK_DEĞERİ_ADI);
 	}
 	
 	/** Dokunun ekran kartındaki işaretçisi. */
-	public final int dokusu;
+	public int dokusu;
 	/** Kullanılacak renk, RGBA olarak. */
-	public final Yöney4 rengi;
+	public final Yöney3 rengi;
+	/** Kullanılacak ters renk, RGBA olarak. */
+	public final Yöney3 tersRengi;
 	
 	/** Verilenler ile tanımlar. */
-	public Materyal(final int dokusu, final Yöney4 rengi) {
+	public Materyal(
+		final int dokusu,
+		final Yöney3 rengi,
+		final Yöney3 tersRengi) {
 		this.dokusu = dokusu;
 		this.rengi = rengi;
+		this.tersRengi = tersRengi;
 	}
 	
-	/** İzdüşümü gölgelendiriciye yükler. */
+	/** Materyali gölgelendiriciye yükler. */
 	public void yükle(final Gölgelendirici gölgelendirici) {
 		glBindTexture(GL_TEXTURE_2D, dokusu);
 		gölgelendirici.değeriDeğiştir(RENK_DEĞERİ_ADI, rengi);
+		gölgelendirici.değeriDeğiştir(TERS_RENK_DEĞERİ_ADI, tersRengi);
+	}
+	
+	@Override
+	public Yumuşatılabilir aradeğerleriniBul(
+		Yumuşatılabilir baştaki,
+		Yumuşatılabilir sondaki,
+		double uzunluk) {
+		Materyal baştakiMateryal = (Materyal)baştaki;
+		Materyal sondakiMateryal = (Materyal)sondaki;
+		dokusu = MatematikAracı
+			.aradeğerleriniBul(
+				(Integer)baştakiMateryal.dokusu,
+				(Integer)sondakiMateryal.dokusu,
+				uzunluk);
+		rengi
+			.aradeğerleriniBul(
+				baştakiMateryal.rengi,
+				sondakiMateryal.rengi,
+				uzunluk);
+		tersRengi
+			.aradeğerleriniBul(
+				baştakiMateryal.tersRengi,
+				sondakiMateryal.tersRengi,
+				uzunluk);
+		return this;
+	}
+	
+	@Override
+	public Yumuşatılabilir değiştir(Yumuşatılabilir öbürü) {
+		Materyal öbürMateryal = (Materyal)öbürü;
+		dokusu = öbürMateryal.dokusu;
+		rengi.değiştir(öbürMateryal.rengi);
+		tersRengi.değiştir(öbürMateryal.tersRengi);
+		return this;
 	}
 }

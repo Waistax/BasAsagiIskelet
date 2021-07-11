@@ -9,10 +9,10 @@ import başaşağıderebeyi.kütüphane.matematik.doğrusalcebir.*;
 
 /** Çizimlerin ekran kartı uzayına aktarılmasını sağlayacak araç. Orta noktası
  * her zaman orijindir. */
-public class İzdüşüm {
+public class İzdüşüm implements Yumuşatılabilir {
 	private static final String İZDÜŞÜM_DEĞERİ_ADI = "izdusum";
 	
-	/** Bakışı yüklemek için kullanılacak değerleri gölgelendiricide bulur. */
+	/** İzdüşümü yüklemek için kullanılacak değerleri gölgelendiricide bulur. */
 	public static void değerlerininKonumlarınıBul(
 		final Gölgelendirici gölgelendirici) {
 		gölgelendirici.değerinKonumunuBul(İZDÜŞÜM_DEĞERİ_ADI);
@@ -36,21 +36,25 @@ public class İzdüşüm {
 		gölgelendirici.değeriDeğiştir(İZDÜŞÜM_DEĞERİ_ADI, boyutu);
 	}
 	
-	/** Bu izdüşümü baştaki ve sondaki izdüşümlerin verilen uzaklığa göre
-	 * aradeğerlerine değiştirir. Verilen izdüşümlerin bu izdüşümden farklı
-	 * olduğunu varsayar. Bu izdüşümü döndürür. */
-	@Deprecated
-	public İzdüşüm aradeğerleriniBul(
-		final İzdüşüm baştaki,
-		final İzdüşüm sondaki,
+	@Override
+	public Yumuşatılabilir aradeğerleriniBul(
+		final Yumuşatılabilir baştaki,
+		final Yumuşatılabilir sondaki,
 		final double uzaklık) {
-		boyutu.aradeğerleriniBul(baştaki.boyutu, sondaki.boyutu, uzaklık);
+		İzdüşüm baştakiİzdüşüm = (İzdüşüm)baştaki;
+		İzdüşüm sondakiİzdüşüm = (İzdüşüm)sondaki;
+		boyutu
+			.aradeğerleriniBul(
+				baştakiİzdüşüm.boyutu,
+				sondakiİzdüşüm.boyutu,
+				uzaklık);
 		return this;
 	}
 	
-	/** Bu izdüşümü verilen izdüşümle değiştirir. Bu izdüşümü döndürür. */
-	public İzdüşüm değiştir(final İzdüşüm öbürü) {
-		boyutu.değiştir(öbürü.boyutu);
+	@Override
+	public Yumuşatılabilir değiştir(final Yumuşatılabilir öbürü) {
+		İzdüşüm öbürİzdüşüm = (İzdüşüm)öbürü;
+		boyutu.değiştir(öbürİzdüşüm.boyutu);
 		return this;
 	}
 }

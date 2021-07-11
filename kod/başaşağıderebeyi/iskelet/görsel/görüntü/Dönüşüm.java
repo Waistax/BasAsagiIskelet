@@ -11,7 +11,7 @@ import başaşağıderebeyi.kütüphane.matematik.doğrusalcebir.*;
 import java.nio.*;
 
 /** Sahnedeki nesnelerin ekran uzayına dönüşümünü yapan */
-public class Dönüşüm {
+public class Dönüşüm implements Yumuşatılabilir {
 	/** Dönüşümün oluşumlu köşe dizisinde kapladığı boyut. */
 	public static final int BOYUTU = 3 + 2 + 1;
 	
@@ -57,25 +57,37 @@ public class Dönüşüm {
 			.put((float)açısı);
 	}
 	
-	/** Bu dönüşümü baştaki ve sondaki dönüşümlerin verilen uzaklığa göre
-	 * aradeğerlerine değiştirir. Verilen dönüşümlerin bu dönüşümden farklı
-	 * olduğunu varsayar. Bu dönüşümü döndürür. */
-	public Dönüşüm aradeğerleriniBul(
-		final Dönüşüm baştaki,
-		final Dönüşüm sondaki,
+	@Override
+	public Yumuşatılabilir aradeğerleriniBul(
+		final Yumuşatılabilir baştaki,
+		final Yumuşatılabilir sondaki,
 		final double uzaklık) {
-		boyutu.aradeğerleriniBul(baştaki.boyutu, sondaki.boyutu, uzaklık);
-		konumu.aradeğerleriniBul(baştaki.konumu, sondaki.konumu, uzaklık);
+		Dönüşüm baştakiDönüşüm = (Dönüşüm)baştaki;
+		Dönüşüm sondakiDönüşüm = (Dönüşüm)sondaki;
+		boyutu
+			.aradeğerleriniBul(
+				baştakiDönüşüm.boyutu,
+				sondakiDönüşüm.boyutu,
+				uzaklık);
+		konumu
+			.aradeğerleriniBul(
+				baştakiDönüşüm.konumu,
+				sondakiDönüşüm.konumu,
+				uzaklık);
 		açısı = MatematikAracı
-			.aradeğerleriniBul(baştaki.açısı, sondaki.açısı, uzaklık);
+			.aradeğerleriniBul(
+				baştakiDönüşüm.açısı,
+				sondakiDönüşüm.açısı,
+				uzaklık);
 		return this;
 	}
 	
-	/** Bu dönüşümü verilen dönüşümle değiştirir. Bu dönüşümü döndürür. */
-	public Dönüşüm değiştir(final Dönüşüm öbürü) {
-		konumu.değiştir(öbürü.konumu);
-		boyutu.değiştir(öbürü.boyutu);
-		açısı = öbürü.açısı;
+	@Override
+	public Yumuşatılabilir değiştir(final Yumuşatılabilir öbürü) {
+		Dönüşüm öbürDönüşüm = (Dönüşüm)öbürü;
+		konumu.değiştir(öbürDönüşüm.konumu);
+		boyutu.değiştir(öbürDönüşüm.boyutu);
+		açısı = öbürDönüşüm.açısı;
 		return this;
 	}
 }

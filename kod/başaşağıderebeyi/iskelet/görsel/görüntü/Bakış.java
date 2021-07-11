@@ -9,7 +9,7 @@ import başaşağıderebeyi.kütüphane.matematik.*;
 import başaşağıderebeyi.kütüphane.matematik.doğrusalcebir.*;
 
 /** Sahnenin ekran kartı uzayına aktarılmasına yarayan araç. */
-public class Bakış {
+public class Bakış implements Yumuşatılabilir {
 	private static final String BAKIŞ_KONUMU_DEĞERİ_ADI = "bakisKonumu";
 	private static final String BAKIŞ_BOYUTU_DEĞERİ_ADI = "bakisBoyutu";
 	private static final String BAKIŞ_AÇISI_DEĞERİ_ADI = "bakisAcisi";
@@ -49,26 +49,34 @@ public class Bakış {
 		gölgelendirici.değeriDeğiştir(BAKIŞ_AÇISI_DEĞERİ_ADI, açısı);
 	}
 	
-	/** Bu bakışı baştaki ve sondaki bakışların verilen uzaklığa göre
-	 * aradeğerlerine değiştirir. Verilen bakışların bu bakıştan farklı olduğunu
-	 * varsayar. Bu bakışı döndürür. */
-	public Bakış aradeğerleriniBul(
-		final Bakış baştaki,
-		final Bakış sondaki,
+	@Override
+	public Yumuşatılabilir aradeğerleriniBul(
+		final Yumuşatılabilir baştaki,
+		final Yumuşatılabilir sondaki,
 		final double uzaklık) {
-		konumu.aradeğerleriniBul(baştaki.konumu, sondaki.konumu, uzaklık);
+		Bakış baştakiBakış = (Bakış)baştaki;
+		Bakış sondakiBakış = (Bakış)sondaki;
+		konumu
+			.aradeğerleriniBul(
+				baştakiBakış.konumu,
+				sondakiBakış.konumu,
+				uzaklık);
 		boyutu = MatematikAracı
-			.aradeğerleriniBul(baştaki.boyutu, sondaki.boyutu, uzaklık);
+			.aradeğerleriniBul(
+				baştakiBakış.boyutu,
+				sondakiBakış.boyutu,
+				uzaklık);
 		açısı = MatematikAracı
-			.aradeğerleriniBul(baştaki.açısı, sondaki.açısı, uzaklık);
+			.aradeğerleriniBul(baştakiBakış.açısı, sondakiBakış.açısı, uzaklık);
 		return this;
 	}
 	
-	/** Bu bakışı verilen bakışla değiştirir. Bu bakışı döndürür. */
-	public Bakış değiştir(final Bakış öbürü) {
-		konumu.değiştir(öbürü.konumu);
-		boyutu = öbürü.boyutu;
-		açısı = öbürü.açısı;
+	@Override
+	public Yumuşatılabilir değiştir(final Yumuşatılabilir öbürü) {
+		Bakış öbürBakış = (Bakış)öbürü;
+		konumu.değiştir(öbürBakış.konumu);
+		boyutu = öbürBakış.boyutu;
+		açısı = öbürBakış.açısı;
 		return this;
 	}
 }
