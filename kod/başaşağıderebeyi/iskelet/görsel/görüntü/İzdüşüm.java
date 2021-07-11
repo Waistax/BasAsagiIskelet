@@ -22,7 +22,7 @@ public class İzdüşüm implements Yumuşatılabilir {
 	public final Yöney3 boyutu;
 	
 	/** Verilen boyutlarla tanımlar. */
-	public İzdüşüm(Yöney3 boyutu) {
+	public İzdüşüm(final Yöney3 boyutu) {
 		this.boyutu = boyutu;
 	}
 	
@@ -41,8 +41,8 @@ public class İzdüşüm implements Yumuşatılabilir {
 		final Yumuşatılabilir baştaki,
 		final Yumuşatılabilir sondaki,
 		final double uzaklık) {
-		İzdüşüm baştakiİzdüşüm = (İzdüşüm)baştaki;
-		İzdüşüm sondakiİzdüşüm = (İzdüşüm)sondaki;
+		final İzdüşüm baştakiİzdüşüm = (İzdüşüm)baştaki;
+		final İzdüşüm sondakiİzdüşüm = (İzdüşüm)sondaki;
 		boyutu
 			.aradeğerleriniBul(
 				baştakiİzdüşüm.boyutu,
@@ -53,7 +53,7 @@ public class İzdüşüm implements Yumuşatılabilir {
 	
 	@Override
 	public Yumuşatılabilir değiştir(final Yumuşatılabilir öbürü) {
-		İzdüşüm öbürİzdüşüm = (İzdüşüm)öbürü;
+		final İzdüşüm öbürİzdüşüm = (İzdüşüm)öbürü;
 		boyutu.değiştir(öbürİzdüşüm.boyutu);
 		return this;
 	}

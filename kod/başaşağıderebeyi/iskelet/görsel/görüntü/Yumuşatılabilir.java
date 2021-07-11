@@ -9,11 +9,11 @@ public interface Yumuşatılabilir {
 	/** Bu nesneyi baştaki ve sondaki nesnelerin verilen uzaklığa göre
 	 * aradeğerlerine değiştirir. Verilen nesnelerin bu nesneden farklı olduğunu
 	 * varsayar. Bu nesneyi döndürür. */
-	public Yumuşatılabilir aradeğerleriniBul(
-		Yumuşatılabilir baştaki,
-		Yumuşatılabilir sondaki,
-		double uzunluk);
+	Yumuşatılabilir aradeğerleriniBul(
+		final Yumuşatılabilir baştaki,
+		final Yumuşatılabilir sondaki,
+		final double uzunluk);
 	
 	/** Bu nesneyi verilen nesneyle değiştirir. Bu nesneyi döndürür. */
-	public Yumuşatılabilir değiştir(Yumuşatılabilir öbürü);
+	Yumuşatılabilir değiştir(final Yumuşatılabilir öbürü);
 }

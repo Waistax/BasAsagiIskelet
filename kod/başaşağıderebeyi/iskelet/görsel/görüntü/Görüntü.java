@@ -12,23 +12,23 @@ public class Görüntü implements Yumuşatılabilir {
 	public final Dönüşüm dönüşümü;
 	
 	/** Verilenlerle tanımlar. */
-	public Görüntü(Materyal materyali, Dönüşüm dönüşümü) {
+	public Görüntü(final Materyal materyali, final Dönüşüm dönüşümü) {
 		this.materyali = materyali;
 		this.dönüşümü = dönüşümü;
 	}
 	
 	/** Temiz bir dönüşümle tanımlar. */
-	public Görüntü(Materyal materyal) {
+	public Görüntü(final Materyal materyal) {
 		this(materyal, new Dönüşüm());
 	}
 	
 	@Override
 	public Yumuşatılabilir aradeğerleriniBul(
-		Yumuşatılabilir baştaki,
-		Yumuşatılabilir sondaki,
-		double uzunluk) {
-		Görüntü baştakiGörüntü = (Görüntü)baştaki;
-		Görüntü sondakiGörüntü = (Görüntü)sondaki;
+		final Yumuşatılabilir baştaki,
+		final Yumuşatılabilir sondaki,
+		final double uzunluk) {
+		final Görüntü baştakiGörüntü = (Görüntü)baştaki;
+		final Görüntü sondakiGörüntü = (Görüntü)sondaki;
 		materyali
 			.aradeğerleriniBul(
 				baştakiGörüntü.materyali,
@@ -43,8 +43,8 @@ public class Görüntü implements Yumuşatılabilir {
 	}
 	
 	@Override
-	public Yumuşatılabilir değiştir(Yumuşatılabilir öbürü) {
-		Görüntü öbürGörüntü = (Görüntü)öbürü;
+	public Yumuşatılabilir değiştir(final Yumuşatılabilir öbürü) {
+		final Görüntü öbürGörüntü = (Görüntü)öbürü;
 		materyali.değiştir(öbürGörüntü.materyali);
 		dönüşümü.değiştir(öbürGörüntü.dönüşümü);
 		return null;

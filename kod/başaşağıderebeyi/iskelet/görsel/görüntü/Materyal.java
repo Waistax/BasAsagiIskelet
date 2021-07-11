@@ -49,11 +49,11 @@ public class Materyal implements Yumuşatılabilir {
 	
 	@Override
 	public Yumuşatılabilir aradeğerleriniBul(
-		Yumuşatılabilir baştaki,
-		Yumuşatılabilir sondaki,
-		double uzunluk) {
-		Materyal baştakiMateryal = (Materyal)baştaki;
-		Materyal sondakiMateryal = (Materyal)sondaki;
+		final Yumuşatılabilir baştaki,
+		final Yumuşatılabilir sondaki,
+		final double uzunluk) {
+		final Materyal baştakiMateryal = (Materyal)baştaki;
+		final Materyal sondakiMateryal = (Materyal)sondaki;
 		dokusu = MatematikAracı
 			.aradeğerleriniBul(
 				(Integer)baştakiMateryal.dokusu,
@@ -73,8 +73,8 @@ public class Materyal implements Yumuşatılabilir {
 	}
 	
 	@Override
-	public Yumuşatılabilir değiştir(Yumuşatılabilir öbürü) {
-		Materyal öbürMateryal = (Materyal)öbürü;
+	public Yumuşatılabilir değiştir(final Yumuşatılabilir öbürü) {
+		final Materyal öbürMateryal = (Materyal)öbürü;
 		dokusu = öbürMateryal.dokusu;
 		rengi.değiştir(öbürMateryal.rengi);
 		tersRengi.değiştir(öbürMateryal.tersRengi);

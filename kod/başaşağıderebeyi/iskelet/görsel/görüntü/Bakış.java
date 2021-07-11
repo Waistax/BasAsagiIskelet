@@ -54,8 +54,8 @@ public class Bakış implements Yumuşatılabilir {
 		final Yumuşatılabilir baştaki,
 		final Yumuşatılabilir sondaki,
 		final double uzaklık) {
-		Bakış baştakiBakış = (Bakış)baştaki;
-		Bakış sondakiBakış = (Bakış)sondaki;
+		final Bakış baştakiBakış = (Bakış)baştaki;
+		final Bakış sondakiBakış = (Bakış)sondaki;
 		konumu
 			.aradeğerleriniBul(
 				baştakiBakış.konumu,
@@ -73,7 +73,7 @@ public class Bakış implements Yumuşatılabilir {
 	
 	@Override
 	public Yumuşatılabilir değiştir(final Yumuşatılabilir öbürü) {
-		Bakış öbürBakış = (Bakış)öbürü;
+		final Bakış öbürBakış = (Bakış)öbürü;
 		konumu.değiştir(öbürBakış.konumu);
 		boyutu = öbürBakış.boyutu;
 		açısı = öbürBakış.açısı;

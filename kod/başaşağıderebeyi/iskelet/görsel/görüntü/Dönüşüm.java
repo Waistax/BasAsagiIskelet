@@ -16,7 +16,8 @@ public class Dönüşüm implements Yumuşatılabilir {
 	public static final int BOYUTU = 3 + 2 + 1;
 	
 	/** Verilen oluşumlu köşe dizisinde dönüşüm için yer ekler. */
-	public static void oluşumluKöşeDizisineEkle(OluşumluKöşeDizisi köşeDizisi) {
+	public static void oluşumluKöşeDizisineEkle(
+		final OluşumluKöşeDizisi köşeDizisi) {
 		köşeDizisi.oluşumBaşınaDeğişenNitelikEkle(3);
 		köşeDizisi.oluşumBaşınaDeğişenNitelikEkle(2);
 		köşeDizisi.oluşumBaşınaDeğişenNitelikEkle(1);
@@ -42,7 +43,7 @@ public class Dönüşüm implements Yumuşatılabilir {
 	}
 	
 	/** Dönüşümü oluşumlu köşe dizisine yükler. */
-	public void yükle(OluşumluKöşeDizisi köşeDizisi) {
+	public void yükle(final OluşumluKöşeDizisi köşeDizisi) {
 		yükle(köşeDizisi.yazılacakVerisi);
 	}
 	
@@ -62,8 +63,8 @@ public class Dönüşüm implements Yumuşatılabilir {
 		final Yumuşatılabilir baştaki,
 		final Yumuşatılabilir sondaki,
 		final double uzaklık) {
-		Dönüşüm baştakiDönüşüm = (Dönüşüm)baştaki;
-		Dönüşüm sondakiDönüşüm = (Dönüşüm)sondaki;
+		final Dönüşüm baştakiDönüşüm = (Dönüşüm)baştaki;
+		final Dönüşüm sondakiDönüşüm = (Dönüşüm)sondaki;
 		boyutu
 			.aradeğerleriniBul(
 				baştakiDönüşüm.boyutu,
@@ -84,7 +85,7 @@ public class Dönüşüm implements Yumuşatılabilir {
 	
 	@Override
 	public Yumuşatılabilir değiştir(final Yumuşatılabilir öbürü) {
-		Dönüşüm öbürDönüşüm = (Dönüşüm)öbürü;
+		final Dönüşüm öbürDönüşüm = (Dönüşüm)öbürü;
 		konumu.değiştir(öbürDönüşüm.konumu);
 		boyutu.değiştir(öbürDönüşüm.boyutu);
 		açısı = öbürDönüşüm.açısı;

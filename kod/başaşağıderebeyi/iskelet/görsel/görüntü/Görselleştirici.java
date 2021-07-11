@@ -30,7 +30,7 @@ public class Görselleştirici {
 	/** Boş görselleştirici tanımlar. */
 	public Görselleştirici(
 		final Gölgelendirici gölgelendiricisi,
-		İzdüşüm izdüşümü,
+		final İzdüşüm izdüşümü,
 		final int sığası) {
 		this.gölgelendiricisi = gölgelendiricisi;
 		this.sığası = sığası;

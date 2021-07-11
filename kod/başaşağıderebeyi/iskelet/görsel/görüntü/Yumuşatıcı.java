@@ -12,7 +12,7 @@ public class Yumuşatıcı<T extends Yumuşatılabilir> {
 	public final T önceki;
 	public final T yumuşatılmışı;
 	
-	public Yumuşatıcı(T anlığı, T önceki, T yumuşatılmışı) {
+	public Yumuşatıcı(final T anlığı, final T önceki, final T yumuşatılmışı) {
 		this.anlığı = anlığı;
 		this.önceki = önceki;
 		this.yumuşatılmışı = yumuşatılmışı;
