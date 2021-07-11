@@ -41,7 +41,10 @@ public class DeğişkenYazıGörselleştirici {
 		gölgelendiricisiniKur(izdüşümü);
 		this.sığası = sığası;
 		
-		köşeDizisi = new SıralıOluşumluKöşeDizisi(GL_TRIANGLES, sığası, 28);
+		köşeDizisi = new SıralıOluşumluKöşeDizisi(
+			GL_TRIANGLES,
+			sığası,
+			SesŞekli.BOYUTU + Dönüşüm.BOYUTU);
 		oluşumluKöşeDizisiniOluştur(açısı);
 		this.şekli = şekli;
 		materyali =
@@ -129,18 +132,13 @@ public class DeğişkenYazıGörselleştirici {
 	
 	private void oluşumluKöşeDizisiniOluştur(final double açısı) {
 		final float[] köşeKonumları = köşeKonumlarınıBul(açısı);
-		
 		köşeDizisi
 			.sıraTamponuNesnesiYükle(
 				memAllocInt(KÖŞE_SIRASI.length).put(KÖŞE_SIRASI))
 			.durağanKöşeTamponuNesnesiEkle(
 				köşeKonumları.length / 4,
 				memAllocFloat(köşeKonumları.length).put(köşeKonumları));
-		köşeDizisi
-			.oluşumBaşınaDeğişenNitelikEkle(2)
-			.oluşumBaşınaDeğişenNitelikEkle(2)
-			.oluşumBaşınaDeğişenNitelikEkle(2)
-			.oluşumBaşınaDeğişenNitelikEkle(2);
+		SesŞekli.oluşumluKöşeDizisineEkle(köşeDizisi);
 		Dönüşüm.oluşumluKöşeDizisineEkle(köşeDizisi);
 	}
 	

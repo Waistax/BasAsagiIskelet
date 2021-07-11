@@ -90,7 +90,7 @@ class AnaDöngü {
 		} finally {
 			try {
 				yokEdici.run();
-			} catch (Exception hata) {
+			} catch (final Exception hata) {
 				SistemGünlüğü.NESNESİ.satırOluşturucusu.yaz(hata);
 			}
 		}
