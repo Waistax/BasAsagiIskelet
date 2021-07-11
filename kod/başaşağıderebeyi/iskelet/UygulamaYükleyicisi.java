@@ -7,6 +7,8 @@
  */
 package başaşağıderebeyi.iskelet;
 
+import başaşağıderebeyi.kütüphane.günlük.*;
+
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -29,8 +31,8 @@ public class UygulamaYükleyicisi {
 	/** Klasördeki bütün uygulamaları yükler. */
 	void yükle(final File klasör) {
 		assert İskelet.NESNESİ.anınıEdin() == -1L;
-		System.out
-			.println(
+		SistemGünlüğü.KONSOL
+			.yaz(
 				"Uygulamalar " +
 					klasör.getAbsolutePath() +
 					" klasöründen yükleniyor...");
@@ -65,12 +67,13 @@ public class UygulamaYükleyicisi {
 	private void dosyayıİşle(final File dosya) {
 		final String dosyanınYolu = dosya.getAbsolutePath();
 		try (JarFile arşiv = new JarFile(dosyanınYolu)) {
-			System.out.println("Arşiv " + dosya.getPath() + " yükleniyor...");
+			SistemGünlüğü.KONSOL
+				.yaz("Arşiv " + dosya.getPath() + " yükleniyor...");
 			arşiviİşle(
 				arşiv,
 				new URLClassLoader(
 					new URL[] { new URL("jar:file:" + dosyanınYolu + "!/") }));
-			System.out.println("Arşiv " + dosya.getPath() + " yüklendi!");
+			SistemGünlüğü.KONSOL.yaz("Arşiv " + dosya.getPath() + " yüklendi!");
 		} catch (final Exception hata) {
 			throw new RuntimeException(
 				"Uygulama " + dosya.getPath() + " yüklenemedi!",
@@ -120,13 +123,13 @@ public class UygulamaYükleyicisi {
 		
 		final Class<?> sınıf = sınıfYükleyicisi
 			.loadClass(adı.substring(0, adı.length() - 6).replace('/', '.'));
-		System.out.println("Sınıf " + sınıf + " yüklendi!");
+		SistemGünlüğü.KONSOL.yaz("Sınıf " + sınıf.getName() + " yüklendi!");
 		
 		if (sınıf.isAnnotationPresent(Uygulama.class)) {
 			if (bilgisi.sınıfı != null)
 				throw new RuntimeException("Birden fazla uygulama sınıfı var!");
 			bilgisi.sınıfı = sınıf;
-			System.out.println("Uygulama sınıfı bulundu!");
+			SistemGünlüğü.KONSOL.yaz("Uygulama sınıfı bulundu!");
 		}
 	}
 	
@@ -147,8 +150,11 @@ public class UygulamaYükleyicisi {
 		}
 		
 		bilgisi.kaynakları.put(adı, geçiciDosya.toURI());
-		System.out.println("Kaynak " + adı + " yüklendi!");
-		System.out
-			.println("Geçici dosya konumu: " + geçiciDosya.getAbsolutePath());
+		SistemGünlüğü.KONSOL
+			.yaz(
+				"Kaynak " +
+					adı +
+					" yüklendi! Geçici dosya konumu: " +
+					geçiciDosya.getAbsolutePath());
 	}
 }

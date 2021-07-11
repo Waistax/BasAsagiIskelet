@@ -26,9 +26,9 @@ public class İskelet {
 	/** Ana sürümü. */
 	public static final int ANA_SÜRÜMÜ = 2;
 	/** Ara sürümü. */
-	public static final int ARA_SÜRÜMÜ = 2;
+	public static final int ARA_SÜRÜMÜ = 3;
 	/** Yaması. */
-	public static final int YAMASI = 1;
+	public static final int YAMASI = 0;
 	/** Bütün sürümü. */
 	public static final String SÜRÜM =
 		ANA_SÜRÜMÜ + "." + ARA_SÜRÜMÜ + "." + YAMASI;
@@ -48,6 +48,7 @@ public class İskelet {
 	
 	/** İskeleti çalıştırır. */
 	public static void main(final String[] argümanlar) {
+		Thread.currentThread().setName("İskelet");
 		uygulamalarınKlasörü = new File(
 			argümanlar.length != 0 ?
 				String.join("/", argümanlar) :
@@ -168,7 +169,8 @@ public class İskelet {
 		
 		süreçleri.forEach((ad, süreç) -> {
 			if (ad != "Oluşturma") {
-				System.out.println(ad + " Süreci: " + süreç.ortalamasınıEdin());
+				SistemGünlüğü.KONSOL
+					.yaz(ad + " Süreci: " + süreç.ortalamasınıEdin());
 				süreç.sıfırla();
 			}
 		});
@@ -182,7 +184,8 @@ public class İskelet {
 	}
 	
 	private void oluştur() {
-		System.out.println("Oluşturuluyor...");
+		SistemGünlüğü.KONSOL.yaz("Oluşturuluyor...");
+		SistemGünlüğü.KONSOL.yaz("Başaşağı İskelet s." + SÜRÜM);
 		final Süreç oluşturmaSüreci = new Süreç();
 		oluşturmaSüreci.başla(sistemZamanınıEdin());
 		
@@ -201,8 +204,8 @@ public class İskelet {
 		olaySağlayıcısı.oluşturmaOlayınıDağıt();
 		
 		oluşturmaSüreci.dur(sistemZamanınıEdin());
-		System.out
-			.println(
+		SistemGünlüğü.KONSOL
+			.yaz(
 				"Oluşturma tamamlandı! Geçen süre: " +
 					oluşturmaSüreci.toplamınıEdin());
 	}
@@ -232,17 +235,17 @@ public class İskelet {
 	}
 	
 	private void yokEt() {
-		System.out.println("Yok ediliyor...");
+		SistemGünlüğü.KONSOL.yaz("Yok ediliyor...");
 		
 		olaySağlayıcısı.yokEtmeOlayınıDağıt();
 		
 		Gösterici.edin().yokEt();
 		Yükleyici.NESNESİ.yokEt();
 		
-		System.out
-			.println("Ortalama Tık Oranı: " + tıkHızınınOrtalamasınıEdin());
-		System.out
-			.println("Ortalama Kare Oranı: " + kareHızınınOrtalamasınıEdin());
+		SistemGünlüğü.KONSOL
+			.yaz("Ortalama Tık Oranı: " + tıkHızınınOrtalamasınıEdin());
+		SistemGünlüğü.KONSOL
+			.yaz("Ortalama Kare Oranı: " + kareHızınınOrtalamasınıEdin());
 		
 		SistemGünlüğü.KONSOL.yaz("Sistem günlüğü kaydediliyor...");
 		GÜNLÜK_KAYDEDİCİSİ.kaydet(SistemGünlüğü.NESNESİ);

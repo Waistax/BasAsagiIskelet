@@ -4,6 +4,8 @@
  */
 package başaşağıderebeyi.iskelet;
 
+import başaşağıderebeyi.kütüphane.günlük.*;
+
 import java.util.function.*;
 
 class AnaDöngü {
@@ -84,7 +86,7 @@ class AnaDöngü {
 				}
 			}
 		} catch (final Exception hata) {
-			hata.printStackTrace();
+			hata.printStackTrace(SistemGünlüğü.KONSOL);
 		} finally {
 			yokEdici.run();
 		}

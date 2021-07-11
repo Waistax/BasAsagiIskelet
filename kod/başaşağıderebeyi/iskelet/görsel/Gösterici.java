@@ -12,6 +12,7 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 import başaşağıderebeyi.iskelet.girdi.*;
+import başaşağıderebeyi.kütüphane.günlük.*;
 import başaşağıderebeyi.kütüphane.matematik.doğrusalcebir.*;
 
 import org.lwjgl.glfw.*;
@@ -88,7 +89,7 @@ public class Gösterici {
 		penceresiniOturt(ekranı);
 		içeriğiniAyarla();
 		
-		System.out.println(başlığı + " oluşturuldu!");
+		SistemGünlüğü.KONSOL.yaz(başlığı + " oluşturuldu!");
 	}
 	
 	/** Pencereyi kapatır ve girdileri salar. */
@@ -159,7 +160,7 @@ public class Gösterici {
 	private void içeriğiniAyarla() {
 		GL.createCapabilities();
 		
-		System.out.println("OpenGL Sürümü: " + glGetString(GL_VERSION));
+		SistemGünlüğü.KONSOL.yaz("OpenGL Sürümü: " + glGetString(GL_VERSION));
 		
 		glFrontFace(GL_CCW);
 		glCullFace(GL_BACK);
