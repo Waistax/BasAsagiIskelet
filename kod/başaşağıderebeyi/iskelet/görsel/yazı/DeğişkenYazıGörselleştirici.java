@@ -82,13 +82,12 @@ public class DeğişkenYazıGörselleştirici {
 		SesŞekli öncekiSesŞekli = null;
 		for (int i = 0; i < dize.length(); i++) {
 			final SesŞekli sesŞekli = şekli.sesininŞekliniEdin(dize.charAt(i));
-			if (öncekiSesŞekli != null) {
+			if (öncekiSesŞekli != null)
 				konumu += (öncekiSesŞekli.boyutu.birinciBileşeniniEdin() +
 					(sesŞekli.boyutu.birinciBileşeniniEdin() +
 						öncekiSesŞekli.boyutu.birinciBileşeniniEdin()) *
 						YazıŞekli.SESLER_ARASI_BOŞLUĞUN_ORANI) *
 					ölçüsü;
-			}
 			öncekiSesŞekli = sesŞekli;
 			sesEkle(sesŞekli, konumu, çizgisi);
 		}

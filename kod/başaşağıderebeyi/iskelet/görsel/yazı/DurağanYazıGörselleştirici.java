@@ -8,8 +8,9 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 import başaşağıderebeyi.iskelet.görsel.*;
+import başaşağıderebeyi.iskelet.görsel.görüntü.*;
 import başaşağıderebeyi.iskelet.görsel.köşedizisi.*;
-import başaşağıderebeyi.kütüphane.matematik.sayısal.*;
+import başaşağıderebeyi.kütüphane.matematik.doğrusalcebir.*;
 
 import java.nio.*;
 
