@@ -86,9 +86,13 @@ class AnaDöngü {
 				}
 			}
 		} catch (final Exception hata) {
-			hata.printStackTrace(SistemGünlüğü.KONSOL);
+			SistemGünlüğü.NESNESİ.satırOluşturucusu.yaz(hata);
 		} finally {
-			yokEdici.run();
+			try {
+				yokEdici.run();
+			} catch (Exception hata) {
+				SistemGünlüğü.NESNESİ.satırOluşturucusu.yaz(hata);
+			}
 		}
 	}
 	
