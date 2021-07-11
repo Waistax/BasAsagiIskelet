@@ -52,16 +52,30 @@ class DokuYükleyicisi {
 		return yükle(new ResimBilgisi(kaynağı));
 	}
 	
+	int yükle(
+		final URI kaynağı,
+		final int küçültmeYöntemi,
+		final int büyütmeYöntemi) {
+		return yükle(
+			new ResimBilgisi(kaynağı),
+			küçültmeYöntemi,
+			büyütmeYöntemi);
+	}
+	
 	int yükle(final ResimBilgisi resim) {
+		return yükle(resim, GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR);
+	}
+	
+	int yükle(
+		final ResimBilgisi resim,
+		final int küçültmeYöntemi,
+		final int büyütmeYöntemi) {
 		final int doku = glGenTextures();
 		dokuları.add(doku);
 		glBindTexture(GL_TEXTURE_2D, doku);
 		resminVerisiniYükle(resim);
-		glTexParameteri(
-			GL_TEXTURE_2D,
-			GL_TEXTURE_MIN_FILTER,
-			GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, küçültmeYöntemi);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, büyütmeYöntemi);
 		glGenerateMipmap(GL_TEXTURE_2D);
 		glBindTexture(GL_TEXTURE_2D, 0);
 		return doku;

@@ -29,12 +29,27 @@ public class UygulamaBilgisi {
 		return new ResimBilgisi(kaynağınıBul(konumu));
 	}
 	
-	/** Verilen kaynaklardaki yazı şeklini yükler. */
+	/** Verilen kaynaklardaki yazı şeklini yükler. En iyi küçültme ve büyütme
+	 * yöntemlerini kullanır. */
 	public YazıŞekli yazıŞekliYükle(
 		final String dokusununKonumu,
 		final String bilgisininKonumu) {
 		return new YazıŞekli(
 			kaynağınıBul(dokusununKonumu),
+			kaynağınıBul(bilgisininKonumu));
+	}
+	
+	/** Verilen kaynaklardaki yazı şeklini yükler. Verilen küçültme ve büyütme
+	 * yöntemlerini kullanır. */
+	public YazıŞekli yazıŞekliYükle(
+		final String dokusununKonumu,
+		final int küçültmeYöntemi,
+		final int büyütmeYöntemi,
+		final String bilgisininKonumu) {
+		return new YazıŞekli(
+			kaynağınıBul(dokusununKonumu),
+			küçültmeYöntemi,
+			büyütmeYöntemi,
 			kaynağınıBul(bilgisininKonumu));
 	}
 	
@@ -52,9 +67,20 @@ public class UygulamaBilgisi {
 		return Yükleyici.NESNESİ.glfwResmiYükle(kaynağınıBul(konumu));
 	}
 	
-	/** Kaynağı verilen resmi ekran kartına yükler ve işaretçisini döndürür. */
+	/** Kaynağı verilen resmi ekran kartına yükler ve işaretçisini döndürür. En
+	 * iyi küçültme ve büyütme yöntemlerini kullanır. */
 	public int dokuYükle(final String konumu) {
 		return Yükleyici.NESNESİ.dokuYükle(kaynağınıBul(konumu));
+	}
+	
+	/** Kaynağı verilen resmi ekran kartına yükler ve işaretçisini döndürür.
+	 * Verilen küçültme ve büyütme yöntemlerini kullanır. */
+	public int dokuYükle(
+		final String konumu,
+		final int küçültmeYöntemi,
+		final int büyütmeYöntemi) {
+		return Yükleyici.NESNESİ
+			.dokuYükle(kaynağınıBul(konumu), küçültmeYöntemi, büyütmeYöntemi);
 	}
 	
 	/** Kaynağı verilen metin belgesini yükler ve dize olarak döndürür. */

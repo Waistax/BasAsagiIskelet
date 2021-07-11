@@ -153,14 +153,34 @@ public class Yükleyici {
 		return dokuYükleyicisi.glfwResmiYükle(resim);
 	}
 	
-	/** Kaynağı verilen resmi ekran kartına yükler ve işaretçisini döndürür. */
+	/** Kaynağı verilen resmi ekran kartına yükler ve işaretçisini döndürür. En
+	 * iyi küçültme ve büyütme yöntemlerini kullanır. */
 	public int dokuYükle(final URI kaynağı) {
 		return dokuYükleyicisi.yükle(kaynağı);
 	}
 	
-	/** Verilen resmi ekran kartına yükler ve işaretçisini döndürür. */
+	/** Kaynağı verilen resmi ekran kartına yükler ve işaretçisini döndürür.
+	 * Verilen küçültme ve büyütme yöntemlerini kullanır. */
+	public int dokuYükle(
+		final URI kaynağı,
+		final int küçültmeYöntemi,
+		final int büyütmeYöntemi) {
+		return dokuYükleyicisi.yükle(kaynağı, küçültmeYöntemi, büyütmeYöntemi);
+	}
+	
+	/** Verilen resmi ekran kartına yükler ve işaretçisini döndürür. En iyi
+	 * küçültme ve büyütme yöntemlerini kullanır. */
 	public int dokuYükle(final ResimBilgisi resim) {
 		return dokuYükleyicisi.yükle(resim);
+	}
+	
+	/** Verilen resmi ekran kartına yükler ve işaretçisini döndürür. Verilen
+	 * küçültme ve büyütme yöntemlerini kullanır. */
+	public int dokuYükle(
+		final ResimBilgisi resim,
+		final int küçültmeYöntemi,
+		final int büyütmeYöntemi) {
+		return dokuYükleyicisi.yükle(resim, küçültmeYöntemi, büyütmeYöntemi);
 	}
 	
 	/** Ekran kartında bir yazılım oluşturur. Oluşturulan yazılımın işaretçisini

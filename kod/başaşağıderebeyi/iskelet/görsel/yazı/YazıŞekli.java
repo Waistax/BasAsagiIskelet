@@ -26,10 +26,28 @@ public class YazıŞekli {
 	
 	final Map<Character, SesŞekli> seslerininŞekilleri;
 	
-	/** Verilen doku ve bilgiden tanımlar. */
+	/** Verilen kaynaktaki dokuyu en iyi küçültme ve büyütme yöntemiyle
+	 * yükleyerek verilen bilgiden tanımlar. */
 	public YazıŞekli(final URI dokusununKaynağı, final URI bilgisininKaynağı) {
+		this(Yükleyici.NESNESİ.dokuYükle(dokusununKaynağı), bilgisininKaynağı);
+	}
+	
+	/** Verilen kaynaktaki dokuyu verilen küçültme ve büyütme yöntemiyle
+	 * yükleyerek verilen bilgiden tanımlar. */
+	public YazıŞekli(
+		final URI dokusununKaynağı,
+		final int küçültmeYöntemi,
+		final int büyütmeYöntemi,
+		final URI bilgisininKaynağı) {
+		this(
+			Yükleyici.NESNESİ
+				.dokuYükle(dokusununKaynağı, küçültmeYöntemi, büyütmeYöntemi),
+			bilgisininKaynağı);
+	}
+	
+	private YazıŞekli(final int dokusu, final URI bilgisininKaynağı) {
 		seslerininŞekilleri = new HashMap<>();
-		dokusu = Yükleyici.NESNESİ.dokuYükle(dokusununKaynağı);
+		this.dokusu = dokusu;
 		enBüyükYüksekliği = new ŞekilOkuyucusu(
 			this,
 			Yükleyici.NESNESİ.satırlarınıYükle(bilgisininKaynağı))
