@@ -32,9 +32,9 @@ class ŞekilOkuyucusu {
 		çizgiAltıYüksekliği = Integer.parseInt(bilgileri[3]);
 		boşluklarınınBoyutu = Integer.parseInt(bilgileri[4]);
 		
-		verisi.forEach(this::dizesiniOku);
 		üstKonumu = boşluklarınınBoyutu;
 		solKonumu = boşluklarınınBoyutu;
+		verisi.forEach(this::dizesiniOku);
 	}
 	
 	private void dizesiniOku(final String dizesi) {
