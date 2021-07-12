@@ -28,7 +28,7 @@ public class İskelet {
 	/** Ara sürümü. */
 	public static final int ARA_SÜRÜMÜ = 3;
 	/** Yaması. */
-	public static final int YAMASI = 12;
+	public static final int YAMASI = 13;
 	/** Bütün sürümü. */
 	public static final String SÜRÜM =
 		ANA_SÜRÜMÜ + "." + ARA_SÜRÜMÜ + "." + YAMASI;

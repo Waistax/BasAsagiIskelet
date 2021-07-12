@@ -72,7 +72,7 @@ public class DeğişkenYazıGörselleştirici {
 			SesŞekli.BOYUTU + Dönüşüm.BOYUTU);
 		oluşumluKöşeDizisiniOluştur(açısı);
 		dönüşümü = new Dönüşüm();
-		ölçüsü = 1.0;
+		boyutunuDeğiştir(şekli.yüksekliği);
 	}
 	
 	/** Şu ana kadar yazılmış yazıları çizer. */
@@ -191,15 +191,16 @@ public class DeğişkenYazıGörselleştirici {
 	private float[] köşeKonumlarınıBul(final double açısı) {
 		final float çizgiAltıOranı =
 			(float)(şekli.çizgiAltıYüksekliği / şekli.yüksekliği);
-		final float dikmeliği = (float)sin(toRadians(açısı));
+		final float çizgiÜstüOranı = 1.0F - çizgiAltıOranı;
+		final float eğimi = (float)tan(toRadians(açısı));
 		return new float[] {
 			0.0F,
 			-çizgiAltıOranı,
 			1.0F,
 			-çizgiAltıOranı,
-			dikmeliği,
-			1.0F - çizgiAltıOranı,
-			1.0F + dikmeliği,
-			1.0F - çizgiAltıOranı };
+			eğimi,
+			çizgiÜstüOranı,
+			1.0F + eğimi,
+			çizgiÜstüOranı };
 	}
 }
