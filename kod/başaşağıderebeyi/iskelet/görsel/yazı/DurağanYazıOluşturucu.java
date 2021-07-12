@@ -85,7 +85,7 @@ public abstract class DurağanYazıOluşturucu {
 						(sesŞekli.boyutu.birinciBileşeni +
 							öncekiSesŞekli.boyutu.birinciBileşeni) *
 							YazıŞekli.SESLER_ARASI_BOŞLUĞUN_ORANI) /
-						şekli.enBüyükYüksekliği;
+						şekli.yüksekliği;
 			}
 			ekleneninDikdörtgeni.küçükKöşesi.ikinciBileşeni = satırınınÇizgisi;
 			sesiEkle(sesŞekli);
@@ -105,10 +105,10 @@ public abstract class DurağanYazıOluşturucu {
 	
 	private void eklenenSeseAyarla(final SesŞekli sesŞekli) {
 		ekleneninDikdörtgeni.uzunlukları
-			.böl(sesŞekli.boyutu, şekli.enBüyükYüksekliği);
+			.böl(sesŞekli.boyutu, şekli.yüksekliği);
 		ekleneninDikdörtgeni.küçükKöşesi.ikinciBileşeni +=
 			(sesŞekli.çizgidenUzaklığı - sesŞekli.boyutu.ikinciBileşeni) /
-				şekli.enBüyükYüksekliği;
+				şekli.yüksekliği;
 		DikdörtgenVerisi
 			.bileşenleriniBul(
 				DikdörtgenVerisi.KÜÇÜK_KÖŞESİ,

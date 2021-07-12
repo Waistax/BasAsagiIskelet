@@ -19,38 +19,59 @@ import başaşağıderebeyi.kütüphane.matematik.doğrusalcebir.*;
 public class DeğişkenYazıGörselleştirici {
 	private static final int[] KÖŞE_SIRASI = { 0, 1, 2, 2, 1, 3 };
 	
+	/** Yazdıklarının şekli. */
+	public final YazıŞekli şekli;
+	/** Yazdıklarının materyali. Bu materyalin dokusu yazı şeklinin dokusu ile
+	 * aynı olmalıdır. Bu nesne ilk tanımlandığında materyalin dokusunu yazı
+	 * şeklinin dokusu ile değiştirir. */
+	public final Materyal materyali;
+	
 	private final Gölgelendirici gölgelendiricisi;
 	private final int sığası;
 	private final SıralıOluşumluKöşeDizisi köşeDizisi;
-	private final YazıŞekli şekli;
-	private final Materyal materyali;
-	
 	private final Dönüşüm dönüşümü;
 	
 	private double ölçüsü;
 	private int eklenmişSesSayısı;
 	
-	/** Verilenler ile tanımlar. */
+	/** Verilenler ile tanımlar. Beyaz renkte ve zemin rengi olmayan bir
+	 * materyal oluşturur. */
 	public DeğişkenYazıGörselleştirici(
+		final YazıŞekli şekli,
 		final Gölgelendirici gölgelendiricisi,
 		final İzdüşüm izdüşümü,
 		final int sığası,
-		final YazıŞekli şekli,
 		final double açısı) {
+		this(
+			şekli,
+			new Materyal(0, new Yöney4(Yöney4.BİR), new Yöney4()),
+			gölgelendiricisi,
+			izdüşümü,
+			sığası,
+			açısı);
+	}
+	
+	/** Verilenler ile tanımlar. Materyalin dokusunu kendiliğinden yazı şeklinin
+	 * dokusuna değiştirir. */
+	public DeğişkenYazıGörselleştirici(
+		final YazıŞekli şekli,
+		final Materyal materyali,
+		final Gölgelendirici gölgelendiricisi,
+		final İzdüşüm izdüşümü,
+		final int sığası,
+		final double açısı) {
+		this.şekli = şekli;
+		this.materyali = materyali;
+		materyali.dokusu = şekli.dokusu;
 		this.gölgelendiricisi = gölgelendiricisi;
 		gölgelendiricisiniKur(izdüşümü);
 		this.sığası = sığası;
-		
 		köşeDizisi = new SıralıOluşumluKöşeDizisi(
 			GL_TRIANGLES,
 			sığası,
 			SesŞekli.BOYUTU + Dönüşüm.BOYUTU);
 		oluşumluKöşeDizisiniOluştur(açısı);
-		this.şekli = şekli;
-		materyali =
-			new Materyal(şekli.dokusu, new Yöney4(Yöney4.BİR), new Yöney4());
 		dönüşümü = new Dönüşüm();
-		
 		ölçüsü = 1.0;
 	}
 	
@@ -64,77 +85,84 @@ public class DeğişkenYazıGörselleştirici {
 		eklenmişSesSayısı = 0;
 	}
 	
+	/** Verilen dizelerin ortası konuma gelecek şekilde satır satır yazar. */
+	public void tamOrtayaYaz(
+		final double konumu,
+		double çizgisi,
+		final double derinliği,
+		final String... satırlar) {
+		dönüşümü.konumu.üçüncüBileşeniniDeğiştir(derinliği);
+		for (final String satır : satırlar) {
+			yaz(
+				konumu - şekli.uzunluğunuBul(satır) * ölçüsü / 2.0,
+				çizgisi,
+				derinliği,
+				satır);
+			çizgisi -= şekli.inilecekYüksekliğiBul() * ölçüsü;
+		}
+	}
+	
+	/** Verilen dizelerin ortası konuma gelecek şekilde satır satır yazar. */
+	public void ortalıYaz(
+		final double konumu,
+		double çizgisi,
+		final double derinliği,
+		final String... satırlar) {
+		dönüşümü.konumu.üçüncüBileşeniniDeğiştir(derinliği);
+		for (final String satır : satırlar) {
+			yaz(
+				konumu - şekli.uzunluğunuBul(satır) * ölçüsü / 2.0,
+				çizgisi,
+				derinliği,
+				satır);
+			çizgisi -= şekli.inilecekYüksekliğiBul() * ölçüsü;
+		}
+	}
+	
 	/** Verilen dizeleri satır satır yazar. */
 	public void yaz(
 		final double konumu,
 		double çizgisi,
 		final double derinliği,
-		final String... dizeler) {
-		for (final String dize : dizeler) {
-			yaz(konumu, çizgisi, derinliği, dize);
-			çizgisi -= şekli.enBüyükYüksekliği *
-				ölçüsü *
-				YazıŞekli.ÇİZGİLER_ARASI_BOŞLUĞUN_ORANI;
+		final String... satırlar) {
+		dönüşümü.konumu.üçüncüBileşeniniDeğiştir(derinliği);
+		for (final String satır : satırlar) {
+			yaz(konumu, çizgisi, derinliği, satır);
+			çizgisi -= şekli.inilecekYüksekliğiBul() * ölçüsü;
 		}
 	}
 	
-	/** Yazdığı yazının rengini döndürür. Bunun sayesinde renk
-	 * değiştirilebilir. */
-	public Yöney4 renginiEdin() {
-		return materyali.rengi;
-	}
-	
-	/** Yazdığı yazının zemin rengini döndürür. Bunun sayesinde arkaplan rengi
-	 * değiştirilebilir. */
-	public Yöney4 zeminininRenginiEdin() {
-		return materyali.zeminininRengi;
-	}
-	
-	/** Boyutunu değiştirir. */
+	/** Boyutunu değiştirir. Bu boyut yazı şeklinin olabilecek en yüksek
+	 * satırının boyutudur. Diğer her boyut buna göre ölçeklenir. */
 	public void boyutunuDeğiştir(final double boyut) {
-		ölçüsü = boyut / şekli.enBüyükYüksekliği;
+		ölçüsü = boyut / şekli.yüksekliği;
+		dönüşümü.boyutu.ikinciBileşeniniDeğiştir(boyut);
 	}
 	
 	private void yaz(
 		double konumu,
 		final double çizgisi,
 		final double derinliği,
-		final String dize) {
+		final String satır) {
 		SesŞekli öncekiSesŞekli = null;
-		for (int i = 0; i < dize.length(); i++) {
-			final SesŞekli sesŞekli = şekli.sesininŞekliniEdin(dize.charAt(i));
+		dönüşümü.konumu.ikinciBileşeniniDeğiştir(çizgisi);
+		for (int i = 0; i < satır.length(); i++) {
+			final SesŞekli sesŞekli = şekli.sesininŞekliniEdin(satır.charAt(i));
+			if (sesŞekli == null)
+				continue;
 			if (öncekiSesŞekli != null)
-				konumu += (öncekiSesŞekli.boyutu.birinciBileşeniniEdin() +
-					(sesŞekli.boyutu.birinciBileşeniniEdin() +
-						öncekiSesŞekli.boyutu.birinciBileşeniniEdin()) *
-						YazıŞekli.SESLER_ARASI_BOŞLUĞUN_ORANI) *
+				konumu += şekli.atlanacakUzunluğuBul(öncekiSesŞekli, sesŞekli) *
 					ölçüsü;
 			öncekiSesŞekli = sesŞekli;
-			sesEkle(sesŞekli, konumu, çizgisi, derinliği);
+			dönüşümü.konumu.birinciBileşeniniDeğiştir(konumu);
+			sesEkle(sesŞekli);
 		}
 	}
 	
-	private void sesEkle(
-		final SesŞekli sesŞekli,
-		final double konumu,
-		final double çizgisi,
-		final double derinliği) {
+	private void sesEkle(final SesŞekli sesŞekli) {
 		if (sığası < ++eklenmişSesSayısı)
 			return;
-		
-		dönüşümü.boyutu
-			.bileşenleriniDeğiştir(
-				sesŞekli.boyutu.birinciBileşeni * ölçüsü,
-				sesŞekli.boyutu.ikinciBileşeni * ölçüsü);
-		
-		dönüşümü.konumu
-			.bileşenleriniDeğiştir(
-				konumu + dönüşümü.boyutu.birinciBileşeniniEdin() / 2.0,
-				çizgisi +
-					sesŞekli.çizgidenUzaklığı * ölçüsü -
-					dönüşümü.boyutu.ikinciBileşeniniEdin() / 2.0,
-				derinliği);
-		
+		dönüşümü.boyutu.birinciBileşeniniDeğiştir(sesŞekli.genişliği * ölçüsü);
 		sesŞekli.yükle(köşeDizisi.yazılacakVerisi);
 		dönüşümü.yükle(köşeDizisi.yazılacakVerisi);
 	}
@@ -161,17 +189,17 @@ public class DeğişkenYazıGörselleştirici {
 	}
 	
 	private float[] köşeKonumlarınıBul(final double açısı) {
-		final float yarımDikmeliği = (float)(sin(toRadians(açısı)) / 2.0);
-		final float ileriNokta = 0.5F + yarımDikmeliği;
-		final float geriNokta = 0.5F - yarımDikmeliği;
+		final float çizgiAltıOranı =
+			(float)(şekli.çizgiAltıYüksekliği / şekli.yüksekliği);
+		final float dikmeliği = (float)sin(toRadians(açısı));
 		return new float[] {
-			-ileriNokta,
-			-0.5F,
-			geriNokta,
-			-0.5F,
-			-geriNokta,
-			0.5F,
-			ileriNokta,
-			0.5F };
+			0.0F,
+			-çizgiAltıOranı,
+			1.0F,
+			-çizgiAltıOranı,
+			dikmeliği,
+			1.0F - çizgiAltıOranı,
+			1.0F + dikmeliği,
+			1.0F - çizgiAltıOranı };
 	}
 }
