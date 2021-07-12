@@ -16,7 +16,7 @@ public class YazıŞekli {
 	public static final double ÇİZGİLER_ARASI_BOŞLUĞUN_ORANI = 1.1;
 	/** Herhangi bitişik iki sesin arasında bırakılacak boşluğun bu iki sesin
 	 * toplam genişliğine oranı. */
-	public static final double SESLER_ARASI_BOŞLUĞUN_ORANI = 0.0;
+	public static final double SESLER_ARASI_BOŞLUĞUN_ORANI = 0.1;
 	
 	/** Yazı şeklindeki bütün karakterlerden çizginin en çok üstüne çıkan ile
 	 * çizginin en çok altına inenin dikey sınırları arasında kalan uzaklık.

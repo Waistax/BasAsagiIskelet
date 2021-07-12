@@ -67,5 +67,6 @@ class ŞekilOkuyucusu {
 					üstKonumu,
 					üstKonumu + yüksekliği,
 					dokusununBoyutu));
+		solKonumu += boşluklarınınBoyutu;
 	}
 }
