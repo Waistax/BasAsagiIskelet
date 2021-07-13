@@ -36,12 +36,6 @@ public class Bakış implements Yumuşatılabilir {
 		boyutu = 1.0;
 	}
 	
-	/** Verilenin aynısı tanımlar. */
-	public Bakış(final Bakış bakış) {
-		this();
-		değiştir(bakış);
-	}
-	
 	/** Bakışı gölgelendiriciye yükler. */
 	public void yükle(final Gölgelendirici gölgelendirici) {
 		gölgelendirici.değeriDeğiştir(BAKIŞ_KONUMU_DEĞERİ_ADI, konumu);
