@@ -28,6 +28,16 @@ public class DurağanYazıGörselleştirici {
 		yazdıkları.add(yazı);
 	}
 	
+	/** Verilen durağan yazıyı çizmeyi bırakır. */
+	public void çıkar(final DurağanYazı yazı) {
+		yazdıkları.remove(yazı);
+	}
+	
+	/** Bütün yazıları çizmeyi bırakır. */
+	public void temizle() {
+		yazdıkları.clear();
+	}
+	
 	/** Durağan yazıları verilen bakışa göre çizer. */
 	public void çiz(final Bakış bakış) {
 		gölgelendiricisi.bağla();
