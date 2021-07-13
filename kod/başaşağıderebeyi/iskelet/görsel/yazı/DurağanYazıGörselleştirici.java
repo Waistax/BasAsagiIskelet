@@ -52,6 +52,7 @@ public class DurağanYazıGörselleştirici {
 		İzdüşüm.değerlerininKonumlarınıBul(gölgelendiricisi);
 		Bakış.değerlerininKonumlarınıBul(gölgelendiricisi);
 		Materyal.değerlerininKonumlarınıBul(gölgelendiricisi);
+		Dönüşüm.değerlerininKonumlarınıBul(gölgelendiricisi);
 		izdüşümü.yükle(gölgelendiricisi);
 		gölgelendiricisi.kopar();
 	}
