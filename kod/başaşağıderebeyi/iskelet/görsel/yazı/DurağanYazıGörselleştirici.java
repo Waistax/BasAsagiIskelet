@@ -5,101 +5,62 @@
 package başaşağıderebeyi.iskelet.görsel.yazı;
 
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.system.MemoryUtil.*;
 
 import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.iskelet.görsel.görüntü.*;
 import başaşağıderebeyi.iskelet.görsel.köşedizisi.*;
-import başaşağıderebeyi.kütüphane.matematik.doğrusalcebir.*;
-
-import java.nio.*;
 
 public class DurağanYazıGörselleştirici {
+	/** Yazdıklarının şekli. */
+	public final YazıŞekli şekli;
+	/** Yazdıklarının materyali. Bu materyalin dokusu yazı şeklinin dokusu ile
+	 * aynı olmalıdır. Bu nesne ilk tanımlandığında materyalin dokusunu yazı
+	 * şeklinin dokusu ile değiştirir. */
+	public final Materyal materyali;
+	/** Yazdıklarının dönüşümü. Bu dönüşüm ile durağan yazının yeri, konumu ve
+	 * açısı değiştirilebilir. */
+	public final Dönüşüm dönüşümü;
+	
 	private final Gölgelendirici gölgelendiricisi;
 	private final SıralıKöşeDizisi köşeDizisi;
-	private final YazıŞekli şekli;
-	private final Yöney4 rengi;
-	private final Dönüşüm dönüşümü;
 	
 	/** Verilenler ile tanımlar. */
 	public DurağanYazıGörselleştirici(
-		final Dizey4 izdüşümDizeyi,
-		final float saydamlıkEşiği,
+		final DurağanYazıOluşturucu oluşturucu,
+		final Materyal materyali,
+		final Dönüşüm dönüşümü,
 		final Gölgelendirici gölgelendiricisi,
-		final DurağanYazıOluşturucu oluşturucu) {
-		this.gölgelendiricisi = gölgelendiricisi;
-		gölgelendiricisiniOluştur(izdüşümDizeyi, saydamlıkEşiği);
+		final İzdüşüm izdüşümü) {
 		
 		şekli = oluşturucu.şekli;
-		rengi = new Yöney4();
-		dönüşümü = new Dönüşüm();
-		
+		this.materyali = materyali;
+		materyali.dokusu = şekli.dokusu;
+		this.gölgelendiricisi = gölgelendiricisi;
+		gölgelendiricisiniKur(izdüşümü);
 		köşeDizisi = new SıralıKöşeDizisi(GL_TRIANGLES);
-		
-		final FloatBuffer konumları =
-			memAllocFloat(oluşturucu.konumları.size());
-		oluşturucu.konumları.stream().forEachOrdered(konumları::put);
-		köşeDizisi.durağanKöşeTamponuNesnesiEkle(4, konumları);
-		
-		final FloatBuffer dokuKonumları =
-			memAllocFloat(oluşturucu.dokuKonumları.size());
-		oluşturucu.dokuKonumları.stream().forEachOrdered(dokuKonumları::put);
-		köşeDizisi.durağanKöşeTamponuNesnesiEkle(2, dokuKonumları);
-		
-		final IntBuffer sırası = memAllocInt(oluşturucu.sırası.size());
-		oluşturucu.sırası.stream().forEachOrdered(sırası::put);
-		köşeDizisi.sıraTamponuNesnesiYükle(sırası);
+		köşeDizisi
+			.sıraTamponuNesnesiYükle(oluşturucu.sırası)
+			.durağanKöşeTamponuNesnesiEkle(2, oluşturucu.konumları)
+			.durağanKöşeTamponuNesnesiEkle(2, oluşturucu.dokuKonumları);
+		this.dönüşümü = dönüşümü;
 	}
 	
 	/** Yerleşik yazıları çizer. */
-	public void çiz() {
+	public void çiz(final Bakış bakış) {
 		gölgelendiricisi.bağla();
-		şekli.bağla();
+		bakış.yükle(gölgelendiricisi);
+		materyali.yükle(gölgelendiricisi);
+		dönüşümü.yükle(gölgelendiricisi);
 		köşeDizisi.çiz();
-		şekli.kopar();
 		gölgelendiricisi.kopar();
 	}
 	
-	/** Rengini döndürür. */
-	public Yöney4 renginiEdin() {
-		return rengi;
-	}
-	
-	/** Rengini gölgelendiriciye yükler. */
-	public void renginiGüncelle() {
+	private void gölgelendiricisiniKur(final İzdüşüm izdüşümü) {
 		gölgelendiricisi.bağla();
-		gölgelendiricisi.değeriDeğiştir("rengi", rengi);
-		gölgelendiricisi.kopar();
-	}
-	
-	public void konumunuDeğiştir(final float konumu, final float çizgisi) {
-		dönüşümü.konumu.bileşenleriniDeğiştir(konumu, çizgisi, 0.0F);
-	}
-	
-	/** Boyutunu değiştirir. */
-	public void boyutunuDeğiştir(final float boyut) {
-		dönüşümü.biçimi.bileşenleriniDeğiştir(boyut, boyut, 0.0F);
-	}
-	
-	/** Dönüşümünü gölgelendiriciye yükler. */
-	public void dönüşümünüGüncelle() {
-		dönüşümü.güncelle();
-		gölgelendiricisi.bağla();
-		gölgelendiricisi.değeriDeğiştir("donusumu", dönüşümü.dizeyi);
-		gölgelendiricisi.kopar();
-	}
-	
-	private void gölgelendiricisiniOluştur(
-		final Dizey4 izdüşümDizeyi,
-		final float saydamlıkEşiği) {
-		gölgelendiricisi.değerinKonumunuBul("izdusumDizeyi");
-		gölgelendiricisi.değerinKonumunuBul("saydamlikEsigi");
-		gölgelendiricisi.değerinKonumunuBul("donusumu");
-		gölgelendiricisi.değerinKonumunuBul("rengi");
-		
-		gölgelendiricisi.bağla();
-		gölgelendiricisi.değeriDeğiştir("izdusumDizeyi", izdüşümDizeyi);
-		gölgelendiricisi.değeriDeğiştir("saydamlikEsigi", saydamlıkEşiği);
+		İzdüşüm.değerlerininKonumlarınıBul(gölgelendiricisi);
+		Bakış.değerlerininKonumlarınıBul(gölgelendiricisi);
+		Materyal.değerlerininKonumlarınıBul(gölgelendiricisi);
+		izdüşümü.yükle(gölgelendiricisi);
 		gölgelendiricisi.kopar();
 	}
 }

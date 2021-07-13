@@ -22,12 +22,12 @@ public class BelirliYazıOluşturucu extends DurağanYazıOluşturucu {
 	}
 	
 	@Override
-	protected double satırÇizgisininBaşlangıcınıBul() {
+	protected double ilkSatırınDikeyKonumunuBul() {
 		return 0.0;
 	}
 	
 	@Override
-	protected double satırınınKonumunuBul(final int satırınSırası) {
+	protected double satırınınYatayKonumu(final int satırınSırası) {
 		return 0.0;
 	}
 }

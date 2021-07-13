@@ -87,26 +87,25 @@ public class DeğişkenYazıGörselleştirici {
 	/** Verilen dizelerin ortası konuma gelecek şekilde satır satır yazar. */
 	public void tamOrtayaYaz(
 		final double yatayKonumu,
-		double dikeyKonumu,
+		final double dikeyKonumu,
 		final double derinliği,
 		final String... satırlar) {
-		dönüşümü.konumu.üçüncüBileşeniniDeğiştir(derinliği);
-		for (final String satır : satırlar) {
-			yaz(yatayKonumu - uzunluğunuBul(satır) / 2.0, dikeyKonumu, satır);
-			dikeyKonumu -= dönüşümü.boyutu.ikinciBileşeniniEdin();
-		}
+		ortalıYaz(
+			yatayKonumu,
+			dikeyKonumu + yüksekliğiBul(satırlar) / 2.0,
+			derinliği,
+			satırlar);
 	}
 	
 	/** Verilen dizelerin ortası konuma gelecek şekilde satır satır yazar. */
 	public void ortalıYaz(
 		final double yatayKonumu,
-		double dikeyKonumu,
+		final double dikeyKonumu,
 		final double derinliği,
 		final String... satırlar) {
-		dönüşümü.konumu.üçüncüBileşeniniDeğiştir(derinliği);
+		konumunuDeğiştir(dikeyKonumu, derinliği);
 		for (final String satır : satırlar) {
-			yaz(yatayKonumu - uzunluğunuBul(satır) / 2.0, dikeyKonumu, satır);
-			dikeyKonumu -= dönüşümü.boyutu.ikinciBileşeniniEdin();
+			yaz(yatayKonumu - uzunluğunuBul(satır) / 2.0, satır);
 		}
 	}
 	
@@ -116,10 +115,9 @@ public class DeğişkenYazıGörselleştirici {
 		double dikeyKonumu,
 		final double derinliği,
 		final String... satırlar) {
-		dönüşümü.konumu.üçüncüBileşeniniDeğiştir(derinliği);
+		konumunuDeğiştir(dikeyKonumu, derinliği);
 		for (final String satır : satırlar) {
-			yaz(yatayKonumu, dikeyKonumu, satır);
-			dikeyKonumu -= dönüşümü.boyutu.ikinciBileşeniniEdin();
+			yaz(yatayKonumu, satır);
 		}
 	}
 	
@@ -154,18 +152,27 @@ public class DeğişkenYazıGörselleştirici {
 		return satırSayısı * dönüşümü.boyutu.ikinciBileşeniniEdin();
 	}
 	
-	private void yaz(
-		double yatayKonumu,
+	private void konumunuDeğiştir(
 		final double dikeyKonumu,
-		final String satır) {
+		final double derinliği) {
 		dönüşümü.konumu.ikinciBileşeniniDeğiştir(dikeyKonumu);
+		dönüşümü.konumu.üçüncüBileşeniniDeğiştir(derinliği);
+	}
+	
+	private void yaz(final double yatayKonumu, final String satır) {
+		dönüşümü.konumu.birinciBileşeni = yatayKonumu;
+		yaz(satır);
+		dönüşümü.konumu.ikinciBileşeni -=
+			dönüşümü.boyutu.ikinciBileşeniniEdin();
+	}
+	
+	private void yaz(final String satır) {
 		for (int i = 0; i < satır.length(); i++) {
 			final SesŞekli sesŞekli = şekli.sesininŞekliniEdin(satır.charAt(i));
 			if (sesŞekli == null)
 				continue;
-			dönüşümü.konumu.birinciBileşeniniDeğiştir(yatayKonumu);
 			sesEkle(sesŞekli);
-			yatayKonumu += dönüşümü.boyutu.birinciBileşeniniEdin();
+			dönüşümü.konumu.birinciBileşeni += dönüşümü.boyutu.birinciBileşeni;
 		}
 	}
 	

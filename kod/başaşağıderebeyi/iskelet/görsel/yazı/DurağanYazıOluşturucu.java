@@ -5,21 +5,15 @@
 package başaşağıderebeyi.iskelet.görsel.yazı;
 
 import static java.lang.Math.*;
+import static org.lwjgl.system.MemoryUtil.*;
 
 import başaşağıderebeyi.kütüphane.matematik.dikdörtgen.*;
-import başaşağıderebeyi.kütüphane.matematik.doğrusalcebir.*;
 
+import java.nio.*;
 import java.util.*;
 
 /** Verilen satırları ekran kartına yükleyen araç. */
 public abstract class DurağanYazıOluşturucu {
-	final List<Float> konumları;
-	final List<Float> dokuKonumları;
-	final List<Integer> sırası;
-	
-	private final double yarımDikmeliği;
-	private final Dikdörtgen ekleneninDikdörtgeni;
-	
 	/** Yazının şekli. */
 	protected final YazıŞekli şekli;
 	/** Yüklenecek satırlar. Bu satırlar verilen satırların aynısı olmak zorunda
@@ -27,26 +21,34 @@ public abstract class DurağanYazıOluşturucu {
 	 * listeye eklerler. */
 	protected final List<String> satırları;
 	
+	final FloatBuffer konumları;
+	final FloatBuffer dokuKonumları;
+	final IntBuffer sırası;
+	
+	private final double yarıEğimi;
+	private final Dikdörtgen ekleneninDikdörtgeni;
+	
+	int üçgenlerinSayısı;
+	
 	/** Verilenlerle oluşturucuyu tanımlar. */
 	public DurağanYazıOluşturucu(
 		final YazıŞekli şekli,
 		final double açısı,
 		final String... satırlar) {
-		int sesSayısı = 0;
-		for (final String element : satırlar)
-			sesSayısı += element.length();
-		
-		konumları = new ArrayList<>(sesSayısı * 4);
-		dokuKonumları = new ArrayList<>(sesSayısı * 4);
-		sırası = new ArrayList<>(sesSayısı * 6);
-		
 		this.şekli = şekli;
-		yarımDikmeliği = sin(toRadians(açısı)) / 2.0;
 		
 		satırları = new ArrayList<>();
 		satırlarınıBul(satırlar);
-		ekleneninDikdörtgeni = new Dikdörtgen();
 		
+		final int sesSayısı = sesSayısınıBul();
+		konumları = memAllocFloat(sesSayısı * 4 * 2);
+		dokuKonumları = memAllocFloat(sesSayısı * 4 * 2);
+		sırası = memAllocInt(sesSayısı * 6);
+		
+		yarıEğimi = (float)(tan(toRadians(açısı)) / 2.0);
+		ekleneninDikdörtgeni = new Dikdörtgen();
+		ekleneninDikdörtgeni.uzunlukları
+			.böl(şekli.boyutu, şekli.boyutu.ikinciBileşeniniEdin());
 		satırlarıEkle();
 	}
 	
@@ -54,109 +56,96 @@ public abstract class DurağanYazıOluşturucu {
 	 * ekler. */
 	protected abstract void satırlarınıBul(String[] satırlar);
 	
-	/** İlk satırın çizgisinin dikeydeki konumunu döndürür. */
-	protected abstract double satırÇizgisininBaşlangıcınıBul();
+	/** İlk satırın dikeydeki konumunu döndürür. */
+	protected abstract double ilkSatırınDikeyKonumunuBul();
 	
-	/** Verilen satırın ilk sesinin sol kenarının konumunu döndürür. */
-	protected abstract double satırınınKonumunuBul(int satırınSırası);
+	/** Verilen satırın ilk sesinin yatay konumunu döndürür. */
+	protected abstract double satırınınYatayKonumu(int satırınSırası);
+	
+	private int sesSayısınıBul() {
+		int sesSayısı = 0;
+		for (final String satırı : satırları)
+			for (int i = 0; i < satırı.length(); i++)
+				if (şekli.sesininŞekliniEdin(satırı.charAt(i)) != null)
+					sesSayısı++;
+		return sesSayısı;
+	}
 	
 	private void satırlarıEkle() {
-		double satırÇizgisi = satırÇizgisininBaşlangıcınıBul();
+		ekleneninDikdörtgeni.ortaNoktası
+			.ikinciBileşeniniDeğiştir(ilkSatırınDikeyKonumunuBul());
 		for (int i = 0; i < satırları.size(); i++) {
-			satırınıEkle(i, satırÇizgisi, satırınınKonumunuBul(i));
-			satırÇizgisi -= YazıŞekli.ÇİZGİLER_ARASI_BOŞLUĞUN_ORANI;
+			ekleneninDikdörtgeni.ortaNoktası.birinciBileşeni =
+				satırınınYatayKonumu(i);
+			satırınıEkle(i);
+			ekleneninDikdörtgeni.ortaNoktası.ikinciBileşeni--;
 		}
 	}
 	
-	private void satırınıEkle(
-		final int satırınınSırası,
-		final double satırınınÇizgisi,
-		final double satırınınKonumu) {
-		ekleneninDikdörtgeni.küçükKöşesi.birinciBileşeni = satırınınKonumu;
+	private void satırınıEkle(final int satırınınSırası) {
 		final String satırı = satırları.get(satırınınSırası);
 		for (int i = 0; i < satırı.length(); i++) {
 			final SesŞekli sesŞekli =
 				şekli.sesininŞekliniEdin(satırı.charAt(i));
-			if (i > 0) {
-				final SesŞekli öncekiSesŞekli =
-					şekli.sesininŞekliniEdin(satırı.charAt(i - 1));
-				ekleneninDikdörtgeni.küçükKöşesi.birinciBileşeni +=
-					(öncekiSesŞekli.boyutu.birinciBileşeni +
-						(sesŞekli.boyutu.birinciBileşeni +
-							öncekiSesŞekli.boyutu.birinciBileşeni) *
-							YazıŞekli.SESLER_ARASI_BOŞLUĞUN_ORANI) /
-						şekli.yüksekliği;
-			}
-			ekleneninDikdörtgeni.küçükKöşesi.ikinciBileşeni = satırınınÇizgisi;
+			if (sesŞekli == null)
+				continue;
 			sesiEkle(sesŞekli);
+			ekleneninDikdörtgeni.ortaNoktası.birinciBileşeni +=
+				ekleneninDikdörtgeni.uzunlukları.birinciBileşeni;
 		}
 	}
 	
 	private void sesiEkle(final SesŞekli sesŞekli) {
-		eklenenSeseAyarla(sesŞekli);
-		final double oranlıYarımDikmeliği =
-			yarımDikmeliği * ekleneninDikdörtgeni.uzunlukları.ikinciBileşeni;
-		for (int i = 0; i < 4; i++) {
-			köşeyiEkle(i, oranlıYarımDikmeliği);
-			dokuKonumunuEkle(i, sesŞekli);
-		}
-		sonrakiÜçgenleriSırala();
-	}
-	
-	private void eklenenSeseAyarla(final SesŞekli sesŞekli) {
-		ekleneninDikdörtgeni.uzunlukları.böl(sesŞekli.boyutu, şekli.yüksekliği);
-		ekleneninDikdörtgeni.küçükKöşesi.ikinciBileşeni +=
-			(sesŞekli.çizgidenUzaklığı - sesŞekli.boyutu.ikinciBileşeni) /
-				şekli.yüksekliği;
 		DikdörtgenVerisi
 			.bileşenleriniBul(
-				DikdörtgenVerisi.KÜÇÜK_KÖŞESİ,
+				DikdörtgenVerisi.ORTA_NOKTASI,
 				DikdörtgenVerisi.UZUNLUKLARI,
 				ekleneninDikdörtgeni);
+		köşeleriEkle();
+		dokuKonumlarınıEkle(sesŞekli);
+		üçgenleriSırala();
 	}
 	
-	private void köşeyiEkle(
-		final int sırası,
-		final double oranlıYarımDikmeliği) {
-		final boolean a = sırası < 2;
+	private void köşeleriEkle() {
 		konumları
-			.add(
-				(float)((sırası % 2 == 0 ?
-					ekleneninDikdörtgeni.küçükKöşesi :
-					ekleneninDikdörtgeni.büyükKöşesi).birinciBileşeni +
-					(a ? -oranlıYarımDikmeliği : oranlıYarımDikmeliği)));
-		konumları
-			.add(
-				(float)(a ?
-					ekleneninDikdörtgeni.küçükKöşesi :
-					ekleneninDikdörtgeni.büyükKöşesi).ikinciBileşeni);
-		konumları.add(0.0F);
-		konumları.add(1.0F);
+			.put(
+				(float)(ekleneninDikdörtgeni.küçükKöşesi.birinciBileşeni -
+					yarıEğimi))
+			.put((float)ekleneninDikdörtgeni.küçükKöşesi.ikinciBileşeni)
+			.put(
+				(float)(ekleneninDikdörtgeni.büyükKöşesi.birinciBileşeni -
+					yarıEğimi))
+			.put((float)ekleneninDikdörtgeni.küçükKöşesi.ikinciBileşeni)
+			.put(
+				(float)(ekleneninDikdörtgeni.küçükKöşesi.birinciBileşeni +
+					yarıEğimi))
+			.put((float)ekleneninDikdörtgeni.büyükKöşesi.ikinciBileşeni)
+			.put(
+				(float)(ekleneninDikdörtgeni.büyükKöşesi.birinciBileşeni +
+					yarıEğimi))
+			.put((float)ekleneninDikdörtgeni.büyükKöşesi.ikinciBileşeni);
 	}
 	
-	private void dokuKonumunuEkle(final int sırası, final SesŞekli sesŞekli) {
-		final Yöney2 dokuKonumu = switch (sırası) {
-		case 0 -> sesŞekli.solAltDokuKonumu;
-		case 1 -> sesŞekli.sağAltDokuKonumu;
-		case 2 -> sesŞekli.solÜstDokuKonumu;
-		case 3 -> sesŞekli.sağÜstDokuKonumu;
-		default -> throw new IllegalArgumentException(
-			"Unexpected value: " + sırası);
-		};
-		
-		dokuKonumları.add((float)dokuKonumu.birinciBileşeni);
-		dokuKonumları.add((float)dokuKonumu.ikinciBileşeni);
+	private void dokuKonumlarınıEkle(final SesŞekli sesŞekli) {
+		dokuKonumları
+			.put((float)sesŞekli.dokuKonumu.birinciBileşeni)
+			.put((float)sesŞekli.dokuKonumu.dördüncüBileşeni)
+			.put((float)sesŞekli.dokuKonumu.ikinciBileşeni)
+			.put((float)sesŞekli.dokuKonumu.dördüncüBileşeni)
+			.put((float)sesŞekli.dokuKonumu.birinciBileşeni)
+			.put((float)sesŞekli.dokuKonumu.üçüncüBileşeni)
+			.put((float)sesŞekli.dokuKonumu.ikinciBileşeni)
+			.put((float)sesŞekli.dokuKonumu.üçüncüBileşeni);
 	}
 	
-	private void sonrakiÜçgenleriSırala() {
-		final int başlangıçSırası = konumları.size() / 4 - 4;
-		
-		sırası.add(başlangıçSırası);
-		sırası.add(başlangıçSırası + 1);
-		sırası.add(başlangıçSırası + 2);
-		
-		sırası.add(başlangıçSırası + 2);
-		sırası.add(başlangıçSırası + 1);
-		sırası.add(başlangıçSırası + 3);
+	private void üçgenleriSırala() {
+		final int başlangıçSırası = 4 * (üçgenlerinSayısı++);
+		sırası
+			.put(başlangıçSırası)
+			.put(başlangıçSırası + 1)
+			.put(başlangıçSırası + 2)
+			.put(başlangıçSırası + 2)
+			.put(başlangıçSırası + 1)
+			.put(başlangıçSırası + 3);
 	}
 }
