@@ -28,7 +28,7 @@ public class İskelet {
 	/** Ara sürümü. */
 	public static final int ARA_SÜRÜMÜ = 5;
 	/** Yaması. */
-	public static final int YAMASI = 3;
+	public static final int YAMASI = 4;
 	/** Bütün sürümü. */
 	public static final String SÜRÜM =
 		ANA_SÜRÜMÜ + "." + ARA_SÜRÜMÜ + "." + YAMASI;
@@ -232,10 +232,10 @@ public class İskelet {
 		olaySağlayıcısı.yokEtmeOlayınıDağıt();
 		
 		final Gösterici gösterici = Gösterici.edin();
-		if (gösterici != null)
+		if (gösterici != null) {
 			gösterici.yokEt();
-		
-		Yükleyici.NESNESİ.yokEt();
+			Yükleyici.NESNESİ.yokEt();
+		}
 		
 		SistemGünlüğü.KONSOL
 			.yaz("Ortalama Tık Oranı: " + tıkHızınınOrtalamasınıEdin());
