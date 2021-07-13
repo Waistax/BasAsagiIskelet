@@ -44,7 +44,7 @@ public class Görüntü implements Yumuşatılabilir {
 				baştakiGörüntü.dönüşümü,
 				sondakiGörüntü.dönüşümü,
 				uzunluk);
-		return null;
+		return this;
 	}
 	
 	@Override
@@ -52,7 +52,7 @@ public class Görüntü implements Yumuşatılabilir {
 		final Görüntü öbürGörüntü = (Görüntü)öbürü;
 		materyali.değiştir(öbürGörüntü.materyali);
 		dönüşümü.değiştir(öbürGörüntü.dönüşümü);
-		return null;
+		return this;
 	}
 	
 	@Override
