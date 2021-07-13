@@ -7,7 +7,6 @@ package başaşağıderebeyi.iskelet.görsel.kaynak;
 import static org.lwjgl.opengl.GL20.*;
 
 import java.io.*;
-import java.net.*;
 import java.nio.file.*;
 import java.util.*;
 
@@ -32,7 +31,7 @@ class YazılımYükleyicisi {
 		return yazılım;
 	}
 	
-	int gölgelendiriciYükle(final URI kaynağı, final int türü) {
+	int gölgelendiriciYükle(final Path kaynağı, final int türü) {
 		final int gölgelendirici = glCreateShader(türü);
 		
 		glShaderSource(gölgelendirici, yazıyıYükle(kaynağı));
@@ -46,9 +45,9 @@ class YazılımYükleyicisi {
 		return gölgelendirici;
 	}
 	
-	String yazıyıYükle(final URI kaynağı) {
+	String yazıyıYükle(final Path kaynağı) {
 		try {
-			return Files.readString(Path.of(kaynağı));
+			return Files.readString(kaynağı);
 		} catch (final IOException hata) {
 			throw new RuntimeException(
 				"Yazı kaynağı " + kaynağı + " yüklenemedi!",
@@ -56,9 +55,9 @@ class YazılımYükleyicisi {
 		}
 	}
 	
-	List<String> satırlarınıYükle(final URI kaynağı) {
+	List<String> satırlarınıYükle(final Path kaynağı) {
 		try {
-			return Files.readAllLines(Path.of(kaynağı));
+			return Files.readAllLines(kaynağı);
 		} catch (final IOException hata) {
 			throw new RuntimeException(
 				"Yazı kaynağı " + kaynağı + " yüklenemedi!",

@@ -7,8 +7,8 @@
  */
 package başaşağıderebeyi.iskelet.görsel.kaynak;
 
-import java.net.*;
 import java.nio.*;
+import java.nio.file.*;
 import java.util.*;
 
 import org.lwjgl.glfw.*;
@@ -144,7 +144,7 @@ public class Yükleyici {
 	}
 	
 	/** Kaynağı verilen resmi GLFW resmi olarak yükler ve döndürür. */
-	public GLFWImage glfwResmiYükle(final URI kaynağı) {
+	public GLFWImage glfwResmiYükle(final Path kaynağı) {
 		return dokuYükleyicisi.glfwResmiYükle(kaynağı);
 	}
 	
@@ -155,14 +155,14 @@ public class Yükleyici {
 	
 	/** Kaynağı verilen resmi ekran kartına yükler ve işaretçisini döndürür. En
 	 * iyi küçültme ve büyütme yöntemlerini kullanır. */
-	public int dokuYükle(final URI kaynağı) {
+	public int dokuYükle(final Path kaynağı) {
 		return dokuYükleyicisi.yükle(kaynağı);
 	}
 	
 	/** Kaynağı verilen resmi ekran kartına yükler ve işaretçisini döndürür.
 	 * Verilen küçültme ve büyütme yöntemlerini kullanır. */
 	public int dokuYükle(
-		final URI kaynağı,
+		final Path kaynağı,
 		final int küçültmeYöntemi,
 		final int büyütmeYöntemi) {
 		return dokuYükleyicisi.yükle(kaynağı, küçültmeYöntemi, büyütmeYöntemi);
@@ -191,17 +191,17 @@ public class Yükleyici {
 	
 	/** Verilen türden gölgelendiriciyi derler ve ekran kartına yükler.
 	 * Oluşturulan gölgelendiricinin işaretçisini döndürür. */
-	public int gölgelendiriciYükle(final URI kaynağı, final int türü) {
+	public int gölgelendiriciYükle(final Path kaynağı, final int türü) {
 		return yazılımYükleyicisi.gölgelendiriciYükle(kaynağı, türü);
 	}
 	
 	/** Kaynağı verilen metin belgesini yükler ve dize olarak döndürür. */
-	public String yazıyıYükle(final URI kaynağı) {
+	public String yazıyıYükle(final Path kaynağı) {
 		return yazılımYükleyicisi.yazıyıYükle(kaynağı);
 	}
 	
 	/** Kaynağı verilen metin belgesini yükler ve satırlarını döndürür. */
-	public List<String> satırlarınıYükle(final URI kaynağı) {
+	public List<String> satırlarınıYükle(final Path kaynağı) {
 		return yazılımYükleyicisi.satırlarınıYükle(kaynağı);
 	}
 	

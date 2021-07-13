@@ -5,7 +5,6 @@
 package başaşağıderebeyi.iskelet.görsel.kaynak;
 
 import java.awt.image.*;
-import java.net.*;
 import java.nio.file.*;
 import java.util.function.*;
 import java.util.stream.*;
@@ -36,10 +35,9 @@ public class ResimBilgisi {
 	
 	/** Verilen kaynaktan yükler. Kaynaklardan alınan resimler ekran kartına
 	 * yüklenmeden önce çevrilmelidir. */
-	public ResimBilgisi(final URI tanımlayıcısı) {
+	public ResimBilgisi(final Path tanımlayıcısı) {
 		try {
-			final BufferedImage resim =
-				ImageIO.read(Path.of(tanımlayıcısı).toFile());
+			final BufferedImage resim = ImageIO.read(tanımlayıcısı.toFile());
 			genişliği = resim.getWidth();
 			yüksekliği = resim.getHeight();
 			verisi = resim

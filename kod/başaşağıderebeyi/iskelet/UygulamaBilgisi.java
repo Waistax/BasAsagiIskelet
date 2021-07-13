@@ -9,14 +9,14 @@ import başaşağıderebeyi.iskelet.görsel.kaynak.*;
 import başaşağıderebeyi.iskelet.görsel.yazı.*;
 
 import java.lang.reflect.*;
-import java.net.*;
+import java.nio.file.*;
 import java.util.*;
 
 import org.lwjgl.glfw.*;
 
 /** Uygulamanın arşivdeki bilgilerini içiren nesne. */
 public class UygulamaBilgisi {
-	final Map<String, URI> kaynakları;
+	final Map<String, Path> kaynakları;
 	Class<?> sınıfı;
 	private Object nesnesi;
 	
@@ -24,12 +24,12 @@ public class UygulamaBilgisi {
 		kaynakları = new HashMap<>();
 	}
 	
-	/** Verilen kaynaktaki resimi yükler. */
+	/** Verilen konumdaki resimi yükler. */
 	public ResimBilgisi resimYükle(final String konumu) {
 		return new ResimBilgisi(kaynağınıBul(konumu));
 	}
 	
-	/** Verilen kaynaklardaki yazı şeklini yükler. En iyi küçültme ve büyütme
+	/** Verilen konumlardaki yazı şeklini yükler. En iyi küçültme ve büyütme
 	 * yöntemlerini kullanır. */
 	public YazıŞekli yazıŞekliYükle(
 		final String dokusununKonumu,
@@ -39,7 +39,7 @@ public class UygulamaBilgisi {
 			kaynağınıBul(bilgisininKonumu));
 	}
 	
-	/** Verilen kaynaklardaki yazı şeklini yükler. Verilen küçültme ve büyütme
+	/** Verilen konumlardaki yazı şeklini yükler. Verilen küçültme ve büyütme
 	 * yöntemlerini kullanır. */
 	public YazıŞekli yazıŞekliYükle(
 		final String dokusununKonumu,
@@ -53,7 +53,7 @@ public class UygulamaBilgisi {
 			kaynağınıBul(bilgisininKonumu));
 	}
 	
-	/** Verilen kaynaklardaki gölgelendiricileri yükler. */
+	/** Verilen konumlardaki gölgelendiricileri yükler. */
 	public Gölgelendirici gölgelendiriciYükle(
 		final String köşesininKonumu,
 		final String beneğininKonumu) {
@@ -62,18 +62,18 @@ public class UygulamaBilgisi {
 			kaynağınıBul(beneğininKonumu));
 	}
 	
-	/** Kaynağı verilen resmi GLFW resmi olarak yükler ve döndürür. */
+	/** Konumu verilen resmi GLFW resmi olarak yükler ve döndürür. */
 	public GLFWImage glfwResmiYükle(final String konumu) {
 		return Yükleyici.NESNESİ.glfwResmiYükle(kaynağınıBul(konumu));
 	}
 	
-	/** Kaynağı verilen resmi ekran kartına yükler ve işaretçisini döndürür. En
+	/** Konumu verilen resmi ekran kartına yükler ve işaretçisini döndürür. En
 	 * iyi küçültme ve büyütme yöntemlerini kullanır. */
 	public int dokuYükle(final String konumu) {
 		return Yükleyici.NESNESİ.dokuYükle(kaynağınıBul(konumu));
 	}
 	
-	/** Kaynağı verilen resmi ekran kartına yükler ve işaretçisini döndürür.
+	/** Konumu verilen resmi ekran kartına yükler ve işaretçisini döndürür.
 	 * Verilen küçültme ve büyütme yöntemlerini kullanır. */
 	public int dokuYükle(
 		final String konumu,
@@ -83,19 +83,19 @@ public class UygulamaBilgisi {
 			.dokuYükle(kaynağınıBul(konumu), küçültmeYöntemi, büyütmeYöntemi);
 	}
 	
-	/** Kaynağı verilen metin belgesini yükler ve dize olarak döndürür. */
+	/** Konumu verilen metin belgesini yükler ve dize olarak döndürür. */
 	public String yazıyıYükle(final String konumu) {
 		return Yükleyici.NESNESİ.yazıyıYükle(kaynağınıBul(konumu));
 	}
 	
-	/** Kaynağı verilen metin belgesini yükler ve satırlarını döndürür. */
+	/** Konumu verilen metin belgesini yükler ve satırlarını döndürür. */
 	public List<String> satırlarınıYükle(final String konumu) {
 		return Yükleyici.NESNESİ.satırlarınıYükle(kaynağınıBul(konumu));
 	}
 	
 	/** Verilen konumdaki kaynağın tanımlayıcısını döndürür. Eğer arşivin
 	 * içerisinde verilen konumda bir şey bulunmuyorsa null döndürür. */
-	public URI kaynağınıBul(final String konumu) {
+	public Path kaynağınıBul(final String konumu) {
 		return kaynakları.get(konumu);
 	}
 	

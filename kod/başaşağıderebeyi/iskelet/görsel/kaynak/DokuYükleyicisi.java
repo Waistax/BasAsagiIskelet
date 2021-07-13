@@ -8,8 +8,8 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
-import java.net.*;
 import java.nio.*;
+import java.nio.file.*;
 import java.util.*;
 
 import org.lwjgl.*;
@@ -29,7 +29,7 @@ class DokuYükleyicisi {
 		dokuları.clear();
 	}
 	
-	GLFWImage glfwResmiYükle(final URI kaynağı) {
+	GLFWImage glfwResmiYükle(final Path kaynağı) {
 		return glfwResmiYükle(new ResimBilgisi(kaynağı));
 	}
 	
@@ -48,12 +48,12 @@ class DokuYükleyicisi {
 		return glfwResmi;
 	}
 	
-	int yükle(final URI kaynağı) {
+	int yükle(final Path kaynağı) {
 		return yükle(new ResimBilgisi(kaynağı));
 	}
 	
 	int yükle(
-		final URI kaynağı,
+		final Path kaynağı,
 		final int küçültmeYöntemi,
 		final int büyütmeYöntemi) {
 		return yükle(

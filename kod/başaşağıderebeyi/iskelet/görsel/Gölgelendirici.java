@@ -12,7 +12,7 @@ import static org.lwjgl.opengl.GL20.*;
 import başaşağıderebeyi.iskelet.görsel.kaynak.*;
 import başaşağıderebeyi.kütüphane.matematik.doğrusalcebir.*;
 
-import java.net.*;
+import java.nio.file.*;
 import java.util.*;
 
 /** Ekran kartına yüklenen köşe dizilerinin nasıl çizileceğini anlatan
@@ -29,8 +29,8 @@ public class Gölgelendirici {
 	
 	/** Gölgelendirici yükler ve yazılımı derler. */
 	public Gölgelendirici(
-		final URI köşesininKaynağı,
-		final URI beneğininKaynağı) {
+		final Path köşesininKaynağı,
+		final Path beneğininKaynağı) {
 		yazılımı = Yükleyici.NESNESİ.yazılımYükle();
 		
 		gölgelendiricileriAyarla(

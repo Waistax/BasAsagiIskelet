@@ -7,7 +7,7 @@ package başaşağıderebeyi.iskelet.görsel.yazı;
 import başaşağıderebeyi.iskelet.görsel.kaynak.*;
 import başaşağıderebeyi.kütüphane.matematik.doğrusalcebir.*;
 
-import java.net.*;
+import java.nio.file.*;
 import java.util.*;
 
 /** Bir yazının nasıl görselleştirileceğini belirleyen nesne. */
@@ -21,17 +21,19 @@ public class YazıŞekli {
 	
 	/** Verilen kaynaktaki dokuyu en iyi küçültme ve büyütme yöntemiyle
 	 * yükleyerek verilen bilgiden tanımlar. */
-	public YazıŞekli(final URI dokusununKaynağı, final URI bilgisininKaynağı) {
+	public YazıŞekli(
+		final Path dokusununKaynağı,
+		final Path bilgisininKaynağı) {
 		this(Yükleyici.NESNESİ.dokuYükle(dokusununKaynağı), bilgisininKaynağı);
 	}
 	
 	/** Verilen kaynaktaki dokuyu verilen küçültme ve büyütme yöntemiyle
 	 * yükleyerek verilen bilgiden tanımlar. */
 	public YazıŞekli(
-		final URI dokusununKaynağı,
+		final Path dokusununKaynağı,
 		final int küçültmeYöntemi,
 		final int büyütmeYöntemi,
-		final URI bilgisininKaynağı) {
+		final Path bilgisininKaynağı) {
 		this(
 			Yükleyici.NESNESİ
 				.dokuYükle(dokusununKaynağı, küçültmeYöntemi, büyütmeYöntemi),
@@ -39,7 +41,7 @@ public class YazıŞekli {
 	}
 	
 	/** Verilen doku ve bilgiden tanımlar. */
-	public YazıŞekli(final int dokusu, final URI bilgisininKaynağı) {
+	public YazıŞekli(final int dokusu, final Path bilgisininKaynağı) {
 		seslerininŞekilleri = new HashMap<>();
 		this.dokusu = dokusu;
 		final ŞekilOkuyucusu şekilOkuyucusu = new ŞekilOkuyucusu(

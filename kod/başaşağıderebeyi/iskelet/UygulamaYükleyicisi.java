@@ -149,7 +149,7 @@ public class UygulamaYükleyicisi {
 			yazıcı.write(okuyucu.readAllBytes());
 		}
 		
-		bilgisi.kaynakları.put(adı, geçiciDosya.toURI());
+		bilgisi.kaynakları.put(adı, geçiciDosya.toPath());
 		SistemGünlüğü.KONSOL
 			.yaz(
 				"Kaynak " +
