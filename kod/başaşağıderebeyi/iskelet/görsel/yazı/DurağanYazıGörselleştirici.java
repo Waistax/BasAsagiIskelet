@@ -4,54 +4,36 @@
  */
 package başaşağıderebeyi.iskelet.görsel.yazı;
 
-import static org.lwjgl.opengl.GL11.*;
-
 import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.iskelet.görsel.görüntü.*;
-import başaşağıderebeyi.iskelet.görsel.köşedizisi.*;
 
+import java.util.*;
+
+/** Değişmeyen yazıları tek bir gölgelendirici ile çizen araç. */
 public class DurağanYazıGörselleştirici {
-	/** Yazdıklarının şekli. */
-	public final YazıŞekli şekli;
-	/** Yazdıklarının materyali. Bu materyalin dokusu yazı şeklinin dokusu ile
-	 * aynı olmalıdır. Bu nesne ilk tanımlandığında materyalin dokusunu yazı
-	 * şeklinin dokusu ile değiştirir. */
-	public final Materyal materyali;
-	/** Yazdıklarının dönüşümü. Bu dönüşüm ile durağan yazının yeri, konumu ve
-	 * açısı değiştirilebilir. */
-	public final Dönüşüm dönüşümü;
-	
+	private final List<DurağanYazı> yazdıkları;
 	private final Gölgelendirici gölgelendiricisi;
-	private final SıralıKöşeDizisi köşeDizisi;
 	
 	/** Verilenler ile tanımlar. */
 	public DurağanYazıGörselleştirici(
-		final DurağanYazıOluşturucu oluşturucu,
-		final Materyal materyali,
-		final Dönüşüm dönüşümü,
 		final Gölgelendirici gölgelendiricisi,
 		final İzdüşüm izdüşümü) {
-		
-		şekli = oluşturucu.şekli;
-		this.materyali = materyali;
-		materyali.dokusu = şekli.dokusu;
+		yazdıkları = new ArrayList<>();
 		this.gölgelendiricisi = gölgelendiricisi;
 		gölgelendiricisiniKur(izdüşümü);
-		köşeDizisi = new SıralıKöşeDizisi(GL_TRIANGLES);
-		köşeDizisi
-			.sıraTamponuNesnesiYükle(oluşturucu.sırası)
-			.durağanKöşeTamponuNesnesiEkle(2, oluşturucu.konumları)
-			.durağanKöşeTamponuNesnesiEkle(2, oluşturucu.dokuKonumları);
-		this.dönüşümü = dönüşümü;
 	}
 	
-	/** Yerleşik yazıları çizer. */
+	/** Verilen durağan yazıyı çizmek için ekler. */
+	public void ekle(final DurağanYazı yazı) {
+		yazdıkları.add(yazı);
+	}
+	
+	/** Durağan yazıları verilen bakışa göre çizer. */
 	public void çiz(final Bakış bakış) {
 		gölgelendiricisi.bağla();
 		bakış.yükle(gölgelendiricisi);
-		materyali.yükle(gölgelendiricisi);
-		dönüşümü.yükle(gölgelendiricisi);
-		köşeDizisi.çiz();
+		for (DurağanYazı yazı : yazdıkları)
+			yazı.çiz(gölgelendiricisi);
 		gölgelendiricisi.kopar();
 	}
 	
