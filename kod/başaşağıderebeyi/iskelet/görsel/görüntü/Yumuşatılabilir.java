@@ -16,4 +16,8 @@ public interface Yumuşatılabilir {
 	
 	/** Bu nesneyi verilen nesneyle değiştirir. Bu nesneyi döndürür. */
 	Yumuşatılabilir değiştir(final Yumuşatılabilir öbürü);
+	
+	/** Bu nesneyi çoğaltır. Bu nesnenin tekil olmayan bileşenleri için yeni
+	 * nesneler oluşturur. */
+	Yumuşatılabilir çoğalt();
 }

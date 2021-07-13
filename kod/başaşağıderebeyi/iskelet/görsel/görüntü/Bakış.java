@@ -79,4 +79,9 @@ public class Bakış implements Yumuşatılabilir {
 		açısı = öbürBakış.açısı;
 		return this;
 	}
+	
+	@Override
+	public Yumuşatılabilir çoğalt() {
+		return new Bakış().değiştir(this);
+	}
 }

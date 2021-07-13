@@ -11,15 +11,20 @@ public class Görüntü implements Yumuşatılabilir {
 	/** Dönüşümü. */
 	public final Dönüşüm dönüşümü;
 	
-	/** Verilenlerle tanımlar. */
-	public Görüntü(final Materyal materyali, final Dönüşüm dönüşümü) {
-		this.materyali = materyali;
-		this.dönüşümü = dönüşümü;
+	/** Boş bir materyal ve temiz bir dönüşümle tanımlar. */
+	public Görüntü() {
+		this(new Materyal());
 	}
 	
 	/** Temiz bir dönüşümle tanımlar. */
 	public Görüntü(final Materyal materyal) {
 		this(materyal, new Dönüşüm());
+	}
+	
+	/** Verilenlerle tanımlar. */
+	public Görüntü(final Materyal materyali, final Dönüşüm dönüşümü) {
+		this.materyali = materyali;
+		this.dönüşümü = dönüşümü;
 	}
 	
 	@Override
@@ -48,5 +53,10 @@ public class Görüntü implements Yumuşatılabilir {
 		materyali.değiştir(öbürGörüntü.materyali);
 		dönüşümü.değiştir(öbürGörüntü.dönüşümü);
 		return null;
+	}
+	
+	@Override
+	public Yumuşatılabilir çoğalt() {
+		return new Görüntü().değiştir(this);
 	}
 }

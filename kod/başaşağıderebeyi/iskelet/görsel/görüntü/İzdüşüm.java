@@ -57,4 +57,9 @@ public class İzdüşüm implements Yumuşatılabilir {
 		boyutu.değiştir(öbürİzdüşüm.boyutu);
 		return this;
 	}
+	
+	@Override
+	public Yumuşatılabilir çoğalt() {
+		return new İzdüşüm().değiştir(this);
+	}
 }

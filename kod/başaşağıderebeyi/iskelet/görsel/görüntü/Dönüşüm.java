@@ -50,12 +50,6 @@ public class Dönüşüm implements Yumuşatılabilir {
 		boyutu = new Yöney2(Yöney2.BİR);
 	}
 	
-	/** Verilenin aynısı tanımlar. */
-	public Dönüşüm(final Dönüşüm dönüşüm) {
-		this();
-		değiştir(dönüşüm);
-	}
-	
 	/** Dönüşümü oluşumlu köşe dizisine yükler. */
 	public void yükle(final OluşumluKöşeDizisi köşeDizisi) {
 		yükle(köşeDizisi.yazılacakVerisi);
@@ -111,5 +105,10 @@ public class Dönüşüm implements Yumuşatılabilir {
 		boyutu.değiştir(öbürDönüşüm.boyutu);
 		açısı = öbürDönüşüm.açısı;
 		return this;
+	}
+	
+	@Override
+	public Yumuşatılabilir çoğalt() {
+		return new Dönüşüm().değiştir(this);
 	}
 }

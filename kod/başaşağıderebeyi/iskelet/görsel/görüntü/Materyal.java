@@ -30,6 +30,11 @@ public class Materyal implements Yumuşatılabilir {
 	/** Saydam kısımları dolduracak renk, RGBA olarak. */
 	public final Yöney4 tabanınınRengi;
 	
+	/** Boş tanımlar. */
+	public Materyal() {
+		this(0, new Yöney4(Yöney4.BİR), new Yöney4());
+	}
+	
 	/** Verilenler ile tanımlar. */
 	public Materyal(
 		final int dokusu,
@@ -79,5 +84,10 @@ public class Materyal implements Yumuşatılabilir {
 		rengi.değiştir(öbürMateryal.rengi);
 		tabanınınRengi.değiştir(öbürMateryal.tabanınınRengi);
 		return this;
+	}
+	
+	@Override
+	public Yumuşatılabilir çoğalt() {
+		return new Materyal().değiştir(this);
 	}
 }
