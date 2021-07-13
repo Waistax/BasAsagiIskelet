@@ -72,7 +72,7 @@ public class DeğişkenYazıGörselleştirici {
 			SesŞekli.BOYUTU + Dönüşüm.BOYUTU);
 		oluşumluKöşeDizisiniOluştur(açısı);
 		dönüşümü = new Dönüşüm();
-		boyutunuDeğiştir(şekli.yüksekliği);
+		boyutunuDeğiştir(şekli.boyutu.ikinciBileşeniniEdin());
 	}
 	
 	/** Şu ana kadar yazılmış yazıları çizer. */
@@ -87,82 +87,85 @@ public class DeğişkenYazıGörselleştirici {
 	
 	/** Verilen dizelerin ortası konuma gelecek şekilde satır satır yazar. */
 	public void tamOrtayaYaz(
-		final double konumu,
-		double çizgisi,
+		final double yatayKonumu,
+		double dikeyKonumu,
 		final double derinliği,
 		final String... satırlar) {
 		dönüşümü.konumu.üçüncüBileşeniniDeğiştir(derinliği);
 		for (final String satır : satırlar) {
-			yaz(
-				konumu - şekli.uzunluğunuBul(satır) * ölçüsü / 2.0,
-				çizgisi,
-				derinliği,
-				satır);
-			çizgisi -= şekli.inilecekYüksekliğiBul() * ölçüsü;
+			yaz(yatayKonumu - uzunluğunuBul(satır) / 2.0, dikeyKonumu, satır);
+			dikeyKonumu -= dönüşümü.boyutu.ikinciBileşeniniEdin();
 		}
 	}
 	
 	/** Verilen dizelerin ortası konuma gelecek şekilde satır satır yazar. */
 	public void ortalıYaz(
-		final double konumu,
-		double çizgisi,
+		final double yatayKonumu,
+		double dikeyKonumu,
 		final double derinliği,
 		final String... satırlar) {
 		dönüşümü.konumu.üçüncüBileşeniniDeğiştir(derinliği);
 		for (final String satır : satırlar) {
-			yaz(
-				konumu - şekli.uzunluğunuBul(satır) * ölçüsü / 2.0,
-				çizgisi,
-				derinliği,
-				satır);
-			çizgisi -= şekli.inilecekYüksekliğiBul() * ölçüsü;
+			yaz(yatayKonumu - uzunluğunuBul(satır) / 2.0, dikeyKonumu, satır);
+			dikeyKonumu -= dönüşümü.boyutu.ikinciBileşeniniEdin();
 		}
 	}
 	
 	/** Verilen dizeleri satır satır yazar. */
 	public void yaz(
-		final double konumu,
-		double çizgisi,
+		final double yatayKonumu,
+		double dikeyKonumu,
 		final double derinliği,
 		final String... satırlar) {
 		dönüşümü.konumu.üçüncüBileşeniniDeğiştir(derinliği);
 		for (final String satır : satırlar) {
-			yaz(konumu, çizgisi, derinliği, satır);
-			çizgisi -= şekli.inilecekYüksekliğiBul() * ölçüsü;
+			yaz(yatayKonumu, dikeyKonumu, satır);
+			dikeyKonumu -= dönüşümü.boyutu.ikinciBileşeniniEdin();
 		}
 	}
 	
 	/** Boyutunu değiştirir. Bu boyut yazı şeklinin olabilecek en yüksek
 	 * satırının boyutudur. Diğer her boyut buna göre ölçeklenir. */
 	public void boyutunuDeğiştir(final double boyut) {
-		ölçüsü = boyut / şekli.yüksekliği;
-		dönüşümü.boyutu.ikinciBileşeniniDeğiştir(boyut);
+		ölçüsü = boyut / şekli.boyutu.ikinciBileşeniniEdin();
+		dönüşümü.boyutu.böl(şekli.boyutu, ölçüsü);
 	}
 	
-	private void yaz(
-		double konumu,
-		final double çizgisi,
-		final double derinliği,
-		final String satır) {
-		SesŞekli öncekiSesŞekli = null;
-		dönüşümü.konumu.ikinciBileşeniniDeğiştir(çizgisi);
+	/** Verilen dizenin toplam uzunluğunu bulur. */
+	public double uzunluğunuBul(final String dize) {
+		return uzunluğunuBul(dize.length());
+	}
+	
+	/** Verilen sayıda sesin toplam uzunluğunu bulur. */
+	public double uzunluğunuBul(final int sesSayısı) {
+		return sesSayısı * dönüşümü.boyutu.birinciBileşeniniEdin();
+	}
+	
+	/** Verilen satırların toplam yüksekliğini döndürür. */
+	public double yüksekliğiBul(final String... satırlar) {
+		return yüksekliğiBul(satırlar.length);
+	}
+	
+	/** Verilen sayıda satırın toplam yüksekliğini döndürür. */
+	public double yüksekliğiBul(final int satırSayısı) {
+		return satırSayısı * dönüşümü.boyutu.ikinciBileşeniniEdin();
+	}
+	
+	private void yaz(double yatayKonumu, final double dikeyKonumu, final String satır) {
+		dönüşümü.konumu.ikinciBileşeniniDeğiştir(dikeyKonumu);
 		for (int i = 0; i < satır.length(); i++) {
 			final SesŞekli sesŞekli = şekli.sesininŞekliniEdin(satır.charAt(i));
 			if (sesŞekli == null)
 				continue;
-			if (öncekiSesŞekli != null)
-				konumu += şekli.atlanacakUzunluğuBul(öncekiSesŞekli, sesŞekli) *
-					ölçüsü;
-			öncekiSesŞekli = sesŞekli;
-			dönüşümü.konumu.birinciBileşeniniDeğiştir(konumu);
+			dönüşümü.konumu.birinciBileşeniniDeğiştir(yatayKonumu);
 			sesEkle(sesŞekli);
+			yatayKonumu += dönüşümü.boyutu.birinciBileşeniniEdin();
 		}
 	}
 	
 	private void sesEkle(final SesŞekli sesŞekli) {
 		if (sığası < ++eklenmişSesSayısı)
 			return;
-		dönüşümü.boyutu.birinciBileşeniniDeğiştir(sesŞekli.genişliği * ölçüsü);
 		sesŞekli.yükle(köşeDizisi.yazılacakVerisi);
 		dönüşümü.yükle(köşeDizisi.yazılacakVerisi);
 	}
@@ -189,18 +192,17 @@ public class DeğişkenYazıGörselleştirici {
 	}
 	
 	private float[] köşeKonumlarınıBul(final double açısı) {
-		final float çizgiAltıOranı =
-			(float)(şekli.çizgiAltıYüksekliği / şekli.yüksekliği);
-		final float çizgiÜstüOranı = 1.0F - çizgiAltıOranı;
-		final float eğimi = (float)tan(toRadians(açısı));
+		final float yarıEğimi = (float)(tan(toRadians(açısı)) / 2.0);
+		final float ileriNoktası = 0.5F + yarıEğimi;
+		final float geriNoktası = 0.5F - yarıEğimi;
 		return new float[] {
+			-ileriNoktası,
 			0.0F,
-			-çizgiAltıOranı,
+			geriNoktası,
+			0.0F,
+			-geriNoktası,
 			1.0F,
-			-çizgiAltıOranı,
-			eğimi,
-			çizgiÜstüOranı,
-			1.0F + eğimi,
-			çizgiÜstüOranı };
+			ileriNoktası,
+			1.0F };
 	}
 }

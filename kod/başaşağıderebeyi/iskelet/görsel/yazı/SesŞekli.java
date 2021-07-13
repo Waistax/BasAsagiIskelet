@@ -20,20 +20,16 @@ public class SesŞekli {
 		köşeDizisi.oluşumBaşınaDeğişenNitelikEkle(4);
 	}
 	
-	/** Sesin genişliği. */
-	public final double genişliği;
 	/** Sesin dokudaki kenarlarının konumları. Sırasıyla sol, sağ, üst ve alt
 	 * kenarın konumları. */
 	public final Yöney4 dokuKonumu;
 	
 	SesŞekli(
-		final double genişliği,
 		final double solKonumu,
 		final double sağKonumu,
 		final double üstKonumu,
 		final double altKonumu,
 		final double dokusununBoyutu) {
-		this.genişliği = genişliği;
 		dokuKonumu =
 			(Yöney4)new Yöney4(solKonumu, sağKonumu, üstKonumu, altKonumu)
 				.böl(dokusununBoyutu);

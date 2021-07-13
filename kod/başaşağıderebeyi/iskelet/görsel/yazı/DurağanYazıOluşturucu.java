@@ -104,8 +104,7 @@ public abstract class DurağanYazıOluşturucu {
 	}
 	
 	private void eklenenSeseAyarla(final SesŞekli sesŞekli) {
-		ekleneninDikdörtgeni.uzunlukları
-			.böl(sesŞekli.boyutu, şekli.yüksekliği);
+		ekleneninDikdörtgeni.uzunlukları.böl(sesŞekli.boyutu, şekli.yüksekliği);
 		ekleneninDikdörtgeni.küçükKöşesi.ikinciBileşeni +=
 			(sesŞekli.çizgidenUzaklığı - sesŞekli.boyutu.ikinciBileşeni) /
 				şekli.yüksekliği;
