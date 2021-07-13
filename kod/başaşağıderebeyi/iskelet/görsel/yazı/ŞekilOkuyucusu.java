@@ -24,11 +24,45 @@ class ŞekilOkuyucusu {
 	ŞekilOkuyucusu(final YazıŞekli okuduğuŞekil, final List<String> verisi) {
 		this.okuduğuŞekil = okuduğuŞekil;
 		
+		if (verisi.size() < 2)
+			throw new RuntimeException(
+				"Yazı şeklinin ilk satırı bilgiyi içermeli ve ardından en az bir satır karakterler olmalıdır!");
+		
 		final String[] bilgileri = verisi.get(0).split(AYIRICI_SES);
-		dokusununBoyutu = Integer.parseInt(bilgileri[0]);
-		genişliği = Integer.parseInt(bilgileri[1]);
-		yüksekliği = Integer.parseInt(bilgileri[2]);
-		boşluklarınınBoyutu = Integer.parseInt(bilgileri[4]);
+		
+		if (bilgileri.length != 4)
+			throw new RuntimeException(
+				"Yazı şeklinin bilgisi aralarında \"" +
+					AYIRICI_SES +
+					"\" olacak şekilde sırasıyla dokunun boyutu, seslerin genişliği, seslerin yüksekliği ve seslerin arasında boşlukların boyutu olmalıdır!");
+		try {
+			dokusununBoyutu = Integer.parseInt(bilgileri[0]);
+		} catch (Exception hata) {
+			throw new RuntimeException(
+				"Yazı şeklinde doku boyutu okunamadı!",
+				hata);
+		}
+		try {
+			genişliği = Integer.parseInt(bilgileri[1]);
+		} catch (Exception hata) {
+			throw new RuntimeException(
+				"Yazı şeklinde genişlik okunamadı!",
+				hata);
+		}
+		try {
+			yüksekliği = Integer.parseInt(bilgileri[2]);
+		} catch (Exception hata) {
+			throw new RuntimeException(
+				"Yazı şeklinde yükseklik okunamadı!",
+				hata);
+		}
+		try {
+			boşluklarınınBoyutu = Integer.parseInt(bilgileri[3]);
+		} catch (Exception hata) {
+			throw new RuntimeException(
+				"Yazı şeklinde boşlukların boyutu okunamadı!",
+				hata);
+		}
 		
 		üstKonumu = boşluklarınınBoyutu;
 		solKonumu = boşluklarınınBoyutu;
