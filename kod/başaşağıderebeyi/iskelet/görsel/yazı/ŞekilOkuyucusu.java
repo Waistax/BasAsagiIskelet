@@ -37,28 +37,28 @@ class ŞekilOkuyucusu {
 					"\" olacak şekilde sırasıyla dokunun boyutu, seslerin genişliği, seslerin yüksekliği ve seslerin arasında boşlukların boyutu olmalıdır!");
 		try {
 			dokusununBoyutu = Integer.parseInt(bilgileri[0]);
-		} catch (Exception hata) {
+		} catch (final Exception hata) {
 			throw new RuntimeException(
 				"Yazı şeklinde doku boyutu okunamadı!",
 				hata);
 		}
 		try {
 			genişliği = Integer.parseInt(bilgileri[1]);
-		} catch (Exception hata) {
+		} catch (final Exception hata) {
 			throw new RuntimeException(
 				"Yazı şeklinde genişlik okunamadı!",
 				hata);
 		}
 		try {
 			yüksekliği = Integer.parseInt(bilgileri[2]);
-		} catch (Exception hata) {
+		} catch (final Exception hata) {
 			throw new RuntimeException(
 				"Yazı şeklinde yükseklik okunamadı!",
 				hata);
 		}
 		try {
 			boşluklarınınBoyutu = Integer.parseInt(bilgileri[3]);
-		} catch (Exception hata) {
+		} catch (final Exception hata) {
 			throw new RuntimeException(
 				"Yazı şeklinde boşlukların boyutu okunamadı!",
 				hata);

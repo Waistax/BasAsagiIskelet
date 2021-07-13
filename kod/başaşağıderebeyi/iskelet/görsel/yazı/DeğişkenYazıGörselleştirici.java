@@ -31,7 +31,6 @@ public class DeğişkenYazıGörselleştirici {
 	private final SıralıOluşumluKöşeDizisi köşeDizisi;
 	private final Dönüşüm dönüşümü;
 	
-	private double ölçüsü;
 	private int eklenmişSesSayısı;
 	
 	/** Verilenler ile tanımlar. Beyaz renkte ve zemin rengi olmayan bir
@@ -124,11 +123,15 @@ public class DeğişkenYazıGörselleştirici {
 		}
 	}
 	
-	/** Boyutunu değiştirir. Bu boyut yazı şeklinin olabilecek en yüksek
-	 * satırının boyutudur. Diğer her boyut buna göre ölçeklenir. */
+	/** Boyutunu değiştirir. Bu boyut yazı şeklinin yüksekliğidir. Diğer her
+	 * boyut buna göre ölçeklenir. */
 	public void boyutunuDeğiştir(final double boyut) {
-		ölçüsü = boyut / şekli.boyutu.ikinciBileşeniniEdin();
-		dönüşümü.boyutu.böl(şekli.boyutu, ölçüsü);
+		dönüşümü.boyutu
+			.bileşenleriniDeğiştir(
+				şekli.boyutu.birinciBileşeniniEdin() *
+					boyut /
+					şekli.boyutu.ikinciBileşeniniEdin(),
+				boyut);
 	}
 	
 	/** Verilen dizenin toplam uzunluğunu bulur. */
@@ -151,7 +154,10 @@ public class DeğişkenYazıGörselleştirici {
 		return satırSayısı * dönüşümü.boyutu.ikinciBileşeniniEdin();
 	}
 	
-	private void yaz(double yatayKonumu, final double dikeyKonumu, final String satır) {
+	private void yaz(
+		double yatayKonumu,
+		final double dikeyKonumu,
+		final String satır) {
 		dönüşümü.konumu.ikinciBileşeniniDeğiştir(dikeyKonumu);
 		for (int i = 0; i < satır.length(); i++) {
 			final SesŞekli sesŞekli = şekli.sesininŞekliniEdin(satır.charAt(i));
