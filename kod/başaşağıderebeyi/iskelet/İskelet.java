@@ -28,7 +28,7 @@ public class İskelet {
 	/** Ara sürümü. */
 	public static final int ARA_SÜRÜMÜ = 5;
 	/** Yaması. */
-	public static final int YAMASI = 1;
+	public static final int YAMASI = 2;
 	/** Bütün sürümü. */
 	public static final String SÜRÜM =
 		ANA_SÜRÜMÜ + "." + ARA_SÜRÜMÜ + "." + YAMASI;
@@ -166,14 +166,6 @@ public class İskelet {
 	private void sayaçOlayınıDinle(final SayaçOlayı olay) {
 		tıkHızınınOrtalaması.örnekle(tıkHızınıEdin());
 		kareHızınınOrtalaması.örnekle(kareHızınıEdin());
-		
-		süreçleri.forEach((ad, süreç) -> {
-			if (ad != "Oluşturma") {
-				SistemGünlüğü.KONSOL
-					.yaz(ad + " Süreci: " + süreç.ortalamasınıEdin());
-				süreç.sıfırla();
-			}
-		});
 	}
 	
 	private void güncellemeOlayınıDinle(final GüncellemeOlayı olay) {
