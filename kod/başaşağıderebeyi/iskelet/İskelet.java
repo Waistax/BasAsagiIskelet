@@ -15,7 +15,6 @@ import başaşağıderebeyi.kütüphane.günlük.*;
 import başaşağıderebeyi.kütüphane.matematik.ölçüm.*;
 import başaşağıderebeyi.kütüphane.olay.*;
 
-import java.nio.file.*;
 import java.util.*;
 
 import org.lwjgl.glfw.*;
@@ -28,16 +27,10 @@ public class İskelet {
 	/** Ara sürümü. */
 	public static final int ARA_SÜRÜMÜ = 6;
 	/** Yaması. */
-	public static final int YAMASI = 2;
+	public static final int YAMASI = 3;
 	/** Bütün sürümü. */
 	public static final String SÜRÜM =
 		ANA_SÜRÜMÜ + "." + ARA_SÜRÜMÜ + "." + YAMASI;
-	
-	/** İskeletin kütüphaneleri yükleyeceği klasörün konumu. */
-	public static final String KÜTÜPHANE_KLASÖRÜ = "kütüphaneler";
-	/** İskeletin uygulamaları yükleyeceği klasörün varsayılan konumu. İskeleti
-	 * çalıştırırken verilmiş bir klasör yoksa bu kullanılır. */
-	public static final String VARSAYILAN_UYGULAMA_KLASÖRÜ = "uygulamalar";
 	
 	/** İskeletin kullanılacak nesnesi. Herhangi bir zamanda birden fazla
 	 * İskelet olması akıl dışı. */
@@ -45,27 +38,6 @@ public class İskelet {
 	
 	private static final GünlükKaydedici GÜNLÜK_KAYDEDİCİSİ =
 		new GünlükKaydedici();
-	
-	private static Path kütüphanelerinKlasörü;
-	private static Path uygulamalarınKlasörü;
-	
-	/** İskeleti çalıştırır. */
-	public static void main(final String[] argümanlar) {
-		Thread.currentThread().setName("İskelet");
-		kütüphanelerinKlasörü = Path.of(KÜTÜPHANE_KLASÖRÜ);
-		new KütüphaneYükleyicisi().yükle(kütüphanelerinKlasörü);
-		
-		uygulamalarınKlasörü = argümanlar.length != 0 ?
-			Path.of("", argümanlar) :
-			Path.of(VARSAYILAN_UYGULAMA_KLASÖRÜ);
-		
-		NESNESİ.başlat();
-	}
-	
-	/** İskeletin uygulamaları yüklediği klasörü döndürür. */
-	public static Path uygulamalarınKlasörünüEdin() {
-		return uygulamalarınKlasörü;
-	}
 	
 	private final AnaDöngü anaDöngü;
 	private final UygulamaYükleyici uygulamaYükleyicisi;
@@ -204,7 +176,7 @@ public class İskelet {
 		girdisi = new Girdi();
 		olaySağlayıcısınıOluştur();
 		
-		uygulamaYükleyicisi.yükle(uygulamalarınKlasörü);
+		uygulamaYükleyicisi.yükle(Başlatıcı.uygulamalarınKlasörünüEdin());
 		
 		Gösterici.edin().penceresiniOluştur();
 		
