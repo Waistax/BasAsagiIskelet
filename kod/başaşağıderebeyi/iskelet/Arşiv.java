@@ -84,7 +84,7 @@ public class Arşiv {
 		final URLClassLoader sınıfYükleyicisi,
 		final String adı)
 		throws ClassNotFoundException {
-		if ("module-info.class".equalsIgnoreCase(adı))
+		if (adı.endsWith("module-info.class"))
 			return;
 		sınıfları
 			.add(
