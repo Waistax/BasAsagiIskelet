@@ -15,6 +15,7 @@ import başaşağıderebeyi.kütüphane.günlük.*;
 import başaşağıderebeyi.kütüphane.matematik.ölçüm.*;
 import başaşağıderebeyi.kütüphane.olay.*;
 
+import java.nio.file.*;
 import java.util.*;
 
 import org.lwjgl.glfw.*;
@@ -27,7 +28,7 @@ public class İskelet {
 	/** Ara sürümü. */
 	public static final int ARA_SÜRÜMÜ = 7;
 	/** Yaması. */
-	public static final int YAMASI = 2;
+	public static final int YAMASI = 3;
 	/** Bütün sürümü. */
 	public static final String SÜRÜM =
 		ANA_SÜRÜMÜ + "." + ARA_SÜRÜMÜ + "." + YAMASI;
@@ -35,6 +36,10 @@ public class İskelet {
 	/** İskeletin kullanılacak nesnesi. Herhangi bir zamanda birden fazla
 	 * İskelet olması akıl dışı. */
 	public static final İskelet NESNESİ = new İskelet();
+	
+	/** İskeletin uygulamaları yükleyeceği klasörün varsayılan konumu. İskeleti
+	 * çalıştırırken verilmiş bir klasör yoksa bu kullanılır. */
+	public static final String VARSAYILAN_UYGULAMA_KLASÖRÜ = "uygulamalar";
 	
 	private static final GünlükKaydedici GÜNLÜK_KAYDEDİCİSİ =
 		new GünlükKaydedici();
@@ -63,6 +68,7 @@ public class İskelet {
 	
 	/** Ana döngüyü başlatır. */
 	public void başlat() {
+		Thread.currentThread().setName("İskelet");
 		anaDöngü.başla();
 	}
 	
@@ -176,7 +182,7 @@ public class İskelet {
 		girdisi = new Girdi();
 		olaySağlayıcısınıOluştur();
 		
-		uygulamaYükleyicisi.yükle(Başlatıcı.uygulamalarınKlasörünüEdin());
+		uygulamaYükleyicisi.yükle(Path.of(VARSAYILAN_UYGULAMA_KLASÖRÜ));
 		
 		Gösterici.edin().penceresiniOluştur();
 		
