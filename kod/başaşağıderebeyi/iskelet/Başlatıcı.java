@@ -23,13 +23,22 @@ public class Başlatıcı {
 	public static void main(final String... argümanlar) {
 		Thread.currentThread().setName("İskelet");
 		kütüphanelerinKlasörü = Path.of(KÜTÜPHANE_KLASÖRÜ);
-		kütüphaneleriYükle();
+		ModuleLayer modülKatmanı = kütüphaneleriYükle();
 		
 		uygulamalarınKlasörü = argümanlar.length != 0 ?
 			Path.of("", argümanlar) :
 			Path.of(VARSAYILAN_UYGULAMA_KLASÖRÜ);
 		
-		İskelet.NESNESİ.başlat();
+		try {
+			Class<?> iskeletSınıfı = modülKatmanı
+				.findLoader("başaşağıderebeyi.iskelet")
+				.loadClass("başaşağıderebeyi.iskelet.İskelet");
+			iskeletSınıfı
+				.getMethod("başlat")
+				.invoke(iskeletSınıfı.getField("NESNESİ").get(null));
+		} catch (Exception hata) {
+			hata.printStackTrace();
+		}
 	}
 	
 	/** Kütüphanelerin yüklendiği klasörü döndürür. */
@@ -42,10 +51,11 @@ public class Başlatıcı {
 		return uygulamalarınKlasörü;
 	}
 	
-	private static void kütüphaneleriYükle() {
+	private static ModuleLayer kütüphaneleriYükle() {
 		final ModuleLayer üstModülKatmanı = ModuleLayer.boot();
-		final ModuleFinder modülBulucu = ModuleFinder.of(kütüphanelerinKlasörü);
-		üstModülKatmanı
+		final ModuleFinder modülBulucu =
+			ModuleFinder.of(kütüphanelerinKlasörü, Path.of("iskelet.jar"));
+		return üstModülKatmanı
 			.defineModulesWithOneLoader(
 				üstModülKatmanı
 					.configuration()
