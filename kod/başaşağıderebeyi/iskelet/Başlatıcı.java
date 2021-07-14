@@ -43,8 +43,8 @@ public class Başlatıcı {
 	}
 	
 	private static void kütüphaneleriYükle() {
-		ModuleLayer üstModülKatmanı = ModuleLayer.boot();
-		ModuleFinder modülBulucu = ModuleFinder.of(kütüphanelerinKlasörü);
+		final ModuleLayer üstModülKatmanı = ModuleLayer.boot();
+		final ModuleFinder modülBulucu = ModuleFinder.of(kütüphanelerinKlasörü);
 		üstModülKatmanı
 			.defineModulesWithOneLoader(
 				üstModülKatmanı
