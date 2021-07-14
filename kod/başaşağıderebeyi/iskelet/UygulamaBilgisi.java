@@ -8,6 +8,7 @@ import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.iskelet.görsel.kaynak.*;
 import başaşağıderebeyi.iskelet.görsel.yazı.*;
 
+import java.io.*;
 import java.lang.reflect.*;
 import java.nio.file.*;
 import java.util.*;
@@ -16,12 +17,30 @@ import org.lwjgl.glfw.*;
 
 /** Uygulamanın arşivdeki bilgilerini içiren nesne. */
 public class UygulamaBilgisi {
-	final Map<String, Path> kaynakları;
+	/** Uygulamanın arşivi. */
+	public final Arşiv arşivi;
+	
 	Class<?> sınıfı;
 	private Object nesnesi;
 	
-	UygulamaBilgisi() {
-		kaynakları = new HashMap<>();
+	UygulamaBilgisi(final File dosya) {
+		arşivi = new Arşiv(dosya);
+		
+		for (final Class<?> sınıf : arşivi.sınıfları)
+			if (sınıf.isAnnotationPresent(Uygulama.class)) {
+				if (sınıfı != null)
+					throw new RuntimeException(
+						"Birden fazla uygulama sınıfı var!");
+				sınıfı = sınıf;
+			}
+		
+		try {
+			tanımla();
+		} catch (final Throwable hata) {
+			throw new RuntimeException(
+				"Uygulamanın nesnesi tanımlanamadı!",
+				hata);
+		}
 	}
 	
 	/** Verilen konumdaki resimi yükler. */
@@ -96,7 +115,7 @@ public class UygulamaBilgisi {
 	/** Verilen konumdaki kaynağın tanımlayıcısını döndürür. Eğer arşivin
 	 * içerisinde verilen konumda bir şey bulunmuyorsa null döndürür. */
 	public Path kaynağınıBul(final String konumu) {
-		return kaynakları.get(konumu);
+		return arşivi.kaynakları.get(konumu);
 	}
 	
 	/** Uygulamanın sınıfını döndürür. */
@@ -109,7 +128,7 @@ public class UygulamaBilgisi {
 		return nesnesi;
 	}
 	
-	void tanımla()
+	private void tanımla()
 		throws InstantiationException,
 			IllegalAccessException,
 			IllegalArgumentException,
