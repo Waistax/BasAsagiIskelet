@@ -44,7 +44,7 @@ public class DurağanYazı implements Yumuşatılabilir {
 	}
 	
 	/** Yazıyı çizer. */
-	public void çiz(Gölgelendirici gölgelendirici) {
+	public void çiz(final Gölgelendirici gölgelendirici) {
 		materyali.yükle(gölgelendirici);
 		dönüşümü.yükle(gölgelendirici);
 		köşeDizisi.çiz();
@@ -52,9 +52,9 @@ public class DurağanYazı implements Yumuşatılabilir {
 	
 	@Override
 	public Yumuşatılabilir aradeğerleriniBul(
-		Yumuşatılabilir baştaki,
-		Yumuşatılabilir sondaki,
-		double uzunluk) {
+		final Yumuşatılabilir baştaki,
+		final Yumuşatılabilir sondaki,
+		final double uzunluk) {
 		final DurağanYazı baştakiDurağanYazı = (DurağanYazı)baştaki;
 		final DurağanYazı sondakiDurağanYazı = (DurağanYazı)sondaki;
 		materyali
@@ -71,7 +71,7 @@ public class DurağanYazı implements Yumuşatılabilir {
 	}
 	
 	@Override
-	public Yumuşatılabilir değiştir(Yumuşatılabilir öbürü) {
+	public Yumuşatılabilir değiştir(final Yumuşatılabilir öbürü) {
 		final DurağanYazı öbürDurağanYazı = (DurağanYazı)öbürü;
 		materyali.değiştir(öbürDurağanYazı.materyali);
 		dönüşümü.değiştir(öbürDurağanYazı.dönüşümü);

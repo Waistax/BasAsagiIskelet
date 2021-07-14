@@ -42,7 +42,7 @@ public class DurağanYazıGörselleştirici {
 	public void çiz(final Bakış bakış) {
 		gölgelendiricisi.bağla();
 		bakış.yükle(gölgelendiricisi);
-		for (DurağanYazı yazı : yazdıkları)
+		for (final DurağanYazı yazı : yazdıkları)
 			yazı.çiz(gölgelendiricisi);
 		gölgelendiricisi.kopar();
 	}

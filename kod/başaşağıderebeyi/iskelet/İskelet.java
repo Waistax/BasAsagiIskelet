@@ -15,7 +15,7 @@ import başaşağıderebeyi.kütüphane.günlük.*;
 import başaşağıderebeyi.kütüphane.matematik.ölçüm.*;
 import başaşağıderebeyi.kütüphane.olay.*;
 
-import java.io.*;
+import java.nio.file.*;
 import java.util.*;
 
 import org.lwjgl.glfw.*;
@@ -28,11 +28,13 @@ public class İskelet {
 	/** Ara sürümü. */
 	public static final int ARA_SÜRÜMÜ = 6;
 	/** Yaması. */
-	public static final int YAMASI = 1;
+	public static final int YAMASI = 2;
 	/** Bütün sürümü. */
 	public static final String SÜRÜM =
 		ANA_SÜRÜMÜ + "." + ARA_SÜRÜMÜ + "." + YAMASI;
 	
+	/** İskeletin kütüphaneleri yükleyeceği klasörün konumu. */
+	public static final String KÜTÜPHANE_KLASÖRÜ = "kütüphaneler";
 	/** İskeletin uygulamaları yükleyeceği klasörün varsayılan konumu. İskeleti
 	 * çalıştırırken verilmiş bir klasör yoksa bu kullanılır. */
 	public static final String VARSAYILAN_UYGULAMA_KLASÖRÜ = "uygulamalar";
@@ -44,24 +46,29 @@ public class İskelet {
 	private static final GünlükKaydedici GÜNLÜK_KAYDEDİCİSİ =
 		new GünlükKaydedici();
 	
-	private static File uygulamalarınKlasörü;
+	private static Path kütüphanelerinKlasörü;
+	private static Path uygulamalarınKlasörü;
 	
 	/** İskeleti çalıştırır. */
 	public static void main(final String[] argümanlar) {
 		Thread.currentThread().setName("İskelet");
-		uygulamalarınKlasörü = new File(
-			argümanlar.length != 0 ?
-				String.join("/", argümanlar) :
-				VARSAYILAN_UYGULAMA_KLASÖRÜ);
+		kütüphanelerinKlasörü = Path.of(KÜTÜPHANE_KLASÖRÜ);
+		new KütüphaneYükleyicisi().yükle(kütüphanelerinKlasörü);
+		
+		uygulamalarınKlasörü = argümanlar.length != 0 ?
+			Path.of("", argümanlar) :
+			Path.of(VARSAYILAN_UYGULAMA_KLASÖRÜ);
+		
 		NESNESİ.başlat();
 	}
 	
 	/** İskeletin uygulamaları yüklediği klasörü döndürür. */
-	public static File uygulamalarınKlasörünüEdin() {
+	public static Path uygulamalarınKlasörünüEdin() {
 		return uygulamalarınKlasörü;
 	}
 	
 	private final AnaDöngü anaDöngü;
+	private final UygulamaYükleyici uygulamaYükleyicisi;
 	
 	private Ortalama tıkHızınınOrtalaması;
 	private Ortalama kareHızınınOrtalaması;
@@ -79,6 +86,7 @@ public class İskelet {
 			this::saniyeSay,
 			this::çiz,
 			this::yokEt);
+		uygulamaYükleyicisi = new UygulamaYükleyici();
 	}
 	
 	/** Ana döngüyü başlatır. */
@@ -132,6 +140,13 @@ public class İskelet {
 	/** Şu anın sırasını döndürür. */
 	public long anınıEdin() {
 		return anaDöngü.anınıEdin();
+	}
+	
+	/** Verilen uygulama nesnesinin bilgisini döndürür. Bu nesne iskelet
+	 * tarafından uygulamalar yüklenirken tanımlanmış olan nesnese olmalıdır.
+	 * Herhangi bir nesne işe yaramaz. */
+	public UygulamaBilgisi uygulamaBilgisiniEdin(final Object nesne) {
+		return uygulamaYükleyicisi.uygulamaBilgisiniEdin(nesne);
 	}
 	
 	/** İskeletin çalışmaya başlamasından beri her saniyedeki tık hızlarının
@@ -189,7 +204,7 @@ public class İskelet {
 		girdisi = new Girdi();
 		olaySağlayıcısınıOluştur();
 		
-		UygulamaYükleyicisi.NESNESİ.yükle(uygulamalarınKlasörü);
+		uygulamaYükleyicisi.yükle(uygulamalarınKlasörü);
 		
 		Gösterici.edin().penceresiniOluştur();
 		

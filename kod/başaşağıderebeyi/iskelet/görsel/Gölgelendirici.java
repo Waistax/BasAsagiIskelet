@@ -82,7 +82,7 @@ public class Gölgelendirici {
 	public Gölgelendirici değeriDeğiştir(
 		final String değerinAdı,
 		final DoğrusalSayıDizisi yeniDeğer) {
-		int değerinKonumu = değerlerininKonumları.get(değerinAdı);
+		final int değerinKonumu = değerlerininKonumları.get(değerinAdı);
 		switch (yeniDeğer.uzunluğunuEdin()) {
 		case 2:
 			glUniform2f(
@@ -120,7 +120,9 @@ public class Gölgelendirici {
 	}
 	
 	/** İki boyutlu bir yöney değeri değiştirir. */
-	public Gölgelendirici değeriDeğiştir(String değerinAdı, Yöney2 yeniDeğer) {
+	public Gölgelendirici değeriDeğiştir(
+		final String değerinAdı,
+		final Yöney2 yeniDeğer) {
 		glUniform2f(
 			değerlerininKonumları.get(değerinAdı),
 			(float)yeniDeğer.birinciBileşeniniEdin(),
@@ -129,7 +131,9 @@ public class Gölgelendirici {
 	}
 	
 	/** Üç boyutlu bir yöney değeri değiştirir. */
-	public Gölgelendirici değeriDeğiştir(String değerinAdı, Yöney3 yeniDeğer) {
+	public Gölgelendirici değeriDeğiştir(
+		final String değerinAdı,
+		final Yöney3 yeniDeğer) {
 		glUniform3f(
 			değerlerininKonumları.get(değerinAdı),
 			(float)yeniDeğer.birinciBileşeniniEdin(),
@@ -139,7 +143,9 @@ public class Gölgelendirici {
 	}
 	
 	/** Dört boyutlu bir yöney değeri değiştirir. */
-	public Gölgelendirici değeriDeğiştir(String değerinAdı, Yöney4 yeniDeğer) {
+	public Gölgelendirici değeriDeğiştir(
+		final String değerinAdı,
+		final Yöney4 yeniDeğer) {
 		glUniform4f(
 			değerlerininKonumları.get(değerinAdı),
 			(float)yeniDeğer.birinciBileşeniniEdin(),

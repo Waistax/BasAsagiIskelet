@@ -104,21 +104,19 @@ public class DeğişkenYazıGörselleştirici {
 		final double derinliği,
 		final String... satırlar) {
 		konumunuDeğiştir(dikeyKonumu, derinliği);
-		for (final String satır : satırlar) {
+		for (final String satır : satırlar)
 			yaz(yatayKonumu - uzunluğunuBul(satır) / 2.0, satır);
-		}
 	}
 	
 	/** Verilen dizeleri satır satır yazar. */
 	public void yaz(
 		final double yatayKonumu,
-		double dikeyKonumu,
+		final double dikeyKonumu,
 		final double derinliği,
 		final String... satırlar) {
 		konumunuDeğiştir(dikeyKonumu, derinliği);
-		for (final String satır : satırlar) {
+		for (final String satır : satırlar)
 			yaz(yatayKonumu, satır);
-		}
 	}
 	
 	/** Boyutunu değiştirir. Bu boyut yazı şeklinin yüksekliğidir. Diğer her

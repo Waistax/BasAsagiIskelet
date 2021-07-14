@@ -9,24 +9,39 @@ import java.net.*;
 import java.nio.file.*;
 import java.util.*;
 import java.util.jar.*;
+import java.util.stream.*;
 
 /** Bir Java arşivini temsil eder. Arşivdeki sınıfları yükler ve kaynakları
  * geçici dosyalara kopyalar. */
 public class Arşiv {
+	/** Verilen klasördeki Java arşivlerini bir akış olarak döndürür. */
+	public static Stream<Path> arşivDosyalarınıBul(final Path klasör)
+		throws IOException {
+		return Files
+			.find(
+				klasör,
+				Integer.MAX_VALUE,
+				(dosya, nitelikleri) -> dosya
+					.getFileName()
+					.toString()
+					.toLowerCase()
+					.endsWith(".jar"));
+	}
+	
 	/** Arşivdeki sınıflar. */
 	public final Set<Class<?>> sınıfları;
 	/** Arşivin içerisindeki kod dışı kaynaklar. */
 	public final Map<String, Path> kaynakları;
 	
 	/** Verilen dosyadaki arşivi yükler. */
-	public Arşiv(final File dosya) {
+	public Arşiv(final Path dosya) {
 		sınıfları = new HashSet<>();
 		kaynakları = new HashMap<>();
 		dosyayıİşle(dosya);
 	}
 	
-	private void dosyayıİşle(final File dosya) {
-		final String dosyanınYolu = dosya.getAbsolutePath();
+	private void dosyayıİşle(final Path dosya) {
+		final String dosyanınYolu = dosya.toAbsolutePath().toString();
 		try (JarFile arşiv = new JarFile(dosyanınYolu)) {
 			arşiviİşle(
 				arşiv,
@@ -34,7 +49,7 @@ public class Arşiv {
 					new URL[] { new URL("jar:file:" + dosyanınYolu + "!/") }));
 		} catch (final Exception hata) {
 			throw new RuntimeException(
-				"Arşiv " + dosya.getPath() + " yüklenemedi!",
+				"Arşiv " + dosya.toString() + " yüklenemedi!",
 				hata);
 		}
 	}

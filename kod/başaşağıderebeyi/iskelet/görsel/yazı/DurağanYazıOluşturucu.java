@@ -139,7 +139,7 @@ public abstract class DurağanYazıOluşturucu {
 	}
 	
 	private void üçgenleriSırala() {
-		final int başlangıçSırası = 4 * (üçgenlerinSayısı++);
+		final int başlangıçSırası = 4 * üçgenlerinSayısı++;
 		sırası
 			.put(başlangıçSırası)
 			.put(başlangıçSırası + 1)

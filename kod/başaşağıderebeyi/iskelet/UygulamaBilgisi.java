@@ -8,7 +8,6 @@ import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.iskelet.görsel.kaynak.*;
 import başaşağıderebeyi.iskelet.görsel.yazı.*;
 
-import java.io.*;
 import java.lang.reflect.*;
 import java.nio.file.*;
 import java.util.*;
@@ -23,7 +22,7 @@ public class UygulamaBilgisi {
 	Class<?> sınıfı;
 	private Object nesnesi;
 	
-	UygulamaBilgisi(final File dosya) {
+	UygulamaBilgisi(final Path dosya) {
 		arşivi = new Arşiv(dosya);
 		
 		for (final Class<?> sınıf : arşivi.sınıfları)
