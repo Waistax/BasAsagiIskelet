@@ -4,7 +4,9 @@
  */
 package başaşağıderebeyi.iskelet;
 
+import java.lang.module.*;
 import java.nio.file.*;
+import java.util.stream.*;
 
 /** İskeleti çalıştıran ve kütüphaneleri yükleyen sınıf. */
 public class Başlatıcı {
@@ -21,7 +23,7 @@ public class Başlatıcı {
 	public static void main(final String... argümanlar) {
 		Thread.currentThread().setName("İskelet");
 		kütüphanelerinKlasörü = Path.of(KÜTÜPHANE_KLASÖRÜ);
-		new KütüphaneYükleyicisi().yükle(kütüphanelerinKlasörü);
+		kütüphaneleriYükle();
 		
 		uygulamalarınKlasörü = argümanlar.length != 0 ?
 			Path.of("", argümanlar) :
@@ -38,5 +40,24 @@ public class Başlatıcı {
 	/** Uygulamaların yüklendiği klasörü döndürür. */
 	public static Path uygulamalarınKlasörünüEdin() {
 		return uygulamalarınKlasörü;
+	}
+	
+	private static void kütüphaneleriYükle() {
+		ModuleLayer üstModülKatmanı = ModuleLayer.boot();
+		ModuleFinder modülBulucu = ModuleFinder.of(kütüphanelerinKlasörü);
+		üstModülKatmanı
+			.defineModulesWithOneLoader(
+				üstModülKatmanı
+					.configuration()
+					.resolve(
+						modülBulucu,
+						ModuleFinder.of(),
+						modülBulucu
+							.findAll()
+							.stream()
+							.map(ModuleReference::descriptor)
+							.map(ModuleDescriptor::name)
+							.collect(Collectors.toSet())),
+				ClassLoader.getSystemClassLoader());
 	}
 }
