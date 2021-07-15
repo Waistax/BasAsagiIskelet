@@ -82,7 +82,7 @@ public class UygulamaBilgisi {
 		final int büyütmeYöntemi,
 		final String bilgisininKonumu) {
 		return new YazıŞekli(
-			verisiniBul(dokusununKonumu),
+			kaynağınıBul(dokusununKonumu),
 			küçültmeYöntemi,
 			büyütmeYöntemi,
 			kaynağınıBul(bilgisininKonumu));
