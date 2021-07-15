@@ -30,7 +30,7 @@ class UygulamaYükleyici {
 			Arşiv
 				.arşivDosyalarınıBul(klasör)
 				.parallel()
-				.map(klasör::resolve)
+				.map(klasör::relativize)
 				.forEach(this::dosyayıİşle);
 		} catch (final Throwable hata) {
 			throw new RuntimeException(
