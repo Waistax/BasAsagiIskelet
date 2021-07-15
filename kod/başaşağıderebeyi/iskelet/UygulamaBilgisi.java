@@ -7,7 +7,6 @@ package başaşağıderebeyi.iskelet;
 import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.iskelet.görsel.yazı.*;
 import başaşağıderebeyi.iskelet.görsel.yükleyici.*;
-import başaşağıderebeyi.kütüphane.günlük.*;
 
 import java.nio.file.*;
 import java.util.*;
@@ -208,7 +207,6 @@ public class UygulamaBilgisi {
 	
 	private void sınıflarıİşle() {
 		for (final Class<?> sınıf : arşivi.sınıfları) {
-			SistemGünlüğü.KONSOL.yaz(sınıf);
 			final Uygulama uygulama = sınıf.getAnnotation(Uygulama.class);
 			if (uygulama != null) {
 				if (sınıfı != null)

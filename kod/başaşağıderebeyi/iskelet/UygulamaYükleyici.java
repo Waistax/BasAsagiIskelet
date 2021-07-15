@@ -45,11 +45,9 @@ class UygulamaYükleyici {
 	private void dosyayıİşle(final Path dosya) {
 		try {
 			SistemGünlüğü.KONSOL
-				.yaz("Arşiv " + dosya.toString() + " yükleniyor...");
+				.yaz("Uygulama " + dosya.toString() + " yükleniyor...");
 			final UygulamaBilgisi bilgisi = new UygulamaBilgisi(dosya);
 			bilgiyiEkle(bilgisi);
-			SistemGünlüğü.KONSOL
-				.yaz("Arşiv " + dosya.toString() + " yüklendi!");
 		} catch (final Exception hata) {
 			throw new RuntimeException(
 				"Uygulama " + dosya.toString() + " yüklenemedi!",
