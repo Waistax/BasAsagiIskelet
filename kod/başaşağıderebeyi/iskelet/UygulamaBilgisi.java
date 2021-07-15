@@ -33,6 +33,9 @@ public class UygulamaBilgisi {
 				sınıfı = sınıf;
 			}
 		
+		if (sınıfı == null)
+			throw new RuntimeException("Uygulama sınıfı bulunamadı!");
+		
 		try {
 			tanımla();
 		} catch (final Throwable hata) {
