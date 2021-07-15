@@ -30,8 +30,7 @@ class UygulamaYükleyici {
 			Arşiv
 				.arşivDosyalarınıBul(klasör)
 				.parallel()
-				.map(klasör::relativize)
-				.forEach(this::dosyayıİşle);
+				.forEach(dosya -> dosyayıİşle(klasör, dosya));
 		} catch (final Throwable hata) {
 			throw new RuntimeException(
 				"Uygulamalar yüklenirken bir hata oluştu!",
@@ -43,15 +42,15 @@ class UygulamaYükleyici {
 		return uygulamaları.get(nesne);
 	}
 	
-	private void dosyayıİşle(final Path dosya) {
+	private void dosyayıİşle(final Path klasör, final Path dosya) {
+		final String dosyaAdı = klasör.relativize(dosya).toString();
 		try {
-			SistemGünlüğü.KONSOL
-				.yaz("Uygulama " + dosya.toString() + " yükleniyor...");
+			SistemGünlüğü.KONSOL.yaz("Uygulama " + dosyaAdı + " yükleniyor...");
 			final UygulamaBilgisi bilgisi = new UygulamaBilgisi(dosya);
 			bilgiyiEkle(bilgisi);
 		} catch (final Exception hata) {
 			throw new RuntimeException(
-				"Uygulama " + dosya.toString() + " yüklenemedi!",
+				"Uygulama " + dosyaAdı + " yüklenemedi!",
 				hata);
 		}
 	}
