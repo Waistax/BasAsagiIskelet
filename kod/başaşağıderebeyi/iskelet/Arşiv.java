@@ -56,23 +56,23 @@ public class Arşiv {
 	
 	private void arşiviİşle(
 		final JarFile arşivDosyası,
-		final URLClassLoader sınıfYükleyicisi) {
+		final URLClassLoader kaynakYükleyicisi) {
 		for (final Enumeration<JarEntry> arşivdekiDosyalar =
 			arşivDosyası.entries(); arşivdekiDosyalar.hasMoreElements();)
 			arşivGirdisiniİşle(
 				arşivdekiDosyalar.nextElement(),
-				sınıfYükleyicisi);
+				kaynakYükleyicisi);
 	}
 	
 	private void arşivGirdisiniİşle(
 		final JarEntry girdi,
-		final URLClassLoader sınıfYükleyicisi) {
+		final URLClassLoader kaynakYükleyicisi) {
 		final String adı = girdi.getName();
 		try {
 			if (adı.endsWith(".class"))
-				sınıfıYükle(sınıfYükleyicisi, adı);
+				sınıfıYükle(adı);
 			else
-				kaynağıYükle(sınıfYükleyicisi, adı);
+				kaynağıYükle(adı, kaynakYükleyicisi);
 		} catch (final Throwable hata) {
 			throw new RuntimeException(
 				"Arşiv girdisi " + adı + " işlenemedi!",
@@ -80,26 +80,23 @@ public class Arşiv {
 		}
 	}
 	
-	private void sınıfıYükle(
-		final URLClassLoader sınıfYükleyicisi,
-		final String adı)
-		throws ClassNotFoundException {
-		if (adı.endsWith("module-info"))
+	private void sınıfıYükle(final String adı) throws ClassNotFoundException {
+		if (adı.endsWith("module-info.class"))
 			return;
 		sınıfları
-			.add(
-				sınıfYükleyicisi
-					.loadClass(
-						adı.substring(0, adı.length() - 6).replace('/', '.')));
+			.add(Arşiv.class.getClassLoader().loadClass(sınıfınAdınıBul(adı)));
+	}
+	
+	private String sınıfınAdınıBul(final String adı) {
+		return adı.substring(0, adı.length() - 6).replace('/', '.');
 	}
 	
 	private void kaynağıYükle(
-		final URLClassLoader sınıfYükleyicisi,
-		final String adı)
+		final String adı,
+		final URLClassLoader kaynakYükleyicisi)
 		throws IOException {
-		final URL bulucusu = sınıfYükleyicisi.findResource(adı);
-		final File geçiciDosya =
-			File.createTempFile("" + bulucusu.hashCode(), null);
+		final URL bulucusu = kaynakYükleyicisi.findResource(adı);
+		final File geçiciDosya = Files.createTempFile(null, null).toFile();
 		geçiciDosya.deleteOnExit();
 		
 		try (
