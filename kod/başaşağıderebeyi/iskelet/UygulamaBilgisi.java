@@ -9,7 +9,6 @@ import başaşağıderebeyi.iskelet.görsel.kaynak.*;
 import başaşağıderebeyi.iskelet.görsel.yazı.*;
 import başaşağıderebeyi.kütüphane.günlük.*;
 
-import java.lang.reflect.*;
 import java.nio.file.*;
 import java.util.*;
 
@@ -24,31 +23,11 @@ public class UygulamaBilgisi {
 	private Object nesnesi;
 	private Uygulama uygulaması;
 	
-	UygulamaBilgisi(final Path dosya) {
-		arşivi = new Arşiv(dosya);
-		
-		for (final Class<?> sınıf : arşivi.sınıfları) {
-			SistemGünlüğü.KONSOL.yaz(sınıf);
-			Uygulama uygulama = sınıf.getAnnotation(Uygulama.class);
-			if (uygulama != null) {
-				if (sınıfı != null)
-					throw new RuntimeException(
-						"Birden fazla uygulama sınıfı var!");
-				sınıfı = sınıf;
-				uygulaması = uygulama;
-			}
-		}
-		
-		if (sınıfı == null)
-			throw new RuntimeException("Uygulama sınıfı bulunamadı!");
-		
-		try {
-			tanımla();
-		} catch (final Throwable hata) {
-			throw new RuntimeException(
-				"Uygulamanın nesnesi tanımlanamadı!",
-				hata);
-		}
+	UygulamaBilgisi(final Path dosyası) {
+		arşivi = new Arşiv(dosyası);
+		sınıflarıİşle();
+		tanımla();
+		veriKlasörünüOluştur();
 	}
 	
 	/** Verilen konumdaki resimi yükler. */
@@ -150,14 +129,35 @@ public class UygulamaBilgisi {
 		return uygulaması;
 	}
 	
-	private void tanımla()
-		throws InstantiationException,
-			IllegalAccessException,
-			IllegalArgumentException,
-			InvocationTargetException,
-			NoSuchMethodException,
-			SecurityException {
-		nesnesi =
-			sınıfı.getConstructor(UygulamaBilgisi.class).newInstance(this);
+	private void sınıflarıİşle() {
+		for (final Class<?> sınıf : arşivi.sınıfları) {
+			SistemGünlüğü.KONSOL.yaz(sınıf);
+			final Uygulama uygulama = sınıf.getAnnotation(Uygulama.class);
+			if (uygulama != null) {
+				if (sınıfı != null)
+					throw new RuntimeException(
+						"Birden fazla uygulama sınıfı var!");
+				sınıfı = sınıf;
+				uygulaması = uygulama;
+			}
+		}
+		
+		if (sınıfı == null)
+			throw new RuntimeException("Uygulama sınıfı bulunamadı!");
+	}
+	
+	private void tanımla() {
+		try {
+			nesnesi =
+				sınıfı.getConstructor(UygulamaBilgisi.class).newInstance(this);
+		} catch (final Throwable hata) {
+			throw new RuntimeException(
+				"Uygulamanın nesnesi tanımlanamadı!",
+				hata);
+		}
+	}
+	
+	private void veriKlasörünüOluştur() {
+		Path.of("veriler", uygulaması.adı()).toFile().mkdirs();
 	}
 }
