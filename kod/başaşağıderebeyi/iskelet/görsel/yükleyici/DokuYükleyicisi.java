@@ -29,11 +29,11 @@ class DokuYükleyicisi {
 		dokuları.clear();
 	}
 	
-	GLFWImage glfwResmiYükle(final Path dosyaYolu) {
-		return glfwResmiYükle(new ResimBilgisi(dosyaYolu));
+	GLFWImage GLFWResmiYükle(final Path dosyaYolu) {
+		return GLFWResmiYükle(new ResimBilgisi(dosyaYolu));
 	}
 	
-	GLFWImage glfwResmiYükle(final ResimBilgisi resim) {
+	GLFWImage GLFWResmiYükle(final ResimBilgisi resim) {
 		final byte[] renkBaytları = resim.renkBaytlarınıBul();
 		
 		final GLFWImage glfwResmi = GLFWImage

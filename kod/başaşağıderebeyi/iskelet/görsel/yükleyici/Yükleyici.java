@@ -144,13 +144,13 @@ public class Yükleyici {
 	}
 	
 	/** Verilen dosya yolundaki resmi GLFW resmi olarak yükler ve döndürür. */
-	public GLFWImage glfwResmiYükle(final Path dosyaYolu) {
-		return dokuYükleyicisi.glfwResmiYükle(dosyaYolu);
+	public GLFWImage GLFWResmiYükle(final Path dosyaYolu) {
+		return dokuYükleyicisi.GLFWResmiYükle(dosyaYolu);
 	}
 	
 	/** Verilen resmi GLFW resmi olarak yükler ve döndürür. */
-	public GLFWImage glfwResmiYükle(final ResimBilgisi resim) {
-		return dokuYükleyicisi.glfwResmiYükle(resim);
+	public GLFWImage GLFWResmiYükle(final ResimBilgisi resim) {
+		return dokuYükleyicisi.GLFWResmiYükle(resim);
 	}
 	
 	/** Verilen dosya yolundaki resmi ekran kartına yükler ve işaretçisini

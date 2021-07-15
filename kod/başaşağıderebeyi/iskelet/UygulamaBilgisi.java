@@ -109,13 +109,13 @@ public class UygulamaBilgisi {
 	/** Veri klasöründen verilen konumdaki resmi GLFW resmi olarak yükler ve
 	 * döndürür. */
 	public GLFWImage GLFWResmiYükle(final String konumu) {
-		return Yükleyici.NESNESİ.glfwResmiYükle(verisiniBul(konumu));
+		return Yükleyici.NESNESİ.GLFWResmiYükle(verisiniBul(konumu));
 	}
 	
 	/** Arşivden verilen konumdaki resmi GLFW resmi olarak yükler ve
 	 * döndürür. */
 	public GLFWImage arşivdenGLFWResmiYükle(final String konumu) {
-		return Yükleyici.NESNESİ.glfwResmiYükle(kaynağınıBul(konumu));
+		return Yükleyici.NESNESİ.GLFWResmiYükle(kaynağınıBul(konumu));
 	}
 	
 	/** Veri klasöründen verilen konumdaki resmi ekran kartına yükler ve
