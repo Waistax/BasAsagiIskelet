@@ -55,7 +55,7 @@ class YazılımYükleyicisi {
 		}
 	}
 	
-	List<String> satırlarınıYükle(final Path dosyaYolu) {
+	List<String> satırlarYükle(final Path dosyaYolu) {
 		try {
 			return Files.readAllLines(dosyaYolu);
 		} catch (final IOException hata) {

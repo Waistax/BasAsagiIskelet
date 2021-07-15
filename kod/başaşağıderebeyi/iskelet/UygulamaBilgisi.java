@@ -152,28 +152,28 @@ public class UygulamaBilgisi {
 			.dokuYükle(kaynağınıBul(konumu), küçültmeYöntemi, büyütmeYöntemi);
 	}
 	
-	/** Veri klasöründen verilen konumdaki metin belgesini yükler ve dize olarak
-	 * döndürür. */
+	/** Veri klasöründen verilen konumdaki metin belgesini yükler ve bütün
+	 * satırları tek bir dize olarak döndürür. */
 	public String yazıYükle(final String konumu) {
 		return Yükleyici.NESNESİ.yazıYükle(verisiniBul(konumu));
 	}
 	
-	/** Arşivden verilen konumdaki metin belgesini yükler ve dize olarak
-	 * döndürür. */
+	/** Arşivden verilen konumdaki metin belgesini yükler ve bütün satırları tek
+	 * bir dize olarak döndürür. */
 	public String arşivdenYazıYükle(final String konumu) {
 		return Yükleyici.NESNESİ.yazıYükle(kaynağınıBul(konumu));
 	}
 	
-	/** Veri klasöründen verilen konumdaki metin belgesini yükler ve satırlarını
-	 * döndürür. */
-	public List<String> satırlarıYükle(final String konumu) {
-		return Yükleyici.NESNESİ.satırlarınıYükle(verisiniBul(konumu));
+	/** Veri klasöründen verilen konumdaki metin belgesini yükler ve her
+	 * satırını ayrı bir dize olarak döndürür. */
+	public List<String> satırlarYükle(final String konumu) {
+		return Yükleyici.NESNESİ.satırlarYükle(verisiniBul(konumu));
 	}
 	
-	/** Arşivden verilen konumdaki metin belgesini yükler ve satırlarını
-	 * döndürür. */
-	public List<String> arşivdenSatırlarıYükle(final String konumu) {
-		return Yükleyici.NESNESİ.satırlarınıYükle(kaynağınıBul(konumu));
+	/** Arşivden verilen konumdaki metin belgesini yükler ve her satırını ayrı
+	 * bir dize olarak döndürür. */
+	public List<String> arşivdenSatırlarYükle(final String konumu) {
+		return Yükleyici.NESNESİ.satırlarYükle(kaynağınıBul(konumu));
 	}
 	
 	/** Verilen konumdaki verinin dosya yolunu döndürür. Veriler, uygulamaya

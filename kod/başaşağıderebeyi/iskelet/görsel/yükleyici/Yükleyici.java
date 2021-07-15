@@ -196,16 +196,16 @@ public class Yükleyici {
 		return yazılımYükleyicisi.gölgelendiriciYükle(dosyaYolu, türü);
 	}
 	
-	/** Verilen dosya yolundaki metin belgesini yükler ve dize olarak
-	 * döndürür. */
+	/** Verilen dosya yolundaki metin belgesini yükler ve bütün satırları tek
+	 * bir dize olarak döndürür. */
 	public String yazıYükle(final Path dosyaYolu) {
 		return yazılımYükleyicisi.yazıYükle(dosyaYolu);
 	}
 	
-	/** Verilen dosya yolundaki metin belgesini yükler ve satırlarını
-	 * döndürür. */
-	public List<String> satırlarınıYükle(final Path dosyaYolu) {
-		return yazılımYükleyicisi.satırlarınıYükle(dosyaYolu);
+	/** Verilen dosya yolundaki metin belgesini yükler ve her satırını ayrı bir
+	 * dize olarak döndürür. */
+	public List<String> satırlarYükle(final Path dosyaYolu) {
+		return yazılımYükleyicisi.satırlarYükle(dosyaYolu);
 	}
 	
 	/** İskelet durana kadar hayatta kalacak bir tampon oluşturur. İskelet

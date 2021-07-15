@@ -46,7 +46,7 @@ public class YazıŞekli {
 		this.dokusu = dokusu;
 		final ŞekilOkuyucusu şekilOkuyucusu = new ŞekilOkuyucusu(
 			this,
-			Yükleyici.NESNESİ.satırlarınıYükle(bilgisininKaynağı));
+			Yükleyici.NESNESİ.satırlarYükle(bilgisininKaynağı));
 		boyutu =
 			new Yöney2(şekilOkuyucusu.genişliği, şekilOkuyucusu.yüksekliği);
 	}
