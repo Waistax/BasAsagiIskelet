@@ -22,17 +22,20 @@ public class UygulamaBilgisi {
 	
 	Class<?> sınıfı;
 	private Object nesnesi;
+	private Uygulama uygulaması;
 	
 	UygulamaBilgisi(final Path dosya) {
 		arşivi = new Arşiv(dosya);
 		
 		for (final Class<?> sınıf : arşivi.sınıfları) {
 			SistemGünlüğü.KONSOL.yaz(sınıf);
-			if (sınıf.isAnnotationPresent(Uygulama.class)) {
+			Uygulama uygulama = sınıf.getAnnotation(Uygulama.class);
+			if (uygulama != null) {
 				if (sınıfı != null)
 					throw new RuntimeException(
 						"Birden fazla uygulama sınıfı var!");
 				sınıfı = sınıf;
+				uygulaması = uygulama;
 			}
 		}
 		
@@ -117,10 +120,19 @@ public class UygulamaBilgisi {
 		return Yükleyici.NESNESİ.satırlarınıYükle(kaynağınıBul(konumu));
 	}
 	
-	/** Verilen konumdaki kaynağın tanımlayıcısını döndürür. Eğer arşivin
-	 * içerisinde verilen konumda bir şey bulunmuyorsa null döndürür. */
+	/** Verilen konumdaki kaynağın dosya yolunu döndürür. Kaynaklar, uygulamanın
+	 * arşivinin içinde bulunan dosyalardır. Bu dosyalar arşivden çıkartılır ve
+	 * geçici dosyalara kopyalanır. Bu kopyanın dosya yolunu döndürür. Eğer
+	 * arşivin içerisinde verilen konumda bir şey bulunmuyorsa null döndürür. */
 	public Path kaynağınıBul(final String konumu) {
 		return arşivi.kaynakları.get(konumu);
+	}
+	
+	/** Verilen konumdaki verinin dosya yolunu döndürür. Veriler, uygulamaya
+	 * ayrılmış veri klasöründeki dosyalardır. Dönderilen dosya yolunda bir
+	 * dosya ya da klasör bulunmayabilir. */
+	public Path verisiniBul(final String konumu) {
+		return Path.of("veriler", uygulaması.adı(), konumu);
 	}
 	
 	/** Uygulamanın sınıfını döndürür. */
@@ -131,6 +143,11 @@ public class UygulamaBilgisi {
 	/** Uygulamanın iskelet tarafından oluşturulmuş nesnesini döndürür. */
 	public Object nesnesiniEdin() {
 		return nesnesi;
+	}
+	
+	/** Uygulamanın bilgilerini içeren dipnotunu döndürür. */
+	public Uygulama uygulamasınıEdin() {
+		return uygulaması;
 	}
 	
 	private void tanımla()

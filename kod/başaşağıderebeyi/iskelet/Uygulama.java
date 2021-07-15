@@ -10,4 +10,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface Uygulama {
+	/** Uygulamanın özgün adı. Bu ad bir Java tanımlayıcısı gibi sadece
+	 * abecesayısal karakterler ve altçizgi içermelidir. */
+	public String adı();
 }
