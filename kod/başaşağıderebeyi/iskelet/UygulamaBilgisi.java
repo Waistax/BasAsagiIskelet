@@ -7,6 +7,7 @@ package başaşağıderebeyi.iskelet;
 import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.iskelet.görsel.kaynak.*;
 import başaşağıderebeyi.iskelet.görsel.yazı.*;
+import başaşağıderebeyi.kütüphane.günlük.*;
 
 import java.lang.reflect.*;
 import java.nio.file.*;
@@ -25,13 +26,15 @@ public class UygulamaBilgisi {
 	UygulamaBilgisi(final Path dosya) {
 		arşivi = new Arşiv(dosya);
 		
-		for (final Class<?> sınıf : arşivi.sınıfları)
+		for (final Class<?> sınıf : arşivi.sınıfları) {
+			SistemGünlüğü.KONSOL.yaz(sınıf);
 			if (sınıf.isAnnotationPresent(Uygulama.class)) {
 				if (sınıfı != null)
 					throw new RuntimeException(
 						"Birden fazla uygulama sınıfı var!");
 				sınıfı = sınıf;
 			}
+		}
 		
 		if (sınıfı == null)
 			throw new RuntimeException("Uygulama sınıfı bulunamadı!");
