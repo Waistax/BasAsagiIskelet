@@ -2,7 +2,7 @@
  * Cem GEÇGEL (BaşAşağıDerebeyi)
  * 0.12.2 / 20 Mar 2021 / 22:59:59
  */
-package başaşağıderebeyi.iskelet.görsel.kaynak;
+package başaşağıderebeyi.iskelet.görsel.yükleyici;
 
 import java.awt.image.*;
 import java.nio.file.*;

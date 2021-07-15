@@ -5,7 +5,7 @@
  * Waistax Framework'den alındı.
  * ? / ? / ?
  */
-package başaşağıderebeyi.iskelet.görsel.kaynak;
+package başaşağıderebeyi.iskelet.görsel.yükleyici;
 
 import java.nio.*;
 import java.nio.file.*;
@@ -143,9 +143,9 @@ public class Yükleyici {
 				sırası);
 	}
 	
-	/** Kaynağı verilen resmi GLFW resmi olarak yükler ve döndürür. */
-	public GLFWImage glfwResmiYükle(final Path kaynağı) {
-		return dokuYükleyicisi.glfwResmiYükle(kaynağı);
+	/** Verilen dosya yolundaki resmi GLFW resmi olarak yükler ve döndürür. */
+	public GLFWImage glfwResmiYükle(final Path dosyaYolu) {
+		return dokuYükleyicisi.glfwResmiYükle(dosyaYolu);
 	}
 	
 	/** Verilen resmi GLFW resmi olarak yükler ve döndürür. */
@@ -153,19 +153,20 @@ public class Yükleyici {
 		return dokuYükleyicisi.glfwResmiYükle(resim);
 	}
 	
-	/** Kaynağı verilen resmi ekran kartına yükler ve işaretçisini döndürür. En
-	 * iyi küçültme ve büyütme yöntemlerini kullanır. */
-	public int dokuYükle(final Path kaynağı) {
-		return dokuYükleyicisi.yükle(kaynağı);
+	/** Verilen dosya yolundaki resmi ekran kartına yükler ve işaretçisini
+	 * döndürür. En iyi küçültme ve büyütme yöntemlerini kullanır. */
+	public int dokuYükle(final Path dosyaYolu) {
+		return dokuYükleyicisi.yükle(dosyaYolu);
 	}
 	
-	/** Kaynağı verilen resmi ekran kartına yükler ve işaretçisini döndürür.
-	 * Verilen küçültme ve büyütme yöntemlerini kullanır. */
+	/** Verilen dosya yolundaki resmi ekran kartına yükler ve işaretçisini
+	 * döndürür. Verilen küçültme ve büyütme yöntemlerini kullanır. */
 	public int dokuYükle(
-		final Path kaynağı,
+		final Path dosyaYolu,
 		final int küçültmeYöntemi,
 		final int büyütmeYöntemi) {
-		return dokuYükleyicisi.yükle(kaynağı, küçültmeYöntemi, büyütmeYöntemi);
+		return dokuYükleyicisi
+			.yükle(dosyaYolu, küçültmeYöntemi, büyütmeYöntemi);
 	}
 	
 	/** Verilen resmi ekran kartına yükler ve işaretçisini döndürür. En iyi
@@ -191,18 +192,20 @@ public class Yükleyici {
 	
 	/** Verilen türden gölgelendiriciyi derler ve ekran kartına yükler.
 	 * Oluşturulan gölgelendiricinin işaretçisini döndürür. */
-	public int gölgelendiriciYükle(final Path kaynağı, final int türü) {
-		return yazılımYükleyicisi.gölgelendiriciYükle(kaynağı, türü);
+	public int gölgelendiriciYükle(final Path dosyaYolu, final int türü) {
+		return yazılımYükleyicisi.gölgelendiriciYükle(dosyaYolu, türü);
 	}
 	
-	/** Kaynağı verilen metin belgesini yükler ve dize olarak döndürür. */
-	public String yazıyıYükle(final Path kaynağı) {
-		return yazılımYükleyicisi.yazıyıYükle(kaynağı);
+	/** Verilen dosya yolundaki metin belgesini yükler ve dize olarak
+	 * döndürür. */
+	public String yazıYükle(final Path dosyaYolu) {
+		return yazılımYükleyicisi.yazıYükle(dosyaYolu);
 	}
 	
-	/** Kaynağı verilen metin belgesini yükler ve satırlarını döndürür. */
-	public List<String> satırlarınıYükle(final Path kaynağı) {
-		return yazılımYükleyicisi.satırlarınıYükle(kaynağı);
+	/** Verilen dosya yolundaki metin belgesini yükler ve satırlarını
+	 * döndürür. */
+	public List<String> satırlarınıYükle(final Path dosyaYolu) {
+		return yazılımYükleyicisi.satırlarınıYükle(dosyaYolu);
 	}
 	
 	/** İskelet durana kadar hayatta kalacak bir tampon oluşturur. İskelet

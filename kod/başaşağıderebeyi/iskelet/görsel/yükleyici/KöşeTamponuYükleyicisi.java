@@ -2,7 +2,7 @@
  * Cem GEÇGEL (BaşAşağıDerebeyi)
  * 0.12.2 / 20 Mar 2021 / 22:24:30
  */
-package başaşağıderebeyi.iskelet.görsel.kaynak;
+package başaşağıderebeyi.iskelet.görsel.yükleyici;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;

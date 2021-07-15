@@ -8,7 +8,7 @@
 package başaşağıderebeyi.iskelet;
 
 import başaşağıderebeyi.iskelet.görsel.*;
-import başaşağıderebeyi.iskelet.görsel.kaynak.*;
+import başaşağıderebeyi.iskelet.görsel.yükleyici.*;
 import başaşağıderebeyi.iskelet.olaylar.*;
 import başaşağıderebeyi.kütüphane.girdi.*;
 import başaşağıderebeyi.kütüphane.günlük.*;
@@ -28,7 +28,7 @@ public class İskelet {
 	/** Ara sürümü. */
 	public static final int ARA_SÜRÜMÜ = 8;
 	/** Yaması. */
-	public static final int YAMASI = 8;
+	public static final int YAMASI = 9;
 	/** Bütün sürümü. */
 	public static final String SÜRÜM =
 		ANA_SÜRÜMÜ + "." + ARA_SÜRÜMÜ + "." + YAMASI;

@@ -2,7 +2,7 @@
  * Cem GEÇGEL (BaşAşağıDerebeyi)
  * 0.12.2 / 20 Mar 2021 / 22:24:38
  */
-package başaşağıderebeyi.iskelet.görsel.kaynak;
+package başaşağıderebeyi.iskelet.görsel.yükleyici;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.*;
@@ -29,8 +29,8 @@ class DokuYükleyicisi {
 		dokuları.clear();
 	}
 	
-	GLFWImage glfwResmiYükle(final Path kaynağı) {
-		return glfwResmiYükle(new ResimBilgisi(kaynağı));
+	GLFWImage glfwResmiYükle(final Path dosyaYolu) {
+		return glfwResmiYükle(new ResimBilgisi(dosyaYolu));
 	}
 	
 	GLFWImage glfwResmiYükle(final ResimBilgisi resim) {
@@ -48,16 +48,16 @@ class DokuYükleyicisi {
 		return glfwResmi;
 	}
 	
-	int yükle(final Path kaynağı) {
-		return yükle(new ResimBilgisi(kaynağı));
+	int yükle(final Path dosyaYolu) {
+		return yükle(new ResimBilgisi(dosyaYolu));
 	}
 	
 	int yükle(
-		final Path kaynağı,
+		final Path dosyaYolu,
 		final int küçültmeYöntemi,
 		final int büyütmeYöntemi) {
 		return yükle(
-			new ResimBilgisi(kaynağı),
+			new ResimBilgisi(dosyaYolu),
 			küçültmeYöntemi,
 			büyütmeYöntemi);
 	}

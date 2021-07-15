@@ -9,7 +9,7 @@ package başaşağıderebeyi.iskelet.görsel;
 
 import static org.lwjgl.opengl.GL20.*;
 
-import başaşağıderebeyi.iskelet.görsel.kaynak.*;
+import başaşağıderebeyi.iskelet.görsel.yükleyici.*;
 import başaşağıderebeyi.kütüphane.matematik.doğrusalcebir.*;
 
 import java.nio.file.*;

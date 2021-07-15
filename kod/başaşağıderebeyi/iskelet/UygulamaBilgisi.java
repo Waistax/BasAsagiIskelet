@@ -5,8 +5,8 @@
 package başaşağıderebeyi.iskelet;
 
 import başaşağıderebeyi.iskelet.görsel.*;
-import başaşağıderebeyi.iskelet.görsel.kaynak.*;
 import başaşağıderebeyi.iskelet.görsel.yazı.*;
+import başaşağıderebeyi.iskelet.görsel.yükleyici.*;
 import başaşağıderebeyi.kütüphane.günlük.*;
 
 import java.nio.file.*;
@@ -30,14 +30,29 @@ public class UygulamaBilgisi {
 		veriKlasörünüOluştur();
 	}
 	
-	/** Verilen konumdaki resimi yükler. */
+	/** Veri klasöründen verilen konumdaki resimi yükler. */
 	public ResimBilgisi resimYükle(final String konumu) {
+		return new ResimBilgisi(verisiniBul(konumu));
+	}
+	
+	/** Arşivden verilen konumdaki resimi yükler. */
+	public ResimBilgisi arşivdenResimYükle(final String konumu) {
 		return new ResimBilgisi(kaynağınıBul(konumu));
 	}
 	
-	/** Verilen konumlardaki yazı şeklini yükler. En iyi küçültme ve büyütme
-	 * yöntemlerini kullanır. */
+	/** Veri klasöründen verilen konumlardaki yazı şeklini yükler. En iyi
+	 * küçültme ve büyütme yöntemlerini kullanır. */
 	public YazıŞekli yazıŞekliYükle(
+		final String dokusununKonumu,
+		final String bilgisininKonumu) {
+		return new YazıŞekli(
+			verisiniBul(dokusununKonumu),
+			verisiniBul(bilgisininKonumu));
+	}
+	
+	/** Arşivden verilen konumlardaki yazı şeklini yükler. En iyi küçültme ve
+	 * büyütme yöntemlerini kullanır. */
+	public YazıŞekli arşivdenYazıŞekliYükle(
 		final String dokusununKonumu,
 		final String bilgisininKonumu) {
 		return new YazıŞekli(
@@ -45,22 +60,45 @@ public class UygulamaBilgisi {
 			kaynağınıBul(bilgisininKonumu));
 	}
 	
-	/** Verilen konumlardaki yazı şeklini yükler. Verilen küçültme ve büyütme
-	 * yöntemlerini kullanır. */
+	/** Veri klasöründen verilen konumlardaki yazı şeklini yükler. Verilen
+	 * küçültme ve büyütme yöntemlerini kullanır. */
 	public YazıŞekli yazıŞekliYükle(
 		final String dokusununKonumu,
 		final int küçültmeYöntemi,
 		final int büyütmeYöntemi,
 		final String bilgisininKonumu) {
 		return new YazıŞekli(
-			kaynağınıBul(dokusununKonumu),
+			verisiniBul(dokusununKonumu),
+			küçültmeYöntemi,
+			büyütmeYöntemi,
+			verisiniBul(bilgisininKonumu));
+	}
+	
+	/** Arşivden verilen konumlardaki yazı şeklini yükler. Verilen küçültme ve
+	 * büyütme yöntemlerini kullanır. */
+	public YazıŞekli arşivdenYazıŞekliYükle(
+		final String dokusununKonumu,
+		final int küçültmeYöntemi,
+		final int büyütmeYöntemi,
+		final String bilgisininKonumu) {
+		return new YazıŞekli(
+			verisiniBul(dokusununKonumu),
 			küçültmeYöntemi,
 			büyütmeYöntemi,
 			kaynağınıBul(bilgisininKonumu));
 	}
 	
-	/** Verilen konumlardaki gölgelendiricileri yükler. */
+	/** Veri klasöründen verilen konumlardaki gölgelendiricileri yükler. */
 	public Gölgelendirici gölgelendiriciYükle(
+		final String köşesininKonumu,
+		final String beneğininKonumu) {
+		return new Gölgelendirici(
+			verisiniBul(köşesininKonumu),
+			verisiniBul(beneğininKonumu));
+	}
+	
+	/** Arşivden verilen konumlardaki gölgelendiricileri yükler. */
+	public Gölgelendirici arşivdenGölgelendiriciYükle(
 		final String köşesininKonumu,
 		final String beneğininKonumu) {
 		return new Gölgelendirici(
@@ -68,20 +106,45 @@ public class UygulamaBilgisi {
 			kaynağınıBul(beneğininKonumu));
 	}
 	
-	/** Konumu verilen resmi GLFW resmi olarak yükler ve döndürür. */
-	public GLFWImage glfwResmiYükle(final String konumu) {
+	/** Veri klasöründen verilen konumdaki resmi GLFW resmi olarak yükler ve
+	 * döndürür. */
+	public GLFWImage GLFWResmiYükle(final String konumu) {
+		return Yükleyici.NESNESİ.glfwResmiYükle(verisiniBul(konumu));
+	}
+	
+	/** Arşivden verilen konumdaki resmi GLFW resmi olarak yükler ve
+	 * döndürür. */
+	public GLFWImage arşivdenGLFWResmiYükle(final String konumu) {
 		return Yükleyici.NESNESİ.glfwResmiYükle(kaynağınıBul(konumu));
 	}
 	
-	/** Konumu verilen resmi ekran kartına yükler ve işaretçisini döndürür. En
-	 * iyi küçültme ve büyütme yöntemlerini kullanır. */
+	/** Veri klasöründen verilen konumdaki resmi ekran kartına yükler ve
+	 * işaretçisini döndürür. En iyi küçültme ve büyütme yöntemlerini
+	 * kullanır. */
 	public int dokuYükle(final String konumu) {
+		return Yükleyici.NESNESİ.dokuYükle(verisiniBul(konumu));
+	}
+	
+	/** Arşivden verilen konumdaki resmi ekran kartına yükler ve işaretçisini
+	 * döndürür. En iyi küçültme ve büyütme yöntemlerini kullanır. */
+	public int arşivdenDokuYükle(final String konumu) {
 		return Yükleyici.NESNESİ.dokuYükle(kaynağınıBul(konumu));
 	}
 	
-	/** Konumu verilen resmi ekran kartına yükler ve işaretçisini döndürür.
-	 * Verilen küçültme ve büyütme yöntemlerini kullanır. */
+	/** Veri klasöründen verilen konumdaki resmi ekran kartına yükler ve
+	 * işaretçisini döndürür. Verilen küçültme ve büyütme yöntemlerini
+	 * kullanır. */
 	public int dokuYükle(
+		final String konumu,
+		final int küçültmeYöntemi,
+		final int büyütmeYöntemi) {
+		return Yükleyici.NESNESİ
+			.dokuYükle(verisiniBul(konumu), küçültmeYöntemi, büyütmeYöntemi);
+	}
+	
+	/** Arşivden verilen konumdaki resmi ekran kartına yükler ve işaretçisini
+	 * döndürür. Verilen küçültme ve büyütme yöntemlerini kullanır. */
+	public int arşivdenDokuYükle(
 		final String konumu,
 		final int küçültmeYöntemi,
 		final int büyütmeYöntemi) {
@@ -89,14 +152,35 @@ public class UygulamaBilgisi {
 			.dokuYükle(kaynağınıBul(konumu), küçültmeYöntemi, büyütmeYöntemi);
 	}
 	
-	/** Konumu verilen metin belgesini yükler ve dize olarak döndürür. */
-	public String yazıyıYükle(final String konumu) {
-		return Yükleyici.NESNESİ.yazıyıYükle(kaynağınıBul(konumu));
+	/** Veri klasöründen verilen konumdaki metin belgesini yükler ve dize olarak
+	 * döndürür. */
+	public String yazıYükle(final String konumu) {
+		return Yükleyici.NESNESİ.yazıYükle(verisiniBul(konumu));
 	}
 	
-	/** Konumu verilen metin belgesini yükler ve satırlarını döndürür. */
-	public List<String> satırlarınıYükle(final String konumu) {
+	/** Arşivden verilen konumdaki metin belgesini yükler ve dize olarak
+	 * döndürür. */
+	public String arşivdenYazıYükle(final String konumu) {
+		return Yükleyici.NESNESİ.yazıYükle(kaynağınıBul(konumu));
+	}
+	
+	/** Veri klasöründen verilen konumdaki metin belgesini yükler ve satırlarını
+	 * döndürür. */
+	public List<String> satırlarıYükle(final String konumu) {
+		return Yükleyici.NESNESİ.satırlarınıYükle(verisiniBul(konumu));
+	}
+	
+	/** Arşivden verilen konumdaki metin belgesini yükler ve satırlarını
+	 * döndürür. */
+	public List<String> arşivdenSatırlarıYükle(final String konumu) {
 		return Yükleyici.NESNESİ.satırlarınıYükle(kaynağınıBul(konumu));
+	}
+	
+	/** Verilen konumdaki verinin dosya yolunu döndürür. Veriler, uygulamaya
+	 * ayrılmış veri klasöründeki dosyalardır. Dönderilen dosya yolunda bir
+	 * dosya ya da klasör bulunmayabilir. */
+	public Path verisiniBul(final String konumu) {
+		return Path.of("veriler", uygulaması.adı(), konumu);
 	}
 	
 	/** Verilen konumdaki kaynağın dosya yolunu döndürür. Kaynaklar, uygulamanın
@@ -105,13 +189,6 @@ public class UygulamaBilgisi {
 	 * arşivin içerisinde verilen konumda bir şey bulunmuyorsa null döndürür. */
 	public Path kaynağınıBul(final String konumu) {
 		return arşivi.kaynakları.get(konumu);
-	}
-	
-	/** Verilen konumdaki verinin dosya yolunu döndürür. Veriler, uygulamaya
-	 * ayrılmış veri klasöründeki dosyalardır. Dönderilen dosya yolunda bir
-	 * dosya ya da klasör bulunmayabilir. */
-	public Path verisiniBul(final String konumu) {
-		return Path.of("veriler", uygulaması.adı(), konumu);
 	}
 	
 	/** Uygulamanın sınıfını döndürür. */

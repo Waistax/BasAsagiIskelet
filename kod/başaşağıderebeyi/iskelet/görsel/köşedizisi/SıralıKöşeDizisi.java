@@ -7,7 +7,7 @@ package başaşağıderebeyi.iskelet.görsel.köşedizisi;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.*;
 
-import başaşağıderebeyi.iskelet.görsel.kaynak.*;
+import başaşağıderebeyi.iskelet.görsel.yükleyici.*;
 
 import java.nio.*;
 

@@ -9,9 +9,9 @@ module başaşağıderebeyi.iskelet {
 	
 	exports başaşağıderebeyi.iskelet.görsel;
 	exports başaşağıderebeyi.iskelet.görsel.görüntü;
-	exports başaşağıderebeyi.iskelet.görsel.kaynak;
 	exports başaşağıderebeyi.iskelet.görsel.köşedizisi;
 	exports başaşağıderebeyi.iskelet.görsel.yazı;
+	exports başaşağıderebeyi.iskelet.görsel.yükleyici;
 	
 	exports başaşağıderebeyi.iskelet.olaylar;
 	

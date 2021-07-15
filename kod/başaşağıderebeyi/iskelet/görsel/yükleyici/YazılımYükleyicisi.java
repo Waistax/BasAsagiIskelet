@@ -2,7 +2,7 @@
  * Cem GEÇGEL (BaşAşağıDerebeyi)
  * 0.12.2 / 20 Mar 2021 / 22:25:04
  */
-package başaşağıderebeyi.iskelet.görsel.kaynak;
+package başaşağıderebeyi.iskelet.görsel.yükleyici;
 
 import static org.lwjgl.opengl.GL20.*;
 
@@ -31,10 +31,10 @@ class YazılımYükleyicisi {
 		return yazılım;
 	}
 	
-	int gölgelendiriciYükle(final Path kaynağı, final int türü) {
+	int gölgelendiriciYükle(final Path dosyaYolu, final int türü) {
 		final int gölgelendirici = glCreateShader(türü);
 		
-		glShaderSource(gölgelendirici, yazıyıYükle(kaynağı));
+		glShaderSource(gölgelendirici, yazıYükle(dosyaYolu));
 		glCompileShader(gölgelendirici);
 		
 		if (glGetShaderi(gölgelendirici, GL_COMPILE_STATUS) == 0)
@@ -45,22 +45,22 @@ class YazılımYükleyicisi {
 		return gölgelendirici;
 	}
 	
-	String yazıyıYükle(final Path kaynağı) {
+	String yazıYükle(final Path dosyaYolu) {
 		try {
-			return Files.readString(kaynağı);
+			return Files.readString(dosyaYolu);
 		} catch (final IOException hata) {
 			throw new RuntimeException(
-				"Yazı kaynağı " + kaynağı + " yüklenemedi!",
+				"Yazı " + dosyaYolu + " yüklenemedi!",
 				hata);
 		}
 	}
 	
-	List<String> satırlarınıYükle(final Path kaynağı) {
+	List<String> satırlarınıYükle(final Path dosyaYolu) {
 		try {
-			return Files.readAllLines(kaynağı);
+			return Files.readAllLines(dosyaYolu);
 		} catch (final IOException hata) {
 			throw new RuntimeException(
-				"Yazı kaynağı " + kaynağı + " yüklenemedi!",
+				"Yazı " + dosyaYolu + " yüklenemedi!",
 				hata);
 		}
 	}

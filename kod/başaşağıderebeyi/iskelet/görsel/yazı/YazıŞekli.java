@@ -4,7 +4,7 @@
  */
 package başaşağıderebeyi.iskelet.görsel.yazı;
 
-import başaşağıderebeyi.iskelet.görsel.kaynak.*;
+import başaşağıderebeyi.iskelet.görsel.yükleyici.*;
 import başaşağıderebeyi.kütüphane.matematik.doğrusalcebir.*;
 
 import java.nio.file.*;
