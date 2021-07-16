@@ -48,13 +48,19 @@ public class GLFWGirdisi {
 			.dinleyiciyiEkle(
 				new DinleyiciBilgisi<>(
 					KlavyeGirdisiOlayı.class,
-					olay -> olay.tuşu.basılıOlmasınıBildir(olay.basılması)));
+					olay -> İSKELET
+						.girdisiniEdin()
+						.klavyesininTuşunuEdin(olay.tuşKodu)
+						.basılıOlmasınıBildir(olay.basılması)));
 		İSKELET
 			.güncellemeOlaylarınınDağıtıcısınıEdin()
 			.dinleyiciyiEkle(
 				new DinleyiciBilgisi<>(
 					FareGirdisiOlayı.class,
-					olay -> olay.tuşu.basılıOlmasınıBildir(olay.basılması)));
+					olay -> İSKELET
+						.girdisiniEdin()
+						.faresininTuşunuEdin(olay.tuşKodu)
+						.basılıOlmasınıBildir(olay.basılması)));
 		İSKELET
 			.güncellemeOlaylarınınDağıtıcısınıEdin()
 			.dinleyiciyiEkle(

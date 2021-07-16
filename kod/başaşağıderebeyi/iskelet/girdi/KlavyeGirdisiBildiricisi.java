@@ -26,9 +26,6 @@ class KlavyeGirdisiBildiricisi extends GLFWKeyCallback {
 		final int kipleri) {
 		İSKELET
 			.güncellemeOlaylarınınDağıtıcısınıEdin()
-			.dağıt(
-				new KlavyeGirdisiOlayı(
-					İSKELET.girdisiniEdin().klavyesininTuşunuEdin(tuşKodu),
-					hareket != GLFW_RELEASE));
+			.dağıt(new KlavyeGirdisiOlayı(tuşKodu, hareket != GLFW_RELEASE));
 	}
 }

@@ -25,9 +25,6 @@ class FareGirdisiBildiricisi extends GLFWMouseButtonCallback {
 		final int kipleri) {
 		İSKELET
 			.güncellemeOlaylarınınDağıtıcısınıEdin()
-			.dağıt(
-				new FareGirdisiOlayı(
-					İSKELET.girdisiniEdin().faresininTuşunuEdin(tuşKodu),
-					hareket != GLFW_RELEASE));
+			.dağıt(new FareGirdisiOlayı(tuşKodu, hareket != GLFW_RELEASE));
 	}
 }
