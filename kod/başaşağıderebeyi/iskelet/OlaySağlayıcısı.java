@@ -6,6 +6,7 @@ package başaşağıderebeyi.iskelet;
 
 import static başaşağıderebeyi.iskelet.İskelet.*;
 
+import başaşağıderebeyi.iskelet.olaylar.*;
 import başaşağıderebeyi.kütüphane.olay.*;
 
 class OlaySağlayıcısı {

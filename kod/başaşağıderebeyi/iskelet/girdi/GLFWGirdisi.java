@@ -10,6 +10,7 @@ package başaşağıderebeyi.iskelet.girdi;
 import static başaşağıderebeyi.iskelet.İskelet.*;
 import static org.lwjgl.glfw.GLFW.*;
 
+import başaşağıderebeyi.iskelet.olaylar.*;
 import başaşağıderebeyi.kütüphane.olay.*;
 
 /** Pencereye yapılan girdileri bildirir. */

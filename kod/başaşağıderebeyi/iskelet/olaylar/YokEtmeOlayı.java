@@ -2,7 +2,7 @@
  * Cem GEÇGEL (BaşAşağıDerebeyi)
  * 0.10.1 / 17 Mar 2021 / 21:56:54
  */
-package başaşağıderebeyi.iskelet;
+package başaşağıderebeyi.iskelet.olaylar;
 
 import başaşağıderebeyi.kütüphane.olay.*;
 
