@@ -7,9 +7,9 @@
  */
 package başaşağıderebeyi.iskelet.görsel;
 
+import static başaşağıderebeyi.iskelet.görsel.yükleyici.Yükleyici.*;
 import static org.lwjgl.opengl.GL20.*;
 
-import başaşağıderebeyi.iskelet.görsel.yükleyici.*;
 import başaşağıderebeyi.kütüphane.matematik.doğrusalcebir.*;
 
 import java.nio.file.*;
@@ -31,12 +31,11 @@ public class Gölgelendirici {
 	public Gölgelendirici(
 		final Path köşesininKaynağı,
 		final Path beneğininKaynağı) {
-		yazılımı = Yükleyici.NESNESİ.yazılımYükle();
+		yazılımı = YÜKLEYİCİ.yazılımYükle();
 		
 		gölgelendiricileriAyarla(
-			Yükleyici.NESNESİ
-				.gölgelendiriciYükle(köşesininKaynağı, GL_VERTEX_SHADER),
-			Yükleyici.NESNESİ
+			YÜKLEYİCİ.gölgelendiriciYükle(köşesininKaynağı, GL_VERTEX_SHADER),
+			YÜKLEYİCİ
 				.gölgelendiriciYükle(beneğininKaynağı, GL_FRAGMENT_SHADER));
 		
 		değerlerininKonumları = new HashMap<>();
@@ -107,13 +106,11 @@ public class Gölgelendirici {
 			break;
 		case 16:
 			yeniDeğer
-				.uygula(
-					girdisi -> Yükleyici.NESNESİ.dizeyTamponu
-						.put((float)girdisi));
+				.uygula(girdisi -> YÜKLEYİCİ.dizeyTamponu.put((float)girdisi));
 			glUniformMatrix4fv(
 				değerlerininKonumları.get(değerinAdı),
 				false,
-				Yükleyici.NESNESİ.dizeyTamponu.flip());
+				YÜKLEYİCİ.dizeyTamponu.flip());
 			break;
 		}
 		return this;

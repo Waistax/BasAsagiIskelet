@@ -4,23 +4,15 @@
  */
 package başaşağıderebeyi.iskelet.girdi;
 
+import static başaşağıderebeyi.iskelet.İskelet.*;
 import static org.lwjgl.glfw.GLFW.*;
-
-import başaşağıderebeyi.iskelet.*;
-import başaşağıderebeyi.iskelet.olaylar.*;
 
 import org.lwjgl.glfw.*;
 
 class KlavyeGirdisiBildiricisi extends GLFWKeyCallback {
-	private final KlavyeGirdisiOlayı[] olayları =
-		new KlavyeGirdisiOlayı[GLFW_KEY_LAST + 1];
-	
 	KlavyeGirdisiBildiricisi() {
-		for (int i = 0; i < olayları.length; i++) {
-			İskelet.NESNESİ.girdisiniEdin().klavyesininTuşunuEkle(i);
-			olayları[i] = new KlavyeGirdisiOlayı(
-				İskelet.NESNESİ.girdisiniEdin().klavyesininTuşunuEdin(i));
-		}
+		for (int i = 0; i <= GLFW_KEY_LAST; i++)
+			İSKELET.girdisiniEdin().klavyesininTuşunuEkle(i);
 	}
 	
 	@Override
@@ -30,8 +22,11 @@ class KlavyeGirdisiBildiricisi extends GLFWKeyCallback {
 		final int okumaKodu,
 		final int hareket,
 		final int kipleri) {
-		final KlavyeGirdisiOlayı olayı = olayları[tuşKodu];
-		olayı.basılıOlması = hareket != GLFW_RELEASE;
-		olayı.dağıtmayıDene();
+		İSKELET
+			.güncellemeOlaylarınınDağıtıcısınıEdin()
+			.dağıt(
+				new KlavyeGirdisiOlayı(
+					İSKELET.girdisiniEdin().klavyesininTuşunuEdin(tuşKodu),
+					hareket != GLFW_RELEASE));
 	}
 }

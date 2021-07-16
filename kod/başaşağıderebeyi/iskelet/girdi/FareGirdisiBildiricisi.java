@@ -4,23 +4,15 @@
  */
 package başaşağıderebeyi.iskelet.girdi;
 
+import static başaşağıderebeyi.iskelet.İskelet.*;
 import static org.lwjgl.glfw.GLFW.*;
-
-import başaşağıderebeyi.iskelet.*;
-import başaşağıderebeyi.iskelet.olaylar.*;
 
 import org.lwjgl.glfw.*;
 
 class FareGirdisiBildiricisi extends GLFWMouseButtonCallback {
-	private final FareGirdisiOlayı[] olayları =
-		new FareGirdisiOlayı[GLFW_MOUSE_BUTTON_LAST + 1];
-	
 	FareGirdisiBildiricisi() {
-		for (int i = 0; i < olayları.length; i++) {
-			İskelet.NESNESİ.girdisiniEdin().faresininTuşunuEkle(i);
-			olayları[i] = new FareGirdisiOlayı(
-				İskelet.NESNESİ.girdisiniEdin().faresininTuşunuEdin(i));
-		}
+		for (int i = 0; i <= GLFW_MOUSE_BUTTON_LAST; i++)
+			İSKELET.girdisiniEdin().faresininTuşunuEkle(i);
 	}
 	
 	@Override
@@ -29,8 +21,11 @@ class FareGirdisiBildiricisi extends GLFWMouseButtonCallback {
 		final int tuşKodu,
 		final int hareket,
 		final int kipleri) {
-		final FareGirdisiOlayı olayı = olayları[tuşKodu];
-		olayı.basılıOlması = hareket != GLFW_RELEASE;
-		olayı.dağıtmayıDene();
+		İSKELET
+			.güncellemeOlaylarınınDağıtıcısınıEdin()
+			.dağıt(
+				new FareGirdisiOlayı(
+					İSKELET.girdisiniEdin().faresininTuşunuEdin(tuşKodu),
+					hareket != GLFW_RELEASE));
 	}
 }

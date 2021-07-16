@@ -4,11 +4,10 @@
  */
 package başaşağıderebeyi.iskelet.görsel.köşedizisi;
 
+import static başaşağıderebeyi.iskelet.görsel.yükleyici.Yükleyici.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.opengl.GL31.*;
-
-import başaşağıderebeyi.iskelet.görsel.yükleyici.*;
 
 import java.nio.*;
 
@@ -28,7 +27,7 @@ public class SıralıOluşumluKöşeDizisi extends OluşumluKöşeDizisi {
 	public SıralıOluşumluKöşeDizisi sıraTamponuNesnesiYükle(
 		final IntBuffer yüklenecekVeri) {
 		glBindVertexArray(işaretçisi);
-		Yükleyici.NESNESİ.sıraTamponuNesnesiYükle(yüklenecekVeri.flip());
+		YÜKLEYİCİ.sıraTamponuNesnesiYükle(yüklenecekVeri.flip());
 		glBindVertexArray(0);
 		çizilecekKöşeSayısı = yüklenecekVeri.limit();
 		return this;

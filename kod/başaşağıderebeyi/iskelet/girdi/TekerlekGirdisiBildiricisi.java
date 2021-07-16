@@ -4,23 +4,18 @@
  */
 package başaşağıderebeyi.iskelet.girdi;
 
-import başaşağıderebeyi.iskelet.olaylar.*;
+import static başaşağıderebeyi.iskelet.İskelet.*;
 
 import org.lwjgl.glfw.*;
 
 class TekerlekGirdisiBildiricisi extends GLFWScrollCallback {
-	private final TekerlekGirdisiOlayı olayı;
-	
-	TekerlekGirdisiBildiricisi() {
-		olayı = new TekerlekGirdisiOlayı();
-	}
-	
 	@Override
 	public void invoke(
 		final long pencereİşaretçisi,
 		final double yataydakiDevri,
 		final double dikeydekiDevri) {
-		olayı.devri = dikeydekiDevri;
-		olayı.dağıtmayıDene();
+		İSKELET
+			.güncellemeOlaylarınınDağıtıcısınıEdin()
+			.dağıt(new TekerlekGirdisiOlayı(dikeydekiDevri));
 	}
 }

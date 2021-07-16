@@ -4,24 +4,21 @@
  */
 package başaşağıderebeyi.iskelet.girdi;
 
-import başaşağıderebeyi.iskelet.olaylar.*;
+import static başaşağıderebeyi.iskelet.İskelet.*;
 
 import org.lwjgl.glfw.*;
 
 class İmleçGirdisiBildiricisi extends GLFWCursorPosCallback {
-	private final İmleçGirdisiOlayı olayı;
-	
-	İmleçGirdisiBildiricisi() {
-		olayı = new İmleçGirdisiOlayı();
-	}
-	
 	@Override
 	public void invoke(
 		final long pencereİşaretçisi,
 		final double konumununYatayBileşeni,
 		final double konumununDikeyBileşeni) {
-		olayı.konumununYatayBileşeni = konumununYatayBileşeni;
-		olayı.konumununDikeyBileşeni = konumununDikeyBileşeni;
-		olayı.dağıtmayıDene();
+		İSKELET
+			.güncellemeOlaylarınınDağıtıcısınıEdin()
+			.dağıt(
+				new İmleçGirdisiOlayı(
+					konumununYatayBileşeni,
+					konumununDikeyBileşeni));
 	}
 }

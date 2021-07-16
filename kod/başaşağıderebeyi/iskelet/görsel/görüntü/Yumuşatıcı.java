@@ -4,7 +4,7 @@
  */
 package başaşağıderebeyi.iskelet.görsel.görüntü;
 
-import başaşağıderebeyi.iskelet.*;
+import static başaşağıderebeyi.iskelet.İskelet.*;
 
 /** Bir nesnenin üç farklı halini saklayıp, gerektiğinde yumuşatan araç. */
 public class Yumuşatıcı<T extends Yumuşatılabilir> {
@@ -40,6 +40,6 @@ public class Yumuşatıcı<T extends Yumuşatılabilir> {
 			.aradeğerleriniBul(
 				önceki,
 				anlığı,
-				İskelet.NESNESİ.güncellenmemişTıkSayısınıEdin());
+				İSKELET.güncellenmemişTıkSayısınıEdin());
 	}
 }

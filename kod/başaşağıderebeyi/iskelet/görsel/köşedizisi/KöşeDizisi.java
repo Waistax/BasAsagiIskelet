@@ -4,11 +4,10 @@
  */
 package başaşağıderebeyi.iskelet.görsel.köşedizisi;
 
+import static başaşağıderebeyi.iskelet.görsel.yükleyici.Yükleyici.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
-
-import başaşağıderebeyi.iskelet.görsel.yükleyici.*;
 
 import java.nio.*;
 
@@ -28,7 +27,7 @@ public class KöşeDizisi {
 	/** Verilenler ile tanımlar. */
 	public KöşeDizisi(final int çizimKipi) {
 		this.çizimKipi = çizimKipi;
-		işaretçisi = Yükleyici.NESNESİ.köşeDizisiNesnesiYükle();
+		işaretçisi = YÜKLEYİCİ.köşeDizisiNesnesiYükle();
 	}
 	
 	/** Köşe başına değişen ve bir kere yazıldıktan sonra değişmeyen verileri bu
@@ -38,7 +37,7 @@ public class KöşeDizisi {
 		final int boyutu,
 		final FloatBuffer verisi) {
 		glBindVertexArray(işaretçisi);
-		Yükleyici.NESNESİ
+		YÜKLEYİCİ
 			.köşeTamponuNesnesiYükle(
 				niteliklerininSayısı++,
 				boyutu,

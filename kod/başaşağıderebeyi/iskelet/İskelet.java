@@ -7,9 +7,12 @@
  */
 package başaşağıderebeyi.iskelet;
 
+import static başaşağıderebeyi.iskelet.görsel.yükleyici.Yükleyici.*;
+import static başaşağıderebeyi.kütüphane.günlük.SistemGünlüğü.*;
+import static başaşağıderebeyi.kütüphane.olay.Öncelik.*;
+import static org.lwjgl.glfw.GLFW.*;
+
 import başaşağıderebeyi.iskelet.görsel.*;
-import başaşağıderebeyi.iskelet.görsel.yükleyici.*;
-import başaşağıderebeyi.iskelet.olaylar.*;
 import başaşağıderebeyi.kütüphane.girdi.*;
 import başaşağıderebeyi.kütüphane.günlük.*;
 import başaşağıderebeyi.kütüphane.matematik.ölçüm.*;
@@ -18,15 +21,13 @@ import başaşağıderebeyi.kütüphane.olay.*;
 import java.nio.file.*;
 import java.util.*;
 
-import org.lwjgl.glfw.*;
-
 /** Uygulamayı çalıştıran ve döngü içerisinde güncelleyen genel kodları sağlayan
  * iskelet. */
 public class İskelet {
 	/** Ana sürümü. */
-	public static final int ANA_SÜRÜMÜ = 3;
+	public static final int ANA_SÜRÜMÜ = 2;
 	/** Ara sürümü. */
-	public static final int ARA_SÜRÜMÜ = 0;
+	public static final int ARA_SÜRÜMÜ = 10;
 	/** Yaması. */
 	public static final int YAMASI = 0;
 	/** Bütün sürümü. */
@@ -35,7 +36,7 @@ public class İskelet {
 	
 	/** İskeletin kullanılacak nesnesi. Herhangi bir zamanda birden fazla
 	 * İskelet olması akıl dışı. */
-	public static final İskelet NESNESİ = new İskelet();
+	public static final İskelet İSKELET = new İskelet();
 	
 	/** İskeletin uygulamaları yükleyeceği klasörün varsayılan konumu. İskeleti
 	 * çalıştırırken verilmiş bir klasör yoksa bu kullanılır. */
@@ -81,7 +82,7 @@ public class İskelet {
 	 * değeri tek başına anlamlı olmayabilir ama daha önceden edinilmiş başka
 	 * bir zamanı bu zamandan çıkarak saniye biriminden geçen süre bulunur. */
 	public double zamanıEdin() {
-		return GLFW.glfwGetTime();
+		return glfwGetTime();
 	}
 	
 	/** Şu anki zamanı JDK saatinden saniye biriminde döndürür. Bu zamanın
@@ -169,8 +170,8 @@ public class İskelet {
 	}
 	
 	private void oluştur() {
-		SistemGünlüğü.KONSOL.yaz("Oluşturuluyor...");
-		SistemGünlüğü.KONSOL.yaz("Başaşağı İskelet s." + SÜRÜM);
+		KONSOL.yaz("Oluşturuluyor...");
+		KONSOL.yaz("Başaşağı İskelet s." + SÜRÜM);
 		final Süreç oluşturmaSüreci = new Süreç();
 		oluşturmaSüreci.başla(sistemZamanınıEdin());
 		
@@ -189,7 +190,7 @@ public class İskelet {
 		olaySağlayıcısı.oluşturmaOlayınıDağıt();
 		
 		oluşturmaSüreci.dur(sistemZamanınıEdin());
-		SistemGünlüğü.KONSOL
+		KONSOL
 			.yaz(
 				"Oluşturma tamamlandı! Geçen süre: " +
 					oluşturmaSüreci.toplamınıEdin());
@@ -215,28 +216,25 @@ public class İskelet {
 			.dinleyiciyiEkle(
 				new DinleyiciBilgisi<>(
 					GüncellemeOlayı.class,
-					this::güncellemeOlayınıDinle)
-						.önceliğiniDeğiştir(Öncelik.ÖNCE));
+					this::güncellemeOlayınıDinle).önceliğiniDeğiştir(ÖNCE));
 	}
 	
 	private void yokEt() {
-		SistemGünlüğü.KONSOL.yaz("Yok ediliyor...");
+		KONSOL.yaz("Yok ediliyor...");
 		
 		olaySağlayıcısı.yokEtmeOlayınıDağıt();
 		
 		final Gösterici gösterici = Gösterici.edin();
 		if (gösterici != null) {
 			gösterici.yokEt();
-			Yükleyici.NESNESİ.yokEt();
+			YÜKLEYİCİ.yokEt();
 		}
 		
-		SistemGünlüğü.KONSOL
-			.yaz("Ortalama Tık Oranı: " + tıkHızınınOrtalamasınıEdin());
-		SistemGünlüğü.KONSOL
-			.yaz("Ortalama Kare Oranı: " + kareHızınınOrtalamasınıEdin());
+		KONSOL.yaz("Ortalama Tık Oranı: " + tıkHızınınOrtalamasınıEdin());
+		KONSOL.yaz("Ortalama Kare Oranı: " + kareHızınınOrtalamasınıEdin());
 		
-		SistemGünlüğü.KONSOL.yaz("Sistem günlüğü kaydediliyor...");
-		GÜNLÜK_KAYDEDİCİSİ.kaydet(SistemGünlüğü.NESNESİ);
+		KONSOL.yaz("Sistem günlüğü kaydediliyor...");
+		GÜNLÜK_KAYDEDİCİSİ.kaydet(NESNESİ);
 	}
 	
 	private void güncelle() {

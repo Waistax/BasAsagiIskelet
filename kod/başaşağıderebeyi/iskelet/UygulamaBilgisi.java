@@ -108,26 +108,26 @@ public class UygulamaBilgisi {
 	/** Veri klasöründen verilen konumdaki resmi GLFW resmi olarak yükler ve
 	 * döndürür. */
 	public GLFWImage GLFWResmiYükle(final String konumu) {
-		return Yükleyici.NESNESİ.GLFWResmiYükle(verisiniBul(konumu));
+		return YÜKLEYİCİ.GLFWResmiYükle(verisiniBul(konumu));
 	}
 	
 	/** Arşivden verilen konumdaki resmi GLFW resmi olarak yükler ve
 	 * döndürür. */
 	public GLFWImage arşivdenGLFWResmiYükle(final String konumu) {
-		return Yükleyici.NESNESİ.GLFWResmiYükle(kaynağınıBul(konumu));
+		return YÜKLEYİCİ.GLFWResmiYükle(kaynağınıBul(konumu));
 	}
 	
 	/** Veri klasöründen verilen konumdaki resmi ekran kartına yükler ve
 	 * işaretçisini döndürür. En iyi küçültme ve büyütme yöntemlerini
 	 * kullanır. */
 	public int dokuYükle(final String konumu) {
-		return Yükleyici.NESNESİ.dokuYükle(verisiniBul(konumu));
+		return YÜKLEYİCİ.dokuYükle(verisiniBul(konumu));
 	}
 	
 	/** Arşivden verilen konumdaki resmi ekran kartına yükler ve işaretçisini
 	 * döndürür. En iyi küçültme ve büyütme yöntemlerini kullanır. */
 	public int arşivdenDokuYükle(final String konumu) {
-		return Yükleyici.NESNESİ.dokuYükle(kaynağınıBul(konumu));
+		return YÜKLEYİCİ.dokuYükle(kaynağınıBul(konumu));
 	}
 	
 	/** Veri klasöründen verilen konumdaki resmi ekran kartına yükler ve
@@ -137,7 +137,7 @@ public class UygulamaBilgisi {
 		final String konumu,
 		final int küçültmeYöntemi,
 		final int büyütmeYöntemi) {
-		return Yükleyici.NESNESİ
+		return YÜKLEYİCİ
 			.dokuYükle(verisiniBul(konumu), küçültmeYöntemi, büyütmeYöntemi);
 	}
 	
@@ -147,32 +147,32 @@ public class UygulamaBilgisi {
 		final String konumu,
 		final int küçültmeYöntemi,
 		final int büyütmeYöntemi) {
-		return Yükleyici.NESNESİ
+		return YÜKLEYİCİ
 			.dokuYükle(kaynağınıBul(konumu), küçültmeYöntemi, büyütmeYöntemi);
 	}
 	
 	/** Veri klasöründen verilen konumdaki metin belgesini yükler ve bütün
 	 * satırları tek bir dize olarak döndürür. */
 	public String yazıYükle(final String konumu) {
-		return Yükleyici.NESNESİ.yazıYükle(verisiniBul(konumu));
+		return YÜKLEYİCİ.yazıYükle(verisiniBul(konumu));
 	}
 	
 	/** Arşivden verilen konumdaki metin belgesini yükler ve bütün satırları tek
 	 * bir dize olarak döndürür. */
 	public String arşivdenYazıYükle(final String konumu) {
-		return Yükleyici.NESNESİ.yazıYükle(kaynağınıBul(konumu));
+		return YÜKLEYİCİ.yazıYükle(kaynağınıBul(konumu));
 	}
 	
 	/** Veri klasöründen verilen konumdaki metin belgesini yükler ve her
 	 * satırını ayrı bir dize olarak döndürür. */
 	public List<String> satırlarYükle(final String konumu) {
-		return Yükleyici.NESNESİ.satırlarYükle(verisiniBul(konumu));
+		return YÜKLEYİCİ.satırlarYükle(verisiniBul(konumu));
 	}
 	
 	/** Arşivden verilen konumdaki metin belgesini yükler ve her satırını ayrı
 	 * bir dize olarak döndürür. */
 	public List<String> arşivdenSatırlarYükle(final String konumu) {
-		return Yükleyici.NESNESİ.satırlarYükle(kaynağınıBul(konumu));
+		return YÜKLEYİCİ.satırlarYükle(kaynağınıBul(konumu));
 	}
 	
 	/** Verilen konumdaki verinin dosya yolunu döndürür. Veriler, uygulamaya

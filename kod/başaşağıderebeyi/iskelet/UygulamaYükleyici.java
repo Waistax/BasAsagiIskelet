@@ -20,7 +20,6 @@ class UygulamaYükleyici {
 	}
 	
 	void yükle(final Path klasör) {
-		assert İskelet.NESNESİ.anınıEdin() == -1L;
 		SistemGünlüğü.KONSOL
 			.yaz(
 				"Uygulamalar " +

@@ -4,10 +4,9 @@
  */
 package başaşağıderebeyi.iskelet.görsel.köşedizisi;
 
+import static başaşağıderebeyi.iskelet.görsel.yükleyici.Yükleyici.*;
 import static org.lwjgl.opengl.GL30.*;
 import static org.lwjgl.opengl.GL31.*;
-
-import başaşağıderebeyi.iskelet.görsel.yükleyici.*;
 
 import java.nio.*;
 
@@ -32,18 +31,18 @@ public class OluşumluKöşeDizisi extends KöşeDizisi {
 		final int sığası,
 		final int oluşumBoyutu) {
 		super(çizimKipi);
-		yazılacakVerisi = Yükleyici.NESNESİ.tamponYükle(oluşumBoyutu * sığası);
+		yazılacakVerisi = YÜKLEYİCİ.tamponYükle(oluşumBoyutu * sığası);
 		this.sığası = sığası;
 		this.oluşumBoyutu = oluşumBoyutu;
-		oluşumluKöşeTamponuNesnesi = Yükleyici.NESNESİ
-			.boşKöşeTamponuNesnesiOluştur(yazılacakVerisi.capacity());
+		oluşumluKöşeTamponuNesnesi =
+			YÜKLEYİCİ.boşKöşeTamponuNesnesiOluştur(yazılacakVerisi.capacity());
 	}
 	
 	/** Oluşum başına değişen ve her kare yenilenebilecek verileri bu köşe
 	 * dizisi nesnesine ekler. Verilen tamponu kendiliğinden yok eder. */
 	public OluşumluKöşeDizisi oluşumBaşınaDeğişenNitelikEkle(final int boyutu) {
 		glBindVertexArray(işaretçisi);
-		Yükleyici.NESNESİ
+		YÜKLEYİCİ
 			.oluşumBaşınaDeğişenNitelikEkle(
 				işaretçisi,
 				oluşumluKöşeTamponuNesnesi,
@@ -59,7 +58,7 @@ public class OluşumluKöşeDizisi extends KöşeDizisi {
 	/** Tampona yazılmış verileri oluşum başına değişen köşe tamponu nesnesine
 	 * yükler. Yerleşik tamponu kendiliğinden çevirir. */
 	public OluşumluKöşeDizisi tamponunuGüncelle() {
-		Yükleyici.NESNESİ
+		YÜKLEYİCİ
 			.oluşumlarınNitelikleriniGüncelle(
 				oluşumluKöşeTamponuNesnesi,
 				yazılacakVerisi.flip());

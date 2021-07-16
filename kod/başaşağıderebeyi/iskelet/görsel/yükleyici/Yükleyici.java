@@ -17,7 +17,7 @@ import org.lwjgl.glfw.*;
 public class Yükleyici {
 	/** Yükleyicinin kullanılacak nesnesi. Ekran kartına bir şey yüklemek için
 	 * yeni bir yükleyici oluşturmak gereksiz. */
-	public static final Yükleyici NESNESİ = new Yükleyici();
+	public static final Yükleyici YÜKLEYİCİ = new Yükleyici();
 	
 	/** Dizeyleri ekran kartına yüklemek için kullanılacak tampon. */
 	public final FloatBuffer dizeyTamponu;

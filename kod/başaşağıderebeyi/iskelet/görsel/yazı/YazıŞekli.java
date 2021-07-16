@@ -4,7 +4,8 @@
  */
 package başaşağıderebeyi.iskelet.görsel.yazı;
 
-import başaşağıderebeyi.iskelet.görsel.yükleyici.*;
+import static başaşağıderebeyi.iskelet.görsel.yükleyici.Yükleyici.*;
+
 import başaşağıderebeyi.kütüphane.matematik.doğrusalcebir.*;
 
 import java.nio.file.*;
@@ -24,7 +25,7 @@ public class YazıŞekli {
 	public YazıŞekli(
 		final Path dokusununKaynağı,
 		final Path bilgisininKaynağı) {
-		this(Yükleyici.NESNESİ.dokuYükle(dokusununKaynağı), bilgisininKaynağı);
+		this(YÜKLEYİCİ.dokuYükle(dokusununKaynağı), bilgisininKaynağı);
 	}
 	
 	/** Verilen kaynaktaki dokuyu verilen küçültme ve büyütme yöntemiyle
@@ -35,7 +36,7 @@ public class YazıŞekli {
 		final int büyütmeYöntemi,
 		final Path bilgisininKaynağı) {
 		this(
-			Yükleyici.NESNESİ
+			YÜKLEYİCİ
 				.dokuYükle(dokusununKaynağı, küçültmeYöntemi, büyütmeYöntemi),
 			bilgisininKaynağı);
 	}
@@ -46,7 +47,7 @@ public class YazıŞekli {
 		this.dokusu = dokusu;
 		final ŞekilOkuyucusu şekilOkuyucusu = new ŞekilOkuyucusu(
 			this,
-			Yükleyici.NESNESİ.satırlarYükle(bilgisininKaynağı));
+			YÜKLEYİCİ.satırlarYükle(bilgisininKaynağı));
 		boyutu =
 			new Yöney2(şekilOkuyucusu.genişliği, şekilOkuyucusu.yüksekliği);
 	}

@@ -7,10 +7,9 @@
  */
 package başaşağıderebeyi.iskelet.girdi;
 
+import static başaşağıderebeyi.iskelet.İskelet.*;
 import static org.lwjgl.glfw.GLFW.*;
 
-import başaşağıderebeyi.iskelet.*;
-import başaşağıderebeyi.iskelet.olaylar.*;
 import başaşağıderebeyi.kütüphane.olay.*;
 
 /** Pencereye yapılan girdileri bildirir. */
@@ -40,34 +39,34 @@ public class GLFWGirdisi {
 	}
 	
 	private void dinleyicileriniİskeleteEkle() {
-		İskelet.NESNESİ
+		İSKELET
 			.güncellemeOlaylarınınDağıtıcısınıEdin()
 			.dinleyiciyiEkle(
 				new DinleyiciBilgisi<>(
 					KlavyeGirdisiOlayı.class,
-					olay -> olay.tuşu.basılıOlmasınıBildir(olay.basılıOlması)));
-		İskelet.NESNESİ
+					olay -> olay.tuşu.basılıOlmasınıBildir(olay.basılması)));
+		İSKELET
 			.güncellemeOlaylarınınDağıtıcısınıEdin()
 			.dinleyiciyiEkle(
 				new DinleyiciBilgisi<>(
 					FareGirdisiOlayı.class,
-					olay -> olay.tuşu.basılıOlmasınıBildir(olay.basılıOlması)));
-		İskelet.NESNESİ
+					olay -> olay.tuşu.basılıOlmasınıBildir(olay.basılması)));
+		İSKELET
 			.güncellemeOlaylarınınDağıtıcısınıEdin()
 			.dinleyiciyiEkle(
 				new DinleyiciBilgisi<>(
 					İmleçGirdisiOlayı.class,
-					olay -> İskelet.NESNESİ
+					olay -> İSKELET
 						.girdisiniEdin()
 						.imlecininKonumunuBildir(
 							olay.konumununYatayBileşeni,
 							olay.konumununDikeyBileşeni)));
-		İskelet.NESNESİ
+		İSKELET
 			.güncellemeOlaylarınınDağıtıcısınıEdin()
 			.dinleyiciyiEkle(
 				new DinleyiciBilgisi<>(
 					TekerlekGirdisiOlayı.class,
-					olay -> İskelet.NESNESİ
+					olay -> İSKELET
 						.girdisiniEdin()
 						.tekerleğininDevriniBildir(
 							(int)Math.round(olay.devri))));
