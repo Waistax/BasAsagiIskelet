@@ -19,6 +19,7 @@ public class GLFWGirdisi {
 	private final FareGirdisiBildiricisi fareGirdisiBildiricisi;
 	private final İmleçGirdisiBildiricisi imleçGirdisiBildiricisi;
 	private final TekerlekGirdisiBildiricisi tekerlekGirdisiBildiricisi;
+	private final SesGirdisiBildiricisi sesGirdisiBildiricisi;
 	
 	/** Verilenler ile tanımlar. */
 	public GLFWGirdisi(final long dinlediğiPencere) {
@@ -26,6 +27,7 @@ public class GLFWGirdisi {
 		fareGirdisiBildiricisi = new FareGirdisiBildiricisi();
 		imleçGirdisiBildiricisi = new İmleçGirdisiBildiricisi();
 		tekerlekGirdisiBildiricisi = new TekerlekGirdisiBildiricisi();
+		sesGirdisiBildiricisi = new SesGirdisiBildiricisi();
 		
 		dinleyicileriniİskeleteEkle();
 		bildiricileriPencereyeEkle(dinlediğiPencere);
@@ -37,6 +39,7 @@ public class GLFWGirdisi {
 		fareGirdisiBildiricisi.free();
 		imleçGirdisiBildiricisi.free();
 		tekerlekGirdisiBildiricisi.free();
+		sesGirdisiBildiricisi.free();
 	}
 	
 	private void dinleyicileriniİskeleteEkle() {
@@ -78,5 +81,6 @@ public class GLFWGirdisi {
 		glfwSetMouseButtonCallback(dinlediğiPencere, fareGirdisiBildiricisi);
 		glfwSetCursorPosCallback(dinlediğiPencere, imleçGirdisiBildiricisi);
 		glfwSetScrollCallback(dinlediğiPencere, tekerlekGirdisiBildiricisi);
+		glfwSetCharCallback(dinlediğiPencere, sesGirdisiBildiricisi);
 	}
 }
