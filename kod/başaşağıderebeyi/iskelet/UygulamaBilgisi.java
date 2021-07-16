@@ -4,6 +4,8 @@
  */
 package başaşağıderebeyi.iskelet;
 
+import static başaşağıderebeyi.iskelet.görsel.yükleyici.Yükleyici.*;
+
 import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.iskelet.görsel.yazı.*;
 import başaşağıderebeyi.iskelet.görsel.yükleyici.*;
