@@ -92,7 +92,7 @@ public class DeğişkenYazıGörselleştirici {
 		final String... satırlar) {
 		ortalıYaz(
 			yatayKonumu,
-			dikeyKonumu + yüksekliğiBul(satırlar) / 2.0,
+			dikeyKonumu + yüksekliğiBul(satırlar.length / 2.0),
 			derinliği,
 			satırlar);
 	}
@@ -105,7 +105,7 @@ public class DeğişkenYazıGörselleştirici {
 		final String... satırlar) {
 		konumunuDeğiştir(dikeyKonumu, derinliği);
 		for (final String satır : satırlar)
-			yaz(yatayKonumu - uzunluğunuBul(satır) / 2.0, satır);
+			yaz(yatayKonumu - uzunluğunuBul(satır.length() / 2.0), satır);
 	}
 	
 	/** Verilen dizeleri satır satır yazar. */
@@ -136,7 +136,7 @@ public class DeğişkenYazıGörselleştirici {
 	}
 	
 	/** Verilen sayıda sesin toplam uzunluğunu bulur. */
-	public double uzunluğunuBul(final int sesSayısı) {
+	public double uzunluğunuBul(final double sesSayısı) {
 		return sesSayısı * dönüşümü.boyutu.birinciBileşeniniEdin();
 	}
 	
@@ -146,7 +146,7 @@ public class DeğişkenYazıGörselleştirici {
 	}
 	
 	/** Verilen sayıda satırın toplam yüksekliğini döndürür. */
-	public double yüksekliğiBul(final int satırSayısı) {
+	public double yüksekliğiBul(final double satırSayısı) {
 		return satırSayısı * dönüşümü.boyutu.ikinciBileşeniniEdin();
 	}
 	
@@ -203,17 +203,15 @@ public class DeğişkenYazıGörselleştirici {
 	}
 	
 	private float[] köşeKonumlarınıBul(final double açısı) {
-		final float yarıEğimi = (float)(tan(toRadians(açısı)) / 2.0);
-		final float ileriNoktası = 0.5F + yarıEğimi;
-		final float geriNoktası = 0.5F - yarıEğimi;
+		final float eğimi = (float)tan(toRadians(açısı));
 		return new float[] {
-			-ileriNoktası,
 			0.0F,
-			geriNoktası,
-			0.0F,
-			-geriNoktası,
+			-1.0F,
 			1.0F,
-			ileriNoktası,
-			1.0F };
+			-1.0F,
+			eğimi,
+			0.0F,
+			eğimi + 1.0F,
+			0.0F };
 	}
 }

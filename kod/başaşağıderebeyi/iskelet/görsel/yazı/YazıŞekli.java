@@ -63,7 +63,7 @@ public class YazıŞekli {
 	}
 	
 	/** Verilen sayıda sesin toplam uzunluğunu bulur. */
-	public double uzunluğunuBul(final int sesSayısı) {
+	public double uzunluğunuBul(final double sesSayısı) {
 		return sesSayısı * boyutu.birinciBileşeniniEdin();
 	}
 	
@@ -73,7 +73,7 @@ public class YazıŞekli {
 	}
 	
 	/** Verilen sayıda satırın toplam yüksekliğini döndürür. */
-	public double yüksekliğiBul(final int satırSayısı) {
+	public double yüksekliğiBul(final double satırSayısı) {
 		return satırSayısı * boyutu.ikinciBileşeniniEdin();
 	}
 }

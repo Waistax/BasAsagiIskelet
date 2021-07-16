@@ -155,6 +155,7 @@ public class Gösterici {
 		glfwMakeContextCurrent(penceresi);
 		glfwSwapInterval(değiştirilmeAralığı);
 		glfwShowWindow(penceresi);
+		glfwSetCursorPos(penceresi, genişliği / 2, yüksekliği / 2);
 	}
 	
 	private void içeriğiniAyarla() {
