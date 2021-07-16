@@ -13,6 +13,8 @@ import başaşağıderebeyi.iskelet.görsel.görüntü.*;
 import başaşağıderebeyi.iskelet.görsel.köşedizisi.*;
 import başaşağıderebeyi.kütüphane.matematik.doğrusalcebir.*;
 
+import java.util.*;
+
 /** Kısa aralıklarla değişmesi beklenen ve geçici yazıları çizmek için
  * kullanılan araç. Bu sınıfla sabit yazılar da çizilebilir ama sabit yazıları
  * çizmek için daha verimli yöntemler var. */
@@ -84,6 +86,50 @@ public class DeğişkenYazıGörselleştirici {
 		eklenmişSesSayısı = 0;
 	}
 	
+	/** Verilen dizeyi sağa ve sola dayanmış ve 4 ses girintili bir paragraf
+	 * olarak yazar. */
+	public void paragrafYaz(
+		final double solKonumu,
+		final double sağKonumu,
+		final double dikeyKonumu,
+		final double derinliği,
+		final String dizesi) {
+		paragrafYaz(
+			solKonumu,
+			dikeyKonumu,
+			derinliği,
+			new ParagrafOluşturucu(
+				dizesi,
+				(sağKonumu - solKonumu) /
+					dönüşümü.boyutu.birinciBileşeniniEdin(),
+				true,
+				4));
+	}
+	
+	/** Verilen paragrafı yazar. */
+	public void paragrafYaz(
+		final double yatayKonumu,
+		final double dikeyKonumu,
+		final double derinliği,
+		final ParagrafOluşturucu paragrafOluşturucu) {
+		dönüşümü.konumu.üçüncüBileşeniniDeğiştir(derinliği);
+		for (int i = 0; i < paragrafOluşturucu.satırları.size(); i++) {
+			List<String> satırı = paragrafOluşturucu.satırları.get(i);
+			dönüşümü.konumu
+				.birinciBileşeniniDeğiştir(
+					yatayKonumu + i == 0 ?
+						uzunluğunuBul(paragrafOluşturucu.girintisi) :
+						0.0);
+			for (String sözcüğü : satırı) {
+				yaz(sözcüğü);
+				dönüşümü.konumu.birinciBileşeni +=
+					paragrafOluşturucu.boşlukları.get(i);
+			}
+			dönüşümü.konumu.ikinciBileşeni -=
+				dönüşümü.boyutu.ikinciBileşeniniEdin();
+		}
+	}
+	
 	/** Verilen dizelerin ortası konuma gelecek şekilde satır satır yazar. */
 	public void tamOrtayaYaz(
 		final double yatayKonumu,
@@ -106,6 +152,18 @@ public class DeğişkenYazıGörselleştirici {
 		konumunuDeğiştir(dikeyKonumu, derinliği);
 		for (final String satır : satırlar)
 			yaz(yatayKonumu - uzunluğunuBul(satır.length() / 2.0), satır);
+	}
+	
+	/** Verilen dizelerin sağ kenarı konuma gelecek şekilde satır satır
+	 * yazar. */
+	public void sağaDayalıYaz(
+		final double yatayKonumu,
+		final double dikeyKonumu,
+		final double derinliği,
+		final String... satırlar) {
+		konumunuDeğiştir(dikeyKonumu, derinliği);
+		for (final String satır : satırlar)
+			yaz(yatayKonumu - uzunluğunuBul(satır.length()), satır);
 	}
 	
 	/** Verilen dizeleri satır satır yazar. */
@@ -164,9 +222,9 @@ public class DeğişkenYazıGörselleştirici {
 			dönüşümü.boyutu.ikinciBileşeniniEdin();
 	}
 	
-	private void yaz(final String satır) {
-		for (int i = 0; i < satır.length(); i++) {
-			final SesŞekli sesŞekli = şekli.sesininŞekliniEdin(satır.charAt(i));
+	private void yaz(final String dize) {
+		for (int i = 0; i < dize.length(); i++) {
+			final SesŞekli sesŞekli = şekli.sesininŞekliniEdin(dize.charAt(i));
 			if (sesŞekli == null)
 				continue;
 			sesEkle(sesŞekli);
