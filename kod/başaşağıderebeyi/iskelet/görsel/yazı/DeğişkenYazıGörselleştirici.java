@@ -98,7 +98,7 @@ public class DeğişkenYazıGörselleştirici {
 			solKonumu,
 			dikeyKonumu,
 			derinliği,
-			new ParagrafOluşturucu(
+			new Paragraf(
 				dizesi,
 				(sağKonumu - solKonumu) /
 					dönüşümü.boyutu.birinciBileşeniniEdin(),
@@ -111,15 +111,16 @@ public class DeğişkenYazıGörselleştirici {
 		final double yatayKonumu,
 		final double dikeyKonumu,
 		final double derinliği,
-		final ParagrafOluşturucu paragrafOluşturucu) {
+		final Paragraf paragrafOluşturucu) {
 		dönüşümü.konumu.üçüncüBileşeniniDeğiştir(derinliği);
 		for (int i = 0; i < paragrafOluşturucu.satırları.size(); i++) {
 			List<String> satırı = paragrafOluşturucu.satırları.get(i);
 			dönüşümü.konumu
 				.birinciBileşeniniDeğiştir(
-					yatayKonumu + i == 0 ?
-						uzunluğunuBul(paragrafOluşturucu.girintisi) :
-						0.0);
+					yatayKonumu +
+						(i == 0 ?
+							uzunluğunuBul(paragrafOluşturucu.girintisi) :
+							0.0));
 			for (String sözcüğü : satırı) {
 				yaz(sözcüğü);
 				dönüşümü.konumu.birinciBileşeni +=

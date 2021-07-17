@@ -8,8 +8,8 @@ import static java.lang.Math.*;
 
 import java.util.*;
 
-/** Verilen yazıyı bir paragrafa böler. */
-public class ParagrafOluşturucu {
+/** Bir ya da daha fazla satırın birleşmesinden oluşan dize. */
+public class Paragraf {
 	/** Paragrafın satırlarını ve her satırdaki sözcüklerin iki boyutlu
 	 * listesi. */
 	public final List<List<String>> satırları;
@@ -18,8 +18,9 @@ public class ParagrafOluşturucu {
 	/** İlk satırın ilk kelimesinin kaç ses sağdan yazılacağı. */
 	public final int girintisi;
 	
-	/** Verilen dizeyi verilen ses genişliğine sığdırır ve dayar. */
-	public ParagrafOluşturucu(
+	/** Verilen dizeyi verilen ses genişliğine sığdırılmış bir şekilde tanımlar.
+	 * Dayalı olacak şekilde ya da girinti ile de tanımlanabilir. */
+	public Paragraf(
 		final String dizesi,
 		final double genişliği,
 		final boolean dayalıOlması,
