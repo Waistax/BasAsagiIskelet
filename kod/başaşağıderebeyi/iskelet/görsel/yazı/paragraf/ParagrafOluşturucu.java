@@ -73,6 +73,7 @@ class ParagrafOluşturucu {
 				satırıOluştur(
 					ilkSatırınınSırası,
 					girintisininUzunluğu,
+					dayalıOlması,
 					satırınSözcükleri);
 				satırınSözcükleri.clear();
 				
@@ -85,6 +86,13 @@ class ParagrafOluşturucu {
 			satırınSözcükleri.add(sözcüğü);
 			satırınUzunluğu = yeniUzunluğu;
 		}
+		
+		// Son kalan sözcüklerle dayalı olmayan bir satır oluştur.
+		satırıOluştur(
+			ilkSatırınınSırası,
+			girintisininUzunluğu,
+			false,
+			satırınSözcükleri);
 	}
 	
 	/* Verilen sözcüklerle bir paragraf satırını nesnesi oluşturur ve bunu
@@ -92,6 +100,7 @@ class ParagrafOluşturucu {
 	private void satırıOluştur(
 		final int ilkSatırınınsırası,
 		final double girintisininUzunluğu,
+		final boolean dayalıOlması,
 		final List<String> satırınSözcükleri) {
 		// Paragraf satırı nesnesini tanımla ve eğer paragrafın ilk satırıysa
 		// girintisinin uzunluğunu ver.
