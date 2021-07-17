@@ -124,7 +124,7 @@ public class DeğişkenYazıGörselleştirici {
 			for (final String sözcüğü : satırı) {
 				yaz(sözcüğü);
 				dönüşümü.konumu.birinciBileşeni +=
-					paragrafOluşturucu.boşlukları.get(i);
+					uzunluğunuBul(paragrafOluşturucu.boşlukları.get(i));
 			}
 			dönüşümü.konumu.ikinciBileşeni -=
 				dönüşümü.boyutu.ikinciBileşeniniEdin();

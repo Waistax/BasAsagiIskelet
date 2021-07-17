@@ -65,7 +65,7 @@ public class Paragraf {
 	private void boşluklarınıBul(final double genişliği) {
 		for (int i = 0; i < satırları.size() - 1; i++) {
 			final List<String> satırı = satırları.get(i);
-			int uzunluğu = 0;
+			int uzunluğu = i == 0 ? girintisi : 0;
 			for (final String sözcüğü : satırı)
 				uzunluğu += sözcüğü.length();
 			boşlukları.add((genişliği - uzunluğu) / (satırı.size() - 1));
