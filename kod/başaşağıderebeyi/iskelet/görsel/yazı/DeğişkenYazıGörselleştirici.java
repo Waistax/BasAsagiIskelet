@@ -11,6 +11,7 @@ import static org.lwjgl.system.MemoryUtil.*;
 import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.iskelet.görsel.görüntü.*;
 import başaşağıderebeyi.iskelet.görsel.köşedizisi.*;
+import başaşağıderebeyi.kütüphane.günlük.*;
 import başaşağıderebeyi.kütüphane.matematik.doğrusalcebir.*;
 
 import java.util.*;
@@ -114,14 +115,15 @@ public class DeğişkenYazıGörselleştirici {
 		final Paragraf paragrafOluşturucu) {
 		dönüşümü.konumu.üçüncüBileşeniniDeğiştir(derinliği);
 		for (int i = 0; i < paragrafOluşturucu.satırları.size(); i++) {
-			List<String> satırı = paragrafOluşturucu.satırları.get(i);
+			final List<String> satırı = paragrafOluşturucu.satırları.get(i);
 			dönüşümü.konumu
 				.birinciBileşeniniDeğiştir(
 					yatayKonumu +
 						(i == 0 ?
 							uzunluğunuBul(paragrafOluşturucu.girintisi) :
 							0.0));
-			for (String sözcüğü : satırı) {
+			for (final String sözcüğü : satırı) {
+				SistemGünlüğü.KONSOL.yaz(dönüşümü.konumu + ": " + sözcüğü);
 				yaz(sözcüğü);
 				dönüşümü.konumu.birinciBileşeni +=
 					paragrafOluşturucu.boşlukları.get(i);
