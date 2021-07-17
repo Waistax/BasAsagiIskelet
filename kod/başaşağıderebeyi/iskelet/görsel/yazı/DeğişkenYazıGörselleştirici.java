@@ -11,9 +11,8 @@ import static org.lwjgl.system.MemoryUtil.*;
 import başaşağıderebeyi.iskelet.görsel.*;
 import başaşağıderebeyi.iskelet.görsel.görüntü.*;
 import başaşağıderebeyi.iskelet.görsel.köşedizisi.*;
+import başaşağıderebeyi.iskelet.görsel.yazı.paragraf.*;
 import başaşağıderebeyi.kütüphane.matematik.doğrusalcebir.*;
-
-import java.util.*;
 
 /** Kısa aralıklarla değişmesi beklenen ve geçici yazıları çizmek için
  * kullanılan araç. Bu sınıfla sabit yazılar da çizilebilir ama sabit yazıları
@@ -93,17 +92,18 @@ public class DeğişkenYazıGörselleştirici {
 		final double sağKonumu,
 		final double dikeyKonumu,
 		final double derinliği,
-		final String dizesi) {
+		final String dizeleri) {
 		paragrafYaz(
 			solKonumu,
 			dikeyKonumu,
 			derinliği,
 			new Paragraf(
-				dizesi,
 				(sağKonumu - solKonumu) /
 					dönüşümü.boyutu.birinciBileşeniniEdin(),
+				4.0,
+				false,
 				true,
-				4));
+				dizeleri));
 	}
 	
 	/** Verilen paragrafı yazar. */
@@ -111,20 +111,17 @@ public class DeğişkenYazıGörselleştirici {
 		final double yatayKonumu,
 		final double dikeyKonumu,
 		final double derinliği,
-		final Paragraf paragrafOluşturucu) {
+		final Paragraf paragraf) {
 		konumunuDeğiştir(dikeyKonumu, derinliği);
-		for (int i = 0; i < paragrafOluşturucu.satırları.size(); i++) {
-			final List<String> satırı = paragrafOluşturucu.satırları.get(i);
+		for (ParagrafSatırı satır : paragraf.satırları) {
 			dönüşümü.konumu
 				.birinciBileşeniniDeğiştir(
 					yatayKonumu +
-						(i == 0 ?
-							uzunluğunuBul(paragrafOluşturucu.girintisi) :
-							0.0));
-			for (final String sözcüğü : satırı) {
+						uzunluğunuBul(satır.girintisininUzunluğunuEdin()));
+			for (final String sözcüğü : satır.sözcükleri) {
 				yaz(sözcüğü);
 				dönüşümü.konumu.birinciBileşeni +=
-					uzunluğunuBul(paragrafOluşturucu.boşlukları.get(i));
+					uzunluğunuBul(satır.boşluğununUzunluğunuEdin());
 			}
 			dönüşümü.konumu.ikinciBileşeni -=
 				dönüşümü.boyutu.ikinciBileşeniniEdin();
